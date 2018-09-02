@@ -5,6 +5,8 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import WorldDetailsPage from './WorldDetailsPage';
 import WorldBrowserPage from './WorldBrowserPage';
@@ -20,22 +22,8 @@ const myTheme = createMuiTheme({
   },
   typography: {
     fontFamily: '"Economica", sans-serif',
-     fontSize: 16,
-  //   body1: {
-  //     fontSize: 18,
-  //   },
-  //   title: {
-  //     fontFamily: '"Graystroke", sans-serif',
-  //     fontSize: '1.2rem'
-  //   },
-  //   headline: {
-  //     fontFamily: '"Graystroke", sans-serif',
-  //   },
-  //   subheading: {
-  //     fontFamily: '"Graystroke", sans-serif',
-  //     fontSize: '1rem'
-  //   },
-   }
+    fontSize: 16
+  }
 });
 
 const styles = () =>
@@ -57,7 +45,6 @@ const styles = () =>
       height: 'calc(100% - 64px)',
       overflowY: 'scroll',
       overflowX: 'auto',
-      
       marginTop: 64,
     },
   });
@@ -75,6 +62,9 @@ class Root extends React.Component<WithStyles<typeof styles>> {
             <Grid className={classes.contentGridUpper}>
               <Nav />
               <Grid className={classes.contentGrid}>
+                <Paper style={{width: 'calc(100% - 16px)', margin: 8, padding: 16, backgroundColor: '#d50000'}}>
+                  <Typography align="center" variant="title">This website is in early development, online temporarily for testing purposes and not really working for now. You should not be here (yet :) ) Come back when it's ready!</Typography>
+                </Paper>
                 <Switch>
                   <Route exact path="/" component={WorldBrowserPage} />
                   <Route exact path="/world" component={WorldDetailsPage} />
