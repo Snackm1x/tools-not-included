@@ -100,13 +100,10 @@ class FilterPanel extends React.Component<Props, any> {
                                 label="Seed"
                                 type="number"
                                 className={this.props.classes.textField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 margin="normal" />
 
                             <FormControl className={this.props.classes.textField}>
-                                <InputLabel htmlFor="select-multiple-checkbox">Game Upgrade</InputLabel>
+                                <InputLabel htmlFor="select-multiple-checkbox" >Game Upgrade</InputLabel>
                                 <Select
                                     multiple
                                     value={this.state.name}
@@ -128,9 +125,6 @@ class FilterPanel extends React.Component<Props, any> {
                                 label="Earliest game version number"
                                 type="number"
                                 className={this.props.classes.textField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 margin="normal" />
 
                             <TextField
@@ -138,19 +132,16 @@ class FilterPanel extends React.Component<Props, any> {
                                 label="Latest game version number"
                                 type="number"
                                 className={this.props.classes.textField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 margin="normal" />
                         </Grid>
 
-                        <Grid  style={{display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', marginTop: createMuiTheme().spacing.unit*3}}>
+                        <Grid style={{ display: 'flex', flexFlow: 'column nowrap', alignItems: 'center', marginTop: createMuiTheme().spacing.unit * 3 }}>
                             <Typography>Minimum number of geysers</Typography>
-                            <Grid style={{display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', maxWidth: 1000}}>
+                            <Grid style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', maxWidth: 1000 }}>
                                 {
                                     Array.from(GeyserProperties).map((element) => {
                                         return (
-                                            <Grid key={"numberGrid_" + element[0]} style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline', width: 180, justifyContent: 'space-between' }}>
+                                            <Grid key={"numberGrid_" + element[0]} style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline', width: 180, justifyContent: 'space-between' }}>
                                                 <Typography>{element[1].displayName}:</Typography>
                                                 <TextField
                                                     id={"min_" + element[0]}
@@ -159,7 +150,7 @@ class FilterPanel extends React.Component<Props, any> {
                                                     margin="normal"
                                                     defaultValue={0}
                                                     inputProps={{ min: "0", max: "5", step: "1" }}
-                                                    InputProps={{disableUnderline: true}} />
+                                                    InputProps={{ disableUnderline: true }} />
                                             </Grid>
                                         );
                                     })
