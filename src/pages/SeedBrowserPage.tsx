@@ -3,7 +3,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import * as React from 'react';
-import WorldBrowser from '../components/browser/WorldBrowser';
+import WorldBrowser from '../components/browser/SeedBrowser';
 
 
 const styles = (theme: Theme) =>

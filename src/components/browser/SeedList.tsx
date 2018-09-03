@@ -5,7 +5,6 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Grid from '@material-ui/core/Grid';
-import WorldCard from "./WorldCard";
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -30,8 +29,9 @@ import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import Geyser from '../../types/classes/Geyser';
 import { GeyserType } from '../../types/enums/GeyserType';
 import { GameUpgrade } from '../../types/enums/GameUpgrade';
-import World from '../../types/classes/World';
+import Seed from '../../types/classes/Seed';
 import GameVersion from '../../types/classes/GameVersion';
+import SeedCard from "./SeedCard";
 
 interface PaginationProps extends WithStyles<typeof actionsStyles> {
 
@@ -159,7 +159,7 @@ const geysers = [
 ];
 
 
-class WorldList extends React.Component<Props, any> {
+class SeedList extends React.Component<Props, any> {
     constructor(props: Props) {
         super(props);
 
@@ -172,24 +172,24 @@ class WorldList extends React.Component<Props, any> {
                 GeyserType.VENT_COOL_STEAM,
             ],
             rows: [
-                new World("1542", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), geysers, new Date(), 1),
-                new World("5232", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 12), geysers, new Date(), 2),
-                new World("425523", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 13), geysers, new Date(), 3),
-                new World("4323", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1244), geysers, new Date(), 4),
-                new World("1236545412423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1235), geysers, new Date(), 5),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 12643), geysers, new Date(), 6),
-                new World("53", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1232), geysers, new Date(), 7),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1623), geysers, new Date(), 8),
-                new World("42141234", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 7123), geysers, new Date(), 9),
-                new World("1231242423423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 6123), geysers, new Date(), 10),
-                new World("5345232132", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 5123), geysers, new Date(), 11),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 4123), geysers, new Date(), 12),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1233), geysers, new Date(), 13),
-                new World("6546345", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1233), geysers, new Date(), 14),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1263), geysers, new Date(), 15),
-                new World("3242353", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1273), geysers, new Date(), 16),
-                new World("62534", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1243), geysers, new Date(), 17),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), geysers, new Date(), 18),
+                new Seed("1542", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), geysers, new Date(), 1),
+                new Seed("5232", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 12), geysers, new Date(), 2),
+                new Seed("425523", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 13), geysers, new Date(), 3),
+                new Seed("4323", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1244), geysers, new Date(), 4),
+                new Seed("1236545412423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1235), geysers, new Date(), 5),
+                new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 12643), geysers, new Date(), 6),
+                new Seed("53", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1232), geysers, new Date(), 7),
+                new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1623), geysers, new Date(), 8),
+                new Seed("42141234", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 7123), geysers, new Date(), 9),
+                new Seed("1231242423423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 6123), geysers, new Date(), 10),
+                new Seed("5345232132", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 5123), geysers, new Date(), 11),
+                new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 4123), geysers, new Date(), 12),
+                new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1233), geysers, new Date(), 13),
+                new Seed("6546345", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1233), geysers, new Date(), 14),
+                new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1263), geysers, new Date(), 15),
+                new Seed("3242353", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1273), geysers, new Date(), 16),
+                new Seed("62534", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1243), geysers, new Date(), 17),
+                new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), geysers, new Date(), 18),
             ],
             page: 0,
             rowsPerPage: 5,
@@ -244,11 +244,11 @@ class WorldList extends React.Component<Props, any> {
 
                 <Table>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: World) => {
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Seed) => {
                             return (
                                 <TableRow key={row.id}>
                                     <TableCell className={this.props.classes.cellNoPadding}>
-                                        <WorldCard world={row} displayGeyserTypes={this.state.geyserTypes} />
+                                        <SeedCard world={row} displayGeyserTypes={this.state.geyserTypes} />
                                     </TableCell>
                                 </TableRow>
                             );
@@ -273,4 +273,4 @@ class WorldList extends React.Component<Props, any> {
     }
 };
 
-export default withStyles(styles)(WorldList);
+export default withStyles(styles)(SeedList);

@@ -6,8 +6,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 
-import WorldDetailsPage from './WorldDetailsPage';
-import WorldBrowserPage from './WorldBrowserPage';
+import SeedDetailsPage from './SeedDetailsPage';
+import WorldBrowserPage from './SeedBrowserPage';
 import AboutPage from './AboutPage';
 import Error404 from './Error404';
 import Nav from '../components/ui/Nav';
@@ -16,25 +16,11 @@ import '../fonts/fonts.css';
 
 const myTheme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'dark'
   },
   typography: {
     fontFamily: '"Economica", sans-serif',
-     fontSize: 16,
-  //   body1: {
-  //     fontSize: 18,
-  //   },
-  //   title: {
-  //     fontFamily: '"Graystroke", sans-serif',
-  //     fontSize: '1.2rem'
-  //   },
-  //   headline: {
-  //     fontFamily: '"Graystroke", sans-serif',
-  //   },
-  //   subheading: {
-  //     fontFamily: '"Graystroke", sans-serif',
-  //     fontSize: '1rem'
-  //   },
+     fontSize: 16
    }
 });
 
@@ -77,7 +63,7 @@ class Root extends React.Component<WithStyles<typeof styles>> {
               <Grid className={classes.contentGrid}>
                 <Switch>
                   <Route exact path="/" component={WorldBrowserPage} />
-                  <Route exact path="/world" component={WorldDetailsPage} />
+                  <Route exact path="/seed/:seed/:version" component={SeedDetailsPage} />
                   <Route exact path="/about" component={AboutPage} />
                   <Route component={Error404} />
                 </Switch>

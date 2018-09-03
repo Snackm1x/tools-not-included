@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Geyser from '../../types/classes/Geyser';
 import { GeyserProperties } from '../../constants/GeyserProperties';
-import  IGeyserProperties  from '../../types/interfaces/IGeyserProperties';
+import IGeyserProperties from '../../types/interfaces/IGeyserProperties';
 
 //import { GeyserType } from '../types/geyser-type';
 
@@ -71,31 +71,34 @@ class GeyserCard extends React.Component<Props> {
         return (
             <Grid item className={this.props.classes.root} lg={4} sm={12} md={6} xs={12} xl={4}>
                 <Card className={this.props.classes.card}>
+                
                     <CardMedia
                         className={this.props.classes.image}
                         image={imageSrc} />
+
                     <CardContent className={this.props.classes.cardContent}>
-                        <Grid item>
-                            <Typography variant="subheading" className={this.props.classes.cardContentTitle}>
-                                {geyserProperties.displayName}
-                            </Typography>
-                        </Grid>
+                        <Typography variant="subheading" className={this.props.classes.cardContentTitle}>
+                            {geyserProperties.displayName}
+                        </Typography>
+
                         <Grid container className={this.props.classes.cardContainer}>
-                            <Grid item>
-                                <Typography>
-                                    Eruption rate: <b>{this.props.geyser.eruptionRate} g/s</b> at {geyserProperties.outputTemp} °C
-                                    </Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography>
-                                    Erupts for <b>{this.props.geyser.activeEruptionPeriod} s</b> every <b>{this.props.geyser.eruptionPeriod} s</b>
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography>
-                                    Active for <b>{this.props.geyser.activeDormancyPeriod} cycles</b> every <b>{this.props.geyser.dormancyPeriod} cycles</b>
-                                </Typography>
-                            </Grid>
+                            <Typography>
+                                Eruption rate: <b>{this.props.geyser.eruptionRate} g/s</b> at {geyserProperties.outputTemp} °C
+                            </Typography>
+
+                            <Typography>
+                                Erupts for <b>{this.props.geyser.activeEruptionPeriod} s</b> every <b>{this.props.geyser.eruptionPeriod} s</b>
+                            </Typography>
+
+                            <Typography>
+                                Active for <b>{this.props.geyser.activeDormancyPeriod} cycles</b> every <b>{this.props.geyser.dormancyPeriod} cycles</b>
+                            </Typography>
+
+                            <br />
+
+                            <Typography>
+                                Calculated actual output: <b>2400 g/s</b>
+                            </Typography>
                         </Grid>
                     </CardContent>
                 </Card>

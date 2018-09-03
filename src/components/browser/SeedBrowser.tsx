@@ -4,11 +4,9 @@ import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Grid from '@material-ui/core/Grid';
-//import Typography from '@material-ui/core/Typography';
 
-//import { GeyserProperties, IGeyserProperties } from '../../types/geyser-type';
-import FilterPanel from '../../components/browser/FilterPanel';
-import WorldList from "./WorldList";
+import FilterPanel from './FilterPanel';
+import SeedList from "./SeedList";
 
 
 export interface Props extends WithStyles<typeof styles> {
@@ -30,7 +28,7 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-class WorldBrowser extends React.Component<Props> {
+class SeedBrowser extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -40,9 +38,9 @@ class WorldBrowser extends React.Component<Props> {
         return (
             <Grid container item className={this.props.classes.root}>
                 <FilterPanel />
-                <WorldList />
+                <SeedList />
             </Grid>);
     }
 };
 
-export default withStyles(styles)(WorldBrowser);
+export default withStyles(styles)(SeedBrowser);

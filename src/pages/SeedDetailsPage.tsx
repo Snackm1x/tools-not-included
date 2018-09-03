@@ -3,11 +3,11 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
-import WorldDetails from '../components/world/WorldDetails';
+import SeedDetails from '../components/seed/SeedDetails';
 import Geyser from '../types/classes/Geyser';
 import { GeyserType } from '../types/enums/GeyserType';
 import { GameUpgrade } from '../types/enums/GameUpgrade';
-import World from '../types/classes/World';
+import Seed from '../types/classes/Seed';
 import GameVersion from '../types/classes/GameVersion';
 
 const styles = (theme: Theme) =>
@@ -38,19 +38,19 @@ const rows = [
     createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
 ];
 
-class WorldDetailsPage extends React.Component<WithStyles<typeof styles>> {
+class SeedDetailsPage extends React.Component<WithStyles<typeof styles>> {
     render() {
 
-        var world = new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), rows, new Date());
+        var seed = new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), rows, new Date());
 
         return (
             <Grid item container className={this.props.classes.root}>
                 <Grid item container>
-                    <WorldDetails world={world} />
+                    <SeedDetails seed={seed} />
                 </Grid>
             </Grid>
         );
     }
 }
 
-export default withStyles(styles)(WorldDetailsPage);
+export default withStyles(styles)(SeedDetailsPage);

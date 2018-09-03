@@ -3,7 +3,7 @@ import GameVersion from './GameVersion';
 import { GeyserType } from '../enums/GeyserType';
 import { GeyserProperties } from '../../constants/GeyserProperties';
 
-export default class World {
+export default class Seed {
     id?: number;
     seed: string;
     gameVersion: GameVersion;
