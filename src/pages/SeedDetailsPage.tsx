@@ -4,11 +4,16 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import SeedDetails from '../components/seed/SeedDetails';
-import Geyser from '../types/classes/Geyser';
-import { GeyserType } from '../types/enums/GeyserType';
-import { GameUpgrade } from '../types/enums/GameUpgrade';
 import Seed from '../types/classes/Seed';
-import GameVersion from '../types/classes/GameVersion';
+//import Geyser from '../types/classes/Geyser';
+//import { GeyserType } from '../types/enums/GeyserType';
+//import { GameUpgrade } from '../types/enums/GameUpgrade';
+//import GameVersion from '../types/classes/GameVersion';
+import { withRouter } from 'react-router'
+import { RouteComponentProps } from 'react-router'
+
+import API from '../api/api';
+import SeedDTO from '../api/dto/SeedDTO';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -19,38 +24,56 @@ const styles = (theme: Theme) =>
         },
     });
 
-function createData(type: GeyserType, eruptionRate?: number, activeDormancyPeriod?: number, dormancyPeriod?: number, eruptionPeriod?: number, activeEruptionPeriod?: number) {
-    return new Geyser(type, eruptionRate, activeDormancyPeriod, dormancyPeriod, eruptionPeriod, activeEruptionPeriod)
+
+interface UrlParams {
+    seed: string,
+    version: number
 }
 
-const rows = [
-    createData(GeyserType.GEYSER_COOL_SLUSH, 5400, 163, 233, 1422, 250),
-    createData(GeyserType.GEYSER_COOL_SLUSH, 1200, 123, 643, 6442, 240),
-    createData(GeyserType.GEYSER_WATER, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.GEYSER_NATGAS, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_CHLORINE, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_HYDROGEN, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.GEYSER_NATGAS, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_POLLUTED_H2O, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
-];
+export interface Props extends WithStyles<typeof styles>, RouteComponentProps<UrlParams> {
 
-class SeedDetailsPage extends React.Component<WithStyles<typeof styles>> {
+}
+
+export interface State {
+    seed?: Seed
+}
+
+class SeedDetailsPage extends React.Component<Props, State> {
+
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+        }
+    }
+
+    componentDidMount() {
+        var seed = this.props.match.params.seed;
+        var version = this.props.match.params.version;
+
+        var url = "seeds/" + seed + "/" + version;
+
+        API.get<SeedDTO>(url)
+            .then(res => {
+                var seed = Seed.FromDTO(res.data);
+                this.setState({ seed: seed });
+            })
+            .catch(error => {
+                if (error.response.status == 404 || error.response.status == 400) {
+                    this.props.history.replace("/404");
+                }
+            });
+    }
+
     render() {
-
-        var seed = new Seed("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), rows, new Date());
-
         return (
             <Grid item container className={this.props.classes.root}>
                 <Grid item container>
-                    <SeedDetails seed={seed} />
+                    {this.state && this.state.seed && <SeedDetails seed={this.state.seed} />}
                 </Grid>
             </Grid>
         );
     }
 }
 
-export default withStyles(styles)(SeedDetailsPage);
+export default withRouter(withStyles(styles)(SeedDetailsPage));

@@ -97,7 +97,7 @@ class GeyserCard extends React.Component<Props> {
                             <br />
 
                             <Typography>
-                                Calculated actual output: <b>2400 g/s</b>
+                                Calculated actual output: <b>{this.props.geyser.calculatedOutput}</b>
                             </Typography>
                         </Grid>
                     </CardContent>

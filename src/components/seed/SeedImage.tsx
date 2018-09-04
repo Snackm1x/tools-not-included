@@ -54,7 +54,7 @@ class SeedImage extends React.Component<Props, any> {
     };
 
     render() {
-        var imageSrc = '/images/kTfFHpd.jpg';
+        var imageSrc = '/images/screenshot.jpg';
 
 
         return (

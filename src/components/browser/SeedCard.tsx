@@ -74,7 +74,7 @@ class SeedCard extends React.Component<Props> {
             <Grid item className={this.props.classes.root} >
                 <Card className={this.props.classes.card}>
                     <Grid className={this.props.classes.texts}>
-                        <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seed}</Typography>
+                        <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seedNumber}</Typography>
                         <Typography variant="subheading" className={this.props.classes.typography}>{this.props.world.gameVersion.displayNameLong}</Typography>
                     </Grid>
                     <Grid className={this.props.classes.chipContainer}>

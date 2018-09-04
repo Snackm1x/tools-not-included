@@ -1,22 +1,24 @@
 import Geyser from './Geyser';
 import GameVersion from './GameVersion';
 import { GeyserType } from '../enums/GeyserType';
+import { GameUpgrade } from '../enums/GameUpgrade';
 import { GeyserProperties } from '../../constants/GeyserProperties';
+import SeedDTO from '../../api/dto/SeedDTO';
 
 export default class Seed {
-    id?: number;
-    seed: string;
+    id?: string;
+    seedNumber: string;
     gameVersion: GameVersion;
     geysers: Array<Geyser>;
     geyserQuantities: Map<GeyserType, number>;
-    uploadDate: Date;
+    creationDate: Date;
 
-    constructor(seed: string, gameVersion: GameVersion, geysers: Array<Geyser>, uploadDate: Date = new Date(), id?: number,) {
+    constructor(seed: string, gameVersion: GameVersion, geysers: Array<Geyser>, uploadDate: Date = new Date(), id?: string) {
         this.id = id;
-        this.seed = seed;
+        this.seedNumber = seed;
         this.gameVersion = gameVersion;
         this.geysers = geysers;
-        this.uploadDate = uploadDate;
+        this.creationDate = uploadDate;
 
         this.fillGeyserQuantities();
     }
@@ -32,5 +34,15 @@ export default class Seed {
             var currentValue = this.geyserQuantities.get(element.type);
             this.geyserQuantities.set(element.type, currentValue ? currentValue + 1 : 1);
         });
+    }
+
+    public static FromDTO(dto : SeedDTO) : Seed {
+        var geysers : Geyser[] = [];
+
+        dto.geysers.forEach(element => {
+            geysers.push(new Geyser(element.type as GeyserType, element.eruptionRate, element.activeDormancyPeriod, element.dormancyPeriod, element.eruptionPeriod, element.activeEruptionPeriod));
+        });
+
+        return new Seed(dto.seedNumber, new GameVersion(dto.gameVersion.gameUpgrade as GameUpgrade, dto.gameVersion.versionNumber), geysers, new Date(dto.creationDate), dto.id);
     }
 };

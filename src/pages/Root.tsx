@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 
 import SeedDetailsPage from './SeedDetailsPage';
-import WorldBrowserPage from './SeedBrowserPage';
+import SeedBrowserPage from './SeedBrowserPage';
 import AboutPage from './AboutPage';
 import Error404 from './Error404';
 import Nav from '../components/ui/Nav';
@@ -62,7 +62,7 @@ class Root extends React.Component<WithStyles<typeof styles>> {
               <Nav />
               <Grid className={classes.contentGrid}>
                 <Switch>
-                  <Route exact path="/" component={WorldBrowserPage} />
+                  <Route exact path="/" component={SeedBrowserPage} />
                   <Route exact path="/seed/:seed/:version" component={SeedDetailsPage} />
                   <Route exact path="/about" component={AboutPage} />
                   <Route component={Error404} />

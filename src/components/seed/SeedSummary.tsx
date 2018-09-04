@@ -64,7 +64,7 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
-     flexGrow:1
+        flexGrow: 1
     }
 });
 
@@ -83,7 +83,7 @@ class SeedSummary extends React.Component<Props> {
         return (
             <Grid item className={this.props.classes.root}>
                 <Card className={this.props.classes.card}>
-                    <Typography align="center" variant="title">Seed {this.props.seed.seed}</Typography>
+                    <Typography align="center" variant="title">Seed {this.props.seed.seedNumber}</Typography>
                     <Typography align="center" variant="subheading">created in {this.props.seed.gameVersion.displayNameLong}</Typography>
 
                     <Grid container item className={this.props.classes.chipContainer}>
@@ -98,18 +98,17 @@ class SeedSummary extends React.Component<Props> {
 
                     <Grid container item className={this.props.classes.textContainer}>
 
-                        <Typography variant="caption">Upload date: {this.props.seed.uploadDate.toDateString()} {this.props.seed.uploadDate.toLocaleTimeString()}</Typography>
-
+                        <Typography variant="caption">Upload date: {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
 
                         <Grid className={this.props.classes.voteDiv}>
                             <IconButton>
-                                <ThumbDownOutlined style={{marginTop: 5}} />
+                                <ThumbDownOutlined style={{ marginTop: 5 }} />
                             </IconButton>
 
-                            <Typography variant="caption" style={{marginLeft: 5, marginRight: 5}}> 53664</Typography>
+                            <Typography variant="caption" style={{ marginLeft: 5, marginRight: 5 }}> 53664</Typography>
 
                             <IconButton>
-                                <ThumbUpOutlined style={{marginBottom: 5}}/>
+                                <ThumbUpOutlined style={{ marginBottom: 5 }} />
                             </IconButton>
                         </Grid>
 

@@ -10,7 +10,7 @@ import SeedGeysers from './SeedGeysers';
 import SeedImage from './SeedImage';
 
 export interface Props extends WithStyles<typeof styles> {
-    seed: Seed
+    seed: Seed;
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -25,12 +25,11 @@ class SeedDetails extends React.Component<Props> {
     }
 
     render() {
-      
         return (
             <Grid container item className={this.props.classes.root}>
-                <SeedSummary seed={this.props.seed}/>
+                <SeedSummary seed={this.props.seed} />
                 <SeedImage></SeedImage>
-                <SeedGeysers geysers={this.props.seed.geysers}/>
+                <SeedGeysers geysers={this.props.seed.geysers} />
             </Grid>);
     }
 };

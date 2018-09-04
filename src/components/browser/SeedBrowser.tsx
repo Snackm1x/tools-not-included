@@ -7,10 +7,11 @@ import Grid from '@material-ui/core/Grid';
 
 import FilterPanel from './FilterPanel';
 import SeedList from "./SeedList";
+import Seed from '../../types/classes/Seed';
 
 
 export interface Props extends WithStyles<typeof styles> {
-
+    seeds : Seed[];
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -38,7 +39,7 @@ class SeedBrowser extends React.Component<Props> {
         return (
             <Grid container item className={this.props.classes.root}>
                 <FilterPanel />
-                <SeedList />
+                <SeedList seeds={this.props.seeds}/>
             </Grid>);
     }
 };
