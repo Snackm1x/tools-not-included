@@ -5,7 +5,6 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Grid from '@material-ui/core/Grid';
-import WorldCard from "./WorldCard";
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -24,14 +23,13 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import { Link } from 'react-router-dom'
 
 import { GeyserProperties } from '../../constants/GeyserProperties';
 import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
-import Geyser from '../../types/classes/Geyser';
 import { GeyserType } from '../../types/enums/GeyserType';
-import { GameUpgrade } from '../../types/enums/GameUpgrade';
-import World from '../../types/classes/World';
-import GameVersion from '../../types/classes/GameVersion';
+import Seed from '../../types/classes/Seed';
+import SeedCard from "./SeedCard";
 
 interface PaginationProps extends WithStyles<typeof actionsStyles> {
 
@@ -108,7 +106,7 @@ const TablePag = (withStyles(actionsStyles)(TablePaginationActions));
 
 
 export interface Props extends WithStyles<typeof styles> {
-
+    seeds: Seed[];
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -139,57 +137,17 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-function createData(type: GeyserType, eruptionRate?: number, activeDormancyPeriod?: number, dormancyPeriod?: number, eruptionPeriod?: number, activeEruptionPeriod?: number) {
-    return new Geyser(type, eruptionRate, activeDormancyPeriod, dormancyPeriod, eruptionPeriod, activeEruptionPeriod)
-}
-
-const geysers = [
-    createData(GeyserType.GEYSER_COOL_SLUSH, 5400, 163, 233, 1422, 250),
-    createData(GeyserType.GEYSER_COOL_SLUSH, 1200, 123, 643, 6442, 240),
-    createData(GeyserType.GEYSER_WATER, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.GEYSER_NATGAS, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_CHLORINE, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_HYDROGEN, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.GEYSER_NATGAS, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_POLLUTED_H2O, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
-];
-
-
-class WorldList extends React.Component<Props, any> {
+class SeedList extends React.Component<Props, any> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
             geyserTypes: [
                 GeyserType.GEYSER_COOL_SLUSH,
-                GeyserType.GEYSER_WATER,    
+                GeyserType.GEYSER_WATER,
                 GeyserType.VENT_GERMY_PO2,
                 GeyserType.VENT_POLLUTED_H2O,
                 GeyserType.VENT_COOL_STEAM,
-            ],
-            rows: [
-                new World("1542", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), geysers, new Date(), 1),
-                new World("5232", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 12), geysers, new Date(), 2),
-                new World("425523", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 13), geysers, new Date(), 3),
-                new World("4323", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1244), geysers, new Date(), 4),
-                new World("1236545412423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1235), geysers, new Date(), 5),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 12643), geysers, new Date(), 6),
-                new World("53", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1232), geysers, new Date(), 7),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1623), geysers, new Date(), 8),
-                new World("42141234", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 7123), geysers, new Date(), 9),
-                new World("1231242423423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 6123), geysers, new Date(), 10),
-                new World("5345232132", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 5123), geysers, new Date(), 11),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 4123), geysers, new Date(), 12),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1233), geysers, new Date(), 13),
-                new World("6546345", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1233), geysers, new Date(), 14),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1263), geysers, new Date(), 15),
-                new World("3242353", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1273), geysers, new Date(), 16),
-                new World("62534", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 1243), geysers, new Date(), 17),
-                new World("12312423", new GameVersion(GameUpgrade.ROCKETRY_UPGRADE, 123), geysers, new Date(), 18),
             ],
             page: 0,
             rowsPerPage: 5,
@@ -210,7 +168,8 @@ class WorldList extends React.Component<Props, any> {
 
     render() {
 
-        const { rows, rowsPerPage, page } = this.state;
+        const { rowsPerPage, page } = this.state;
+        const rows = this.props.seeds;
 
         return (
             <Grid container item className={this.props.classes.root}>
@@ -244,11 +203,14 @@ class WorldList extends React.Component<Props, any> {
 
                 <Table>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: World) => {
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Seed) => {
+                            var url = "/seed/" + row.seedNumber + "/" + row.gameVersion.versionNumber;
                             return (
-                                <TableRow key={row.id}>
+                                <TableRow key={row.id} >
                                     <TableCell className={this.props.classes.cellNoPadding}>
-                                        <WorldCard world={row} displayGeyserTypes={this.state.geyserTypes} />
+                                        <Link to={url} style={{ textDecoration: 'none', width: '100%' }}>
+                                            <SeedCard world={row} displayGeyserTypes={this.state.geyserTypes} />
+                                        </Link>
                                     </TableCell>
                                 </TableRow>
                             );
@@ -273,4 +235,4 @@ class WorldList extends React.Component<Props, any> {
     }
 };
 
-export default withStyles(styles)(WorldList);
+export default withStyles(styles)(SeedList);

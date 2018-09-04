@@ -8,8 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-import WorldDetailsPage from './WorldDetailsPage';
-import WorldBrowserPage from './WorldBrowserPage';
+import SeedDetailsPage from './SeedDetailsPage';
+import SeedBrowserPage from './SeedBrowserPage';
 import AboutPage from './AboutPage';
 import Error404 from './Error404';
 import Nav from '../components/ui/Nav';
@@ -18,12 +18,12 @@ import '../fonts/fonts.css';
 
 const myTheme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'dark'
   },
   typography: {
     fontFamily: '"Economica", sans-serif',
-    fontSize: 16
-  }
+     fontSize: 16
+   }
 });
 
 const styles = () =>
@@ -66,8 +66,8 @@ class Root extends React.Component<WithStyles<typeof styles>> {
                   <Typography align="center" variant="title">This website is in early development, online temporarily for testing purposes and not really working for now. You should not be here (yet :) ) Come back when it's ready!</Typography>
                 </Paper>
                 <Switch>
-                  <Route exact path="/" component={WorldBrowserPage} />
-                  <Route exact path="/world" component={WorldDetailsPage} />
+                  <Route exact path="/" component={SeedBrowserPage} />
+                  <Route exact path="/seed/:seed/:version" component={SeedDetailsPage} />
                   <Route exact path="/about" component={AboutPage} />
                   <Route component={Error404} />
                 </Switch>

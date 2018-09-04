@@ -18,7 +18,7 @@ const styles = (theme: Theme) => createStyles({
     },
 });
 
-class WorldGeysers extends React.Component<Props> {
+class SeedGeysers extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -39,4 +39,4 @@ class WorldGeysers extends React.Component<Props> {
 };
 
 
-export default withStyles(styles)(WorldGeysers);
+export default withStyles(styles)(SeedGeysers);

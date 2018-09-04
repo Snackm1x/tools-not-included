@@ -20,10 +20,6 @@ const styles = (theme: Theme) => createStyles({
         height: '100%',
         width: 'auto'
     },
-    imageDiv: {
-        display: 'flex',
-        justifyContent: 'center'
-    },
 });
 
 class ImageDialog extends React.Component<Props> {
@@ -40,7 +36,7 @@ class ImageDialog extends React.Component<Props> {
 
         return (
             <Dialog open={this.props.open} onClose={this.handleClose} className={this.props.classes.root} maxWidth={false}>
-                <Grid className={this.props.classes.imageDiv} >
+                <Grid>
                     <img src={imageSrc} className={this.props.classes.image} />
                 </Grid>
             </Dialog>);

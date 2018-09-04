@@ -7,14 +7,14 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import World from '../../types/classes/World';
+import Seed from '../../types/classes/Seed';
 import GeyserChip from '../ui/GeyserChip';
 import { GeyserProperties } from '../../constants/GeyserProperties';
 import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import { GeyserType } from "../../types/enums/GeyserType";
 
 export interface Props extends WithStyles<typeof styles> {
-    world: World,
+    world: Seed,
     displayGeyserTypes?: GeyserType[]
 }
 
@@ -63,7 +63,7 @@ GeyserProperties.forEach((item, idx) => {
     geyserTypes.push(item)
 })
 
-class WorldCard extends React.Component<Props> {
+class SeedCard extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -74,7 +74,7 @@ class WorldCard extends React.Component<Props> {
             <Grid item className={this.props.classes.root} >
                 <Card className={this.props.classes.card}>
                     <Grid className={this.props.classes.texts}>
-                        <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seed}</Typography>
+                        <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seedNumber}</Typography>
                         <Typography variant="subheading" className={this.props.classes.typography}>{this.props.world.gameVersion.displayNameLong}</Typography>
                     </Grid>
                     <Grid className={this.props.classes.chipContainer}>
@@ -92,4 +92,4 @@ class WorldCard extends React.Component<Props> {
     }
 };
 
-export default withStyles(styles)(WorldCard);
+export default withStyles(styles)(SeedCard);

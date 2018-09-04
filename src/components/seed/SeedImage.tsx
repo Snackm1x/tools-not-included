@@ -39,7 +39,7 @@ const styles = (theme: Theme) => createStyles({
     },
 });
 
-class WorldImage extends React.Component<Props, any> {
+class SeedImage extends React.Component<Props, any> {
     constructor(props: Props) {
         super(props);
         this.state = { open: false }
@@ -54,7 +54,7 @@ class WorldImage extends React.Component<Props, any> {
     };
 
     render() {
-        var imageSrc = '/images/kTfFHpd.jpg';
+        var imageSrc = '/images/screenshot.jpg';
 
 
         return (
@@ -74,4 +74,4 @@ class WorldImage extends React.Component<Props, any> {
     }
 };
 
-export default withStyles(styles)(WorldImage);
+export default withStyles(styles)(SeedImage);
