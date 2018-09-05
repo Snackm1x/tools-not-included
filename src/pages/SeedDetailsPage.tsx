@@ -5,15 +5,25 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import SeedDetails from '../components/seed/SeedDetails';
 import Seed from '../types/classes/Seed';
-//import Geyser from '../types/classes/Geyser';
-//import { GeyserType } from '../types/enums/GeyserType';
-//import { GameUpgrade } from '../types/enums/GameUpgrade';
-//import GameVersion from '../types/classes/GameVersion';
 import { withRouter } from 'react-router'
 import { RouteComponentProps } from 'react-router'
 
 import API from '../api/api';
 import SeedDTO from '../api/dto/SeedDTO';
+import Loader from '../components/ui/Loader';
+import handleError from '../api/errorHandler';
+import { AxiosError } from 'axios';
+import ErrorSnackbar from '../components/ui/ErrorSnackbar';
+
+// import ErrorIcon from '@material-ui/icons/Error';
+// import InfoIcon from '@material-ui/icons/Info';
+// import CloseIcon from '@material-ui/icons/Close';
+// import green from '@material-ui/core/colors/green';
+// import amber from '@material-ui/core/colors/amber';
+// import IconButton from '@material-ui/core/IconButton';
+// import Snackbar from '@material-ui/core/Snackbar';
+// import SnackbarContent from '@material-ui/core/SnackbarContent';
+// import WarningIcon from '@material-ui/icons/Warning';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -35,7 +45,9 @@ export interface Props extends WithStyles<typeof styles>, RouteComponentProps<Ur
 }
 
 export interface State {
-    seed?: Seed
+    seed?: Seed;
+    loading: boolean;
+    errorOccured: boolean;
 }
 
 class SeedDetailsPage extends React.Component<Props, State> {
@@ -44,6 +56,8 @@ class SeedDetailsPage extends React.Component<Props, State> {
         super(props);
 
         this.state = {
+            loading: true,
+            errorOccured: false
         }
     }
 
@@ -56,21 +70,20 @@ class SeedDetailsPage extends React.Component<Props, State> {
         API.get<SeedDTO>(url)
             .then(res => {
                 var seed = Seed.FromDTO(res.data);
-                this.setState({ seed: seed });
+                this.setState({ seed: seed,  loading: false });
             })
-            .catch(error => {
-                if (error.response.status == 404 || error.response.status == 400) {
-                    this.props.history.replace("/404");
-                }
+            .catch((error: AxiosError) => {
+                handleError(error, this.props.history);
+                this.setState({ errorOccured: true, loading: false });
             });
     }
 
     render() {
         return (
             <Grid item container className={this.props.classes.root}>
-                <Grid item container>
-                    {this.state && this.state.seed && <SeedDetails seed={this.state.seed} />}
-                </Grid>
+                {this.state.loading && this.state.seed && <SeedDetails seed={this.state.seed} />}
+                <Loader loading={this.state.loading} />
+                <ErrorSnackbar open={this.state.errorOccured} message="An error has occured, the website isn't able to connect to the database right now." />
             </Grid>
         );
     }

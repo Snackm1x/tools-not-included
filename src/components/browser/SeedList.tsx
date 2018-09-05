@@ -132,8 +132,11 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'flex-end',
         flexWrap: 'wrap'
     },
-    cellNoPadding: {
-        padding: '0 !important',
+    cellPadding: {
+        padding: theme.spacing.unit,
+        '&:last-child': {
+            paddingRight: theme.spacing.unit
+        }
     }
 });
 
@@ -196,11 +199,12 @@ class SeedList extends React.Component<Props, any> {
                             onChange={this.handleChange}
                             input={<Input id="select-multiple-checkbox" />}
                             renderValue={selected => ((selected as string[]).map(s => (GeyserProperties.get(GeyserType[s]) as IGeyserProperties).displayName).join(', '))}>
-                            {Array.from(GeyserProperties).map((element) => (
-                                <MenuItem key={element[1].geyserType} value={element[1].geyserType}>
-                                    <Checkbox checked={this.state.geyserTypes.indexOf(element[1].geyserType) > -1} />
-                                    <ListItemText primary={element[1].displayName} />
-                                </MenuItem>
+                            {
+                                Array.from(GeyserProperties).map((element) => (
+                                    <MenuItem key={element[1].geyserType} value={element[1].geyserType}>
+                                        <Checkbox checked={this.state.geyserTypes.indexOf(element[1].geyserType) > -1} />
+                                        <ListItemText primary={element[1].displayName} />
+                                    </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -221,7 +225,7 @@ class SeedList extends React.Component<Props, any> {
                             var url = "/seed/" + row.seedNumber + "/" + row.gameVersion.versionNumber;
                             return (
                                 <TableRow key={row.id} >
-                                    <TableCell className={this.props.classes.cellNoPadding}>
+                                    <TableCell className={this.props.classes.cellPadding}>
                                         <Link to={url} style={{ textDecoration: 'none', width: '100%' }}>
                                             <SeedCard world={row} displayGeyserTypes={this.state.geyserTypes} />
                                         </Link>
