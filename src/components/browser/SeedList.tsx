@@ -137,25 +137,39 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
+const defaultGeysers = [
+    GeyserType.GEYSER_COOL_SLUSH,
+    GeyserType.GEYSER_NATGAS,
+    GeyserType.VENT_COOL_STEAM,
+    GeyserType.VOLCANO_GOLD
+];
+
 class SeedList extends React.Component<Props, any> {
     constructor(props: Props) {
         super(props);
 
+        var geysers = this.loadGeyserTypes();
+
         this.state = {
-            geyserTypes: [
-                GeyserType.GEYSER_COOL_SLUSH,
-                GeyserType.GEYSER_WATER,
-                GeyserType.VENT_GERMY_PO2,
-                GeyserType.VENT_POLLUTED_H2O,
-                GeyserType.VENT_COOL_STEAM,
-            ],
+            geyserTypes: geysers,
             page: 0,
             rowsPerPage: 5,
         };
     }
 
+    loadGeyserTypes(): GeyserType[] {
+        var lsGeysers = localStorage.getItem("geyserTypes");
+
+        if (lsGeysers === null || lsGeysers.length == 0)
+            return defaultGeysers;
+
+        var strings = lsGeysers.split(",");
+        return strings.map<GeyserType>(s => GeyserType[s]);
+    }
+
     handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({ geyserTypes: event.target.value });
+        localStorage.setItem("geyserTypes", event.target.value)
     };
 
     handleChangePage = (event: React.MouseEvent<HTMLButtonElement>, page: number) => {

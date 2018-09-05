@@ -11,25 +11,31 @@ export interface Props extends WithStyles<typeof styles> {
     label: string,
 }
 
-const styles = (theme: Theme) => createStyles({
-    root: {
-        marginLeft: theme.spacing.unit / 2,
-        marginRight: theme.spacing.unit / 2,
-        height: 32,
-        background: 'rgba(255,255,255,0.2)',
-        display: 'flex',
-        borderRadius: 59,
-        alignItems: 'center',
-        justifyContent: 'left',
-        padding: '4px 4px 4px 4px',
-    },
-    avatardiv: {
-        margin: '-10px 0px -10px -5px',
-    },
-    label: {
-        marginRight: 5,
-    }
-});
+const styles = (theme: Theme) => {
+    var backgroundColor = theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700];
+    var height = 32;
+    
+    return createStyles({
+        root: {
+            marginLeft: theme.spacing.unit / 2,
+            marginRight: theme.spacing.unit / 2,
+            height: height,
+            color: theme.palette.getContrastText(backgroundColor),
+            background: backgroundColor,
+            display: 'flex',
+            borderRadius: height / 2,
+            alignItems: 'center',
+            justifyContent: 'left',
+            padding: '4px 4px 4px 4px',
+        },
+        avatardiv: {
+            margin: '-10px 0px -10px -5px',
+        },
+        label: {
+            marginRight: 5,
+        }
+    })
+};
 
 class CustomChip extends React.Component<Props> {
     constructor(props: Props) {
