@@ -19,27 +19,23 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 const styles = (theme: Theme) => createStyles({
-    root: {
-        width: '100%',
-        paddingLeft: theme.spacing.unit,
-        paddingRight: theme.spacing.unit,
-        paddingTop: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
-    },
     card: {
         width: '100%',
         padding: theme.spacing.unit * 2,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        '&:hover': {
+            background: theme.palette.type === 'light' ? theme.palette.grey[200] : "#494949"
+        }
     },
     texts: {
         minWidth: 200,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        flex:1
+        flex: 1
     },
     typography: {
         marginRight: theme.spacing.unit,
@@ -54,7 +50,7 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'center',
         flexWrap: 'wrap',
         marginLeft: 'auto',
-        flex:9
+        flex: 9
     },
 });
 
@@ -68,27 +64,25 @@ class SeedCard extends React.Component<Props> {
         super(props);
     }
 
+
     render() {
-
         return (
-            <Grid item className={this.props.classes.root} >
-                <Card className={this.props.classes.card}>
-                    <Grid className={this.props.classes.texts}>
-                        <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seedNumber}</Typography>
-                        <Typography variant="subheading" className={this.props.classes.typography}>{this.props.world.gameVersion.displayNameLong}</Typography>
-                    </Grid>
-                    <Grid className={this.props.classes.chipContainer}>
-                        {geyserTypes.map((item, idx) => {
-                            if (this.props.displayGeyserTypes == null|| this.props.displayGeyserTypes.indexOf(item.geyserType) > -1)
-                                return (
-                                    <GeyserChip key={idx} geyserProperties={item} quantity={this.props.world.geyserQuantities.get(item.geyserType) as number} />
-                                )
-                            else return null;
-                        })}
-                    </Grid>
-
-                </Card>
-            </Grid>);
+            <Card className={this.props.classes.card}>
+                <Grid className={this.props.classes.texts}>
+                    <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seedNumber}</Typography>
+                    <Typography variant="subheading" className={this.props.classes.typography}>{this.props.world.gameVersion.displayNameLong}</Typography>
+                </Grid>
+                <Grid className={this.props.classes.chipContainer}>
+                    {geyserTypes.map((item, idx) => {
+                        if (this.props.displayGeyserTypes == null || this.props.displayGeyserTypes.indexOf(item.geyserType) > -1)
+                            return (
+                                <GeyserChip key={idx} geyserProperties={item} quantity={this.props.world.geyserQuantities.get(item.geyserType) as number} />
+                            )
+                        else return null;
+                    })}
+                </Grid>
+            </Card>
+        );
     }
 };
 

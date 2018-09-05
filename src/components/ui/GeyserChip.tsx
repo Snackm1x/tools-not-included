@@ -20,7 +20,6 @@ const styles = (theme: Theme) => createStyles({
         minWidth: 210,
     },
     chip: {
-        justifyContent: 'left',
         width: '100%'
     },
     avatar: {

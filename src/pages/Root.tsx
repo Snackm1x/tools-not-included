@@ -22,8 +22,8 @@ const myTheme = createMuiTheme({
   },
   typography: {
     fontFamily: '"Economica", sans-serif',
-     fontSize: 16
-   }
+    fontSize: 16
+  }
 });
 
 const styles = () =>
@@ -44,13 +44,19 @@ const styles = () =>
       alignItems: 'center',
       height: 'calc(100% - 64px)',
       overflowY: 'scroll',
-      overflowX: 'auto',
-      marginTop: 64,
+      overflowX: 'auto',      marginTop: 64,
     },
   });
 
 
-class Root extends React.Component<WithStyles<typeof styles>> {
+class Root extends React.Component<WithStyles<typeof styles>, any> {
+  constructor(props: WithStyles<typeof styles>) {
+    super(props);
+    this.state = {
+      errorFound: false
+    };
+  }
+
   render() {
     const { classes } = this.props;
 

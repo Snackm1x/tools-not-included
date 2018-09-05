@@ -132,30 +132,47 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'flex-end',
         flexWrap: 'wrap'
     },
-    cellNoPadding: {
-        padding: '0 !important',
+    cellPadding: {
+        padding: theme.spacing.unit,
+        '&:last-child': {
+            paddingRight: theme.spacing.unit
+        }
     }
 });
+
+const defaultGeysers = [
+    GeyserType.GEYSER_COOL_SLUSH,
+    GeyserType.GEYSER_NATGAS,
+    GeyserType.VENT_COOL_STEAM,
+    GeyserType.VOLCANO_GOLD
+];
 
 class SeedList extends React.Component<Props, any> {
     constructor(props: Props) {
         super(props);
 
+        var geysers = this.loadGeyserTypes();
+
         this.state = {
-            geyserTypes: [
-                GeyserType.GEYSER_COOL_SLUSH,
-                GeyserType.GEYSER_WATER,
-                GeyserType.VENT_GERMY_PO2,
-                GeyserType.VENT_POLLUTED_H2O,
-                GeyserType.VENT_COOL_STEAM,
-            ],
+            geyserTypes: geysers,
             page: 0,
             rowsPerPage: 5,
         };
     }
 
+    loadGeyserTypes(): GeyserType[] {
+        var lsGeysers = localStorage.getItem("geyserTypes");
+
+        if (lsGeysers === null || lsGeysers.length == 0)
+            return defaultGeysers;
+
+        var strings = lsGeysers.split(",");
+        return strings.map<GeyserType>(s => GeyserType[s]);
+    }
+
     handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({ geyserTypes: event.target.value });
+        localStorage.setItem("geyserTypes", event.target.value)
     };
 
     handleChangePage = (event: React.MouseEvent<HTMLButtonElement>, page: number) => {
@@ -182,11 +199,12 @@ class SeedList extends React.Component<Props, any> {
                             onChange={this.handleChange}
                             input={<Input id="select-multiple-checkbox" />}
                             renderValue={selected => ((selected as string[]).map(s => (GeyserProperties.get(GeyserType[s]) as IGeyserProperties).displayName).join(', '))}>
-                            {Array.from(GeyserProperties).map((element) => (
-                                <MenuItem key={element[1].geyserType} value={element[1].geyserType}>
-                                    <Checkbox checked={this.state.geyserTypes.indexOf(element[1].geyserType) > -1} />
-                                    <ListItemText primary={element[1].displayName} />
-                                </MenuItem>
+                            {
+                                Array.from(GeyserProperties).map((element) => (
+                                    <MenuItem key={element[1].geyserType} value={element[1].geyserType}>
+                                        <Checkbox checked={this.state.geyserTypes.indexOf(element[1].geyserType) > -1} />
+                                        <ListItemText primary={element[1].displayName} />
+                                    </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -207,7 +225,7 @@ class SeedList extends React.Component<Props, any> {
                             var url = "/seed/" + row.seedNumber + "/" + row.gameVersion.versionNumber;
                             return (
                                 <TableRow key={row.id} >
-                                    <TableCell className={this.props.classes.cellNoPadding}>
+                                    <TableCell className={this.props.classes.cellPadding}>
                                         <Link to={url} style={{ textDecoration: 'none', width: '100%' }}>
                                             <SeedCard world={row} displayGeyserTypes={this.state.geyserTypes} />
                                         </Link>
