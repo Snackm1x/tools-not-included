@@ -81,7 +81,7 @@ class SeedDetailsPage extends React.Component<Props, State> {
     render() {
         return (
             <Grid item container className={this.props.classes.root}>
-                {this.state.loading && this.state.seed && <SeedDetails seed={this.state.seed} />}
+                {!this.state.loading && this.state.seed && <SeedDetails seed={this.state.seed} />}
                 <Loader loading={this.state.loading} />
                 <ErrorSnackbar open={this.state.errorOccured} message="An error has occured, the website isn't able to connect to the database right now." />
             </Grid>
