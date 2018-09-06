@@ -65,7 +65,7 @@ class SeedBrowserPage extends React.Component<Props, State> {
                     {this.state.seeds && <SeedBrowser seeds={this.state.seeds} />}
                 </Grid>
                 <ErrorSnackbar open={this.state.errorOccured} message="An error has occured, the website isn't able to connect to the database right now." />
-                {this.state.loading && <Loader loading={this.state.loading} />}
+                <Loader loading={this.state.loading}/>
             </Grid>
         );
     }
