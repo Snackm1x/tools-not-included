@@ -168,7 +168,7 @@ class SeedList extends React.Component<Props, any> {
 
         var strings = lsGeysers.split(",");
         return strings.map<GeyserType>(s => GeyserType[s]);
-    }
+    };
 
     handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({ geyserTypes: event.target.value });

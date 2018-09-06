@@ -18,9 +18,9 @@ export interface Props extends WithStyles<typeof styles> {
 
 const styles = (theme: Theme) => createStyles({
     root: {
-        height: '100%',
+        height: 'calc(100% - 64px)',
         width: '100%',
-        background: "rgb(0, 0, 0, 0.7)",
+        background: theme.palette.background.default,
         position: 'absolute',
         display: 'flex',
         justifyContent: 'center',
