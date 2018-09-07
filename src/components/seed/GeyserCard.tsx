@@ -97,7 +97,7 @@ class GeyserCard extends React.Component<Props> {
                             <br />
 
                             <Typography>
-                                Calculated actual output: <b>{this.props.geyser.calculatedOutput}</b>
+                                Calculated actual output: <b>{isNaN(Number(this.props.geyser.calculatedOutput)) ?  this.props.geyser.calculatedOutput : Number(this.props.geyser.calculatedOutput).toFixed(2) + " g/s"} </b>
                             </Typography>
                         </Grid>
                     </CardContent>

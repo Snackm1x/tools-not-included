@@ -7,7 +7,7 @@ export default class Geyser {
     dormancyPeriod?: number;
     eruptionPeriod?: number;
     activeEruptionPeriod?: number;
-    calculatedOutput?: number;
+    calculatedOutput?: number | string;
 
     constructor(type: GeyserType, eruptionRate?: number, activeDormancyPeriod?: number, dormancyPeriod?: number, eruptionPeriod?: number, activeEruptionPeriod?: number) {
         this.type = type;
@@ -20,10 +20,10 @@ export default class Geyser {
         this.calculatedOutput = this.calculateOutput();
     };
 
-    private calculateOutput() : number {
+    private calculateOutput(): number | string {
         if (!(this.eruptionRate && this.activeDormancyPeriod && this.activeEruptionPeriod && this.dormancyPeriod && this.eruptionPeriod))
-            return 0;
+            return "N/A";
 
-        return 100; //TODO: calculate stuff
+        return (1 / this.eruptionPeriod) * (this.activeDormancyPeriod / this.dormancyPeriod) * this.eruptionRate * this.activeEruptionPeriod;
     }
 };
