@@ -15,10 +15,6 @@ import Seed from '../../types/classes/Seed';
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import _ThumbUp from '@material-ui/icons/ThumbUp';
-import ThumbUpOutlined from '@material-ui/icons/ThumbUpOutlined';
-import _ThumbDown from '@material-ui/icons/ThumbDown';
-import ThumbDownOutlined from '@material-ui/icons/ThumbDownOutlined';
 
 export interface Props extends WithStyles<typeof styles> {
     seed: Seed
@@ -58,14 +54,6 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    voteDiv: {
-        display: 'flex',
-        flexFlow: 'row nowrap',
-        alignItems: 'center',
-        justifyContent: 'center',
-        alignSelf: 'center',
-        flexGrow: 1
-    }
 });
 
 var geyserTypes: IGeyserProperties[] = [];
@@ -97,29 +85,19 @@ class SeedSummary extends React.Component<Props> {
                     </Grid>
 
                     <Grid container item className={this.props.classes.textContainer}>
-
-                        <Typography variant="caption">Upload date: {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
-
-                        <Grid className={this.props.classes.voteDiv}>
-                            <IconButton>
-                                <ThumbDownOutlined style={{ marginTop: 5 }} />
-                            </IconButton>
-
-                            <Typography variant="caption" style={{ marginLeft: 5, marginRight: 5 }}> 53664</Typography>
-
-                            <IconButton>
-                                <ThumbUpOutlined style={{ marginBottom: 5 }} />
-                            </IconButton>
+                        <Grid xs={12} sm={6}>
+                            <Typography variant="caption">Upload date: {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
                         </Grid>
+                        <Grid item xs={12} sm={6} style={{ display: 'inline-flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
+                            <Typography variant="caption">Report invalid</Typography>
 
-                        <Typography variant="caption">Report invalid</Typography>
+                            <Grid className={this.props.classes.favoriteDiv}>
+                                <Typography variant="caption" style={{ marginLeft: 20 }}> {isFavorite ? "Remove" : "Add"} favorite</Typography>
 
-                        <Grid className={this.props.classes.favoriteDiv}>
-                            <Typography variant="caption" style={{ marginLeft: 20 }}> {isFavorite ? "Remove" : "Add"} favorite</Typography>
-
-                            <IconButton style={{ color: red["900"] }}>
-                                {isFavorite ? <Favorite /> : <FavoriteBorder />}
-                            </IconButton>
+                                <IconButton style={{ color: red["900"] }}>
+                                    {isFavorite ? <Favorite /> : <FavoriteBorder />}
+                                </IconButton>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Card>
