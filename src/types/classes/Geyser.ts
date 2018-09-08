@@ -24,6 +24,6 @@ export default class Geyser {
         if (!(this.eruptionRate && this.activeDormancyPeriod && this.activeEruptionPeriod && this.dormancyPeriod && this.eruptionPeriod))
             return "N/A";
 
-        return (1 / this.eruptionPeriod) * (this.activeDormancyPeriod / this.dormancyPeriod) * this.eruptionRate * this.activeEruptionPeriod;
+        return (this.activeEruptionPeriod / this.eruptionPeriod) * (this.activeDormancyPeriod / this.dormancyPeriod) * this.eruptionRate;
     }
 };

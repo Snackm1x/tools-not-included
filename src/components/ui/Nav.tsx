@@ -28,8 +28,9 @@ const styles = (theme: Theme) =>
             width: '100%'
          },
         toolbar: {
-           maxWidth: 1300,
-           width: '100%'
+           maxWidth: 1150,
+           width: '100%',
+           padding: theme.spacing.unit
         },
         clickableDiv: {
             display: 'flex',

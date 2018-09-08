@@ -61,13 +61,53 @@ GeyserProperties.forEach((item, idx) => {
     geyserTypes.push(item)
 })
 
-class SeedSummary extends React.Component<Props> {
+export interface State {
+    favorite: boolean
+}
+
+class SeedSummary extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
+
+        this.state = {
+            favorite: this.isFavorite()
+        }
+    }
+
+    getFavorites = () : string[] => {
+        var favs = localStorage.getItem("favoriteSeeds");
+
+        if (favs === null)
+            return [];
+
+        return favs.split(',');       
+    }
+
+    isFavorite = () : boolean => {
+        var seedString = this.props.seed.seedNumber + "/" + this.props.seed.gameVersion.versionNumber;
+        var favorites = this.getFavorites();
+
+        return favorites.indexOf(seedString) > -1;
+    }
+
+    toggleFavorite = () => {
+        var seedString = this.props.seed.seedNumber + "/" + this.props.seed.gameVersion.versionNumber;
+
+        var favorites = this.getFavorites();
+
+        if (this.state.favorite) {
+            var index : number = favorites.indexOf(seedString);
+            favorites.splice(index, 1);
+            this.setState({favorite: false})
+        } else {
+            favorites.push(seedString);
+            this.setState({favorite: true})
+        }
+
+        localStorage.setItem("favoriteSeeds", favorites.join());
     }
 
     render() {
-        var isFavorite = true;
         return (
             <Grid item className={this.props.classes.root}>
                 <Card className={this.props.classes.card}>
@@ -85,17 +125,17 @@ class SeedSummary extends React.Component<Props> {
                     </Grid>
 
                     <Grid container item className={this.props.classes.textContainer}>
-                        <Grid xs={12} sm={6}>
+                        <Grid item xs={12} sm={6}>
                             <Typography variant="caption">Upload date: {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} style={{ display: 'inline-flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
                             <Typography variant="caption">Report invalid</Typography>
 
                             <Grid className={this.props.classes.favoriteDiv}>
-                                <Typography variant="caption" style={{ marginLeft: 20 }}> {isFavorite ? "Remove" : "Add"} favorite</Typography>
+                                <Typography variant="caption" style={{ marginLeft: 20 }}> {this.state.favorite ? "Remove" : "Add"} favorite</Typography>
 
-                                <IconButton style={{ color: red["900"] }}>
-                                    {isFavorite ? <Favorite /> : <FavoriteBorder />}
+                                <IconButton style={{ color: red["900"] }} onClick={this.toggleFavorite}>
+                                    {this.state.favorite ? <Favorite /> : <FavoriteBorder />}
                                 </IconButton>
                             </Grid>
                         </Grid>

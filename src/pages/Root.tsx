@@ -33,7 +33,7 @@ const styles = () =>
     contentGrid: {
       height: '100%',
       width: '100%',
-      maxWidth: 1300,
+      maxWidth: 1150,
     },
     contentGridUpper: {
       display: 'flex',
