@@ -16,7 +16,8 @@ const styles = (theme: Theme) =>
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
-            padding: theme.spacing.unit
+            padding: theme.spacing.unit,
+            maxHeight: '100%',
         },
         section: {
             height: '50%',
@@ -27,26 +28,39 @@ const styles = (theme: Theme) =>
         image: {
             maxHeight: '100%',
             maxWidth: '100%'
+        },
+        texts: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignContent: 'center',
+            justifyContent: 'center'
+        },
+        btn: {
+            width: 180,
+            alignSelf: 'center'
         }
     });
 
 class Error404 extends React.Component<WithStyles<typeof styles>> {
 
+    constructor(props: WithStyles<typeof styles>) {
+        super(props);
+    }
+
     render() {
         return (
             <Grid item container className={this.props.classes.root}>
-                <Grid item container className={this.props.classes.section} xs={12} sm={6} md={6} lg={6} xl={6}>
+                <Grid>
                     <img src='/images/outhouse.png' className={this.props.classes.image} />
                 </Grid>
-                <Grid item container className={this.props.classes.section} xs={12} sm={6} md={6} lg={6} xl={6}>
-                    <Typography  align="center" variant="display1">Crap, nothing to see here!</Typography>
-                    <br />
+                <Grid style={{ display: 'flex', justifyContent: 'center' }} className={this.props.classes.texts}>
+                    <Typography align="center" variant="display1">Crap, nothing to see here!</Typography>
                     <Typography align="center">Go back to the main page.</Typography>
                     <Typography align="center">If you truly believe you're seeing this incorrectly, please contact the developer.</Typography>
                     <br />
-                    <br />
-                    <Button variant="raised" color="primary" component={({ innerRef, ...props }) => <Link to="/" {...props} />}>Return to the Main Page</Button>
+                    <Button variant="raised" color="primary" className={this.props.classes.btn} component={({ innerRef, ...props }) => <Link to="/" {...props} />}>Return to the Main Page</Button>
                 </Grid>
+
             </Grid>
         );
     }
