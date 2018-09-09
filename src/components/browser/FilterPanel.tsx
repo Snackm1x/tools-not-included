@@ -22,8 +22,10 @@ import { GameUpgrade } from '../../types/enums/GameUpgrade';
 import IGameUpgradeDetails from "../../types/interfaces/IGameUpgradeDetails";
 import { GeyserProperties } from "../../constants/GeyserProperties";
 
-export interface Props extends WithStyles<typeof styles> {
+import LocalStorageKeys from "../../constants/LocalStorageKeys";
 
+export interface Props extends WithStyles<typeof styles> {
+    onSubmit: Function
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -80,33 +82,73 @@ const MenuProps = {
 
 export interface FilteringState {
     selectedGameUpgrades: string[] | string;
-    selectedSeed: string | null;
+    selectedSeed: number | null;
     selectedEarliestGameVersion: number | null;
     selectedLatestGameVersion: number | null;
     showFavoritesOnly: boolean;
+    min_GEYSER_CO2: number;
+    min_GEYSER_COOL_SLUSH: number;
+    min_GEYSER_NATGAS: number;
+    min_GEYSER_OIL: number;
+    min_GEYSER_WATER: number;
+    min_VENT_CHLORINE: number;
+    min_VENT_CO2: number;
+    min_VENT_COOL_STEAM: number;
+    min_VENT_GERMY_PO2: number;
+    min_VENT_HOT_STEAM: number;
+    min_VENT_HYDROGEN: number;
+    min_VENT_POLLUTED_H2O: number;
+    min_VENT_POLLUTED_PO2: number;
+    min_VOLCANO: number;
+    min_VOLCANO_COPPER: number;
+    min_VOLCANO_GOLD: number;
+    min_VOLCANO_IRON: number;
+    min_VOLCANO_MINOR: number;
 }
 
 class FilterPanel extends React.Component<Props, FilteringState & any> {
     constructor(props: Props) {
         super(props);
 
-        this.state = this.loadFilteringState();        
+        this.state = this.loadFilteringState();
     }
 
-    loadFilteringState = () : FilteringState => {
-        var state = {
+    getDefaultFilteringState = (): FilteringState => {
+        return {
             selectedGameUpgrades: [],
-            selectedSeed: "1234",
-            selectedEarliestGameVersion: 1,
-            selectedLatestGameVersion: 5,
-            showFavoritesOnly: false
+            selectedSeed: null,
+            selectedEarliestGameVersion: null,
+            selectedLatestGameVersion: null,
+            showFavoritesOnly: false,
+            min_GEYSER_CO2: 0,
+            min_GEYSER_COOL_SLUSH: 0,
+            min_GEYSER_NATGAS: 0,
+            min_GEYSER_OIL: 0,
+            min_GEYSER_WATER: 0,
+            min_VENT_CHLORINE: 0,
+            min_VENT_CO2: 0,
+            min_VENT_COOL_STEAM: 0,
+            min_VENT_GERMY_PO2: 0,
+            min_VENT_HOT_STEAM: 0,
+            min_VENT_HYDROGEN: 0,
+            min_VENT_POLLUTED_H2O: 0,
+            min_VENT_POLLUTED_PO2: 0,
+            min_VOLCANO: 0,
+            min_VOLCANO_COPPER: 0,
+            min_VOLCANO_GOLD: 0,
+            min_VOLCANO_IRON: 0,
+            min_VOLCANO_MINOR: 0
+        }
+    }
+
+    loadFilteringState = (): FilteringState => {
+        var lsState = localStorage.getItem(LocalStorageKeys.SeedBrowserFilteringState);
+
+        if (lsState === null || lsState.length < 1) {
+            return this.getDefaultFilteringState();
         }
 
-        Array.from(GeyserProperties).forEach((element) => {
-            state["min_" + element[0]] = 0;
-        })
-
-        return state;
+        return JSON.parse(lsState);
     };
 
     handleChange = (key: string) => (event: any) => {
@@ -118,31 +160,37 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
     };
 
     handleSubmit = () => {
-        localStorage.setItem("filteringStateEarliestGameVersion", this.state.selectedEarliestGameVersion.toString());
-        localStorage.setItem("filteringStateLatestGameVersion", this.state.selectedLatestGameVersion.toString());
-        localStorage.setItem("filteringStateSeed", this.state.selectedSeed.toString());
-        localStorage.setItem("filteringStateGameUpgrades", this.state.selectedGameUpgrades.toString());
+        localStorage.setItem(LocalStorageKeys.SeedBrowserFilteringState, JSON.stringify(this.state));
+        this.props.onSubmit(this.state);
+    }
+
+    setDefaultFilteringState = () => {
+        var newState = this.getDefaultFilteringState();
+        this.setState(newState);
+        localStorage.setItem(LocalStorageKeys.SeedBrowserFilteringState, JSON.stringify(newState));
     }
 
     handleReset = () => {
-
-    }
-
-    applySearch = () => {
-
+        this.setDefaultFilteringState();
     }
 
     render() {
         return (
             <Grid container item className={this.props.classes.root}>
                 <Paper className={this.props.classes.paper}>
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.handleSubmit();
+                    }}>
                         <Grid className={this.props.classes.paperGrid}>
                             <Grid item container className={this.props.classes.inputsGrid}>
                                 <TextField
                                     id="seed"
                                     label="Seed"
                                     type="number"
+                                    value={this.state.selectedSeed ? this.state.selectedSeed : ''}
+                                    onChange={this.handleChange("selectedSeed")}
                                     className={this.props.classes.textField}
                                     margin="normal" />
 
@@ -168,6 +216,8 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
                                     id="gameVersionStart"
                                     label="Earliest game version number"
                                     type="number"
+                                    value={this.state.selectedEarliestGameVersion ? this.state.selectedEarliestGameVersion : ''}
+                                    onChange={this.handleChange("selectedEarliestGameVersion")}
                                     className={this.props.classes.textField}
                                     margin="normal" />
 
@@ -175,6 +225,8 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
                                     id="gameVersionEnd"
                                     label="Latest game version number"
                                     type="number"
+                                    value={this.state.selectedLatestGameVersion ? this.state.selectedLatestGameVersion : ''}
+                                    onChange={this.handleChange("selectedLatestGameVersion")}
                                     className={this.props.classes.textField}
                                     margin="normal" />
                             </Grid>
