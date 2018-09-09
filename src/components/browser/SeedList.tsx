@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
-import { createMuiTheme } from "@material-ui/core/styles";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Grid from '@material-ui/core/Grid';
@@ -29,6 +28,8 @@ import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import { GeyserType } from '../../types/enums/GeyserType';
 import Seed from '../../types/classes/Seed';
 import SeedCard from "./SeedCard";
+import { FilteringState } from "./FilterPanel";
+import LocalStorageKeys from "../../constants/LocalStorageKeys";
 
 interface PaginationProps extends WithStyles<typeof actionsStyles> {
 
@@ -68,7 +69,6 @@ class TablePaginationActions extends React.Component<PaginationProps, any> {
 
     render() {
         const { classes, count, page, rowsPerPage } = this.props;
-        const theme = createMuiTheme({});
 
         return (
             <div className={classes.root}>
@@ -76,25 +76,25 @@ class TablePaginationActions extends React.Component<PaginationProps, any> {
                     onClick={this.handleFirstPageButtonClick}
                     disabled={page === 0}
                     aria-label="First Page">
-                    {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+                    <FirstPageIcon />
                 </IconButton>
                 <IconButton
                     onClick={this.handleBackButtonClick}
                     disabled={page === 0}
                     aria-label="Previous Page">
-                    {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                    <KeyboardArrowLeft />
                 </IconButton>
                 <IconButton
                     onClick={this.handleNextButtonClick}
                     disabled={page >= Math.ceil(count / rowsPerPage) - 1}
                     aria-label="Next Page">
-                    {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                    <KeyboardArrowRight />
                 </IconButton>
                 <IconButton
                     onClick={this.handleLastPageButtonClick}
                     disabled={page >= Math.ceil(count / rowsPerPage) - 1}
                     aria-label="Last Page">
-                    {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+                    <LastPageIcon />
                 </IconButton>
             </div>
         );
@@ -106,6 +106,7 @@ const TablePag = (withStyles(actionsStyles)(TablePaginationActions));
 
 export interface Props extends WithStyles<typeof styles> {
     seeds: Seed[];
+    filteringProps?: FilteringState
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -165,18 +166,19 @@ class SeedList extends React.Component<Props, any> {
     }
 
     loadGeyserTypes(): GeyserType[] {
-        var lsGeysers = localStorage.getItem("geyserTypes");
+        var lsGeysers = localStorage.getItem(LocalStorageKeys.SeedListShownGeyserTypes);
 
         if (lsGeysers === null || lsGeysers.length == 0)
             return defaultGeysers;
 
         var strings = lsGeysers.split(",");
+
         return strings.map<GeyserType>(s => GeyserType[s]);
     };
 
     handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({ geyserTypes: event.target.value });
-        localStorage.setItem("geyserTypes", event.target.value)
+        localStorage.setItem(LocalStorageKeys.SeedListShownGeyserTypes, event.target.value)
     };
 
     handleChangePage = (event: React.MouseEvent<HTMLButtonElement>, page: number) => {
@@ -188,7 +190,6 @@ class SeedList extends React.Component<Props, any> {
     };
 
     render() {
-
         const { rowsPerPage, page } = this.state;
         const rows = this.props.seeds;
 
@@ -230,7 +231,7 @@ class SeedList extends React.Component<Props, any> {
                 <Table>
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Seed) => {
-                            var url = "/seed/" + row.seedNumber + "/" + row.gameVersion.versionNumber;
+                            var url = "/seeds/" + row.seedNumber + "/" + row.gameVersion.versionNumber;
                             return (
                                 <TableRow key={row.id} >
                                     <TableCell className={this.props.classes.cellPadding}>

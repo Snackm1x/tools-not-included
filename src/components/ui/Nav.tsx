@@ -100,8 +100,8 @@ function Nav(props: Props) {
             </AppBar>
             <AppBar position="absolute" color="default" className={props.classes.appbar2}>
                 <Toolbar className={props.classes.toolbar2}>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/" {...props} />}>Browser</Typography>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/newseed" {...props} />}>Add new seed</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds" {...props} />}>Browser</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds/new" {...props} />}>Add new seed</Typography>
                 </Toolbar>
             </AppBar>
         </div>
