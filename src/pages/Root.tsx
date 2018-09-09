@@ -35,16 +35,17 @@ const styles = () =>
     contentGrid: {
       height: '100%',
       width: '100%',
-      maxWidth: 1300,
+      maxWidth: 1150,
     },
     contentGridUpper: {
       display: 'flex',
       justifyContent: 'center',
       flexDirection: 'column',
       alignItems: 'center',
-      height: 'calc(100% - 64px)',
+      height: 'calc(100% - 96px)',
       overflowY: 'scroll',
-      overflowX: 'auto',      marginTop: 64,
+      overflowX: 'auto',
+      marginTop: 96,
     },
   });
 

@@ -15,7 +15,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
-import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
@@ -128,16 +127,21 @@ const styles = (theme: Theme) => createStyles({
     },
     headerCell: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'flex-end',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        marginBottom: theme.spacing.unit
     },
     cellPadding: {
         padding: theme.spacing.unit,
         '&:last-child': {
             paddingRight: theme.spacing.unit
         }
-    }
+    },
+    pagbar: {
+        flexFlow: 'row wrap',
+        justifyContent: 'center',
+    },
 });
 
 const defaultGeysers = [
@@ -188,6 +192,19 @@ class SeedList extends React.Component<Props, any> {
         const { rowsPerPage, page } = this.state;
         const rows = this.props.seeds;
 
+        const pagination = <TablePagination
+            style={{ marginLeft: 'auto' }}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            ActionsComponent={TablePag}
+            classes={{
+                toolbar: this.props.classes.pagbar
+            }} />
+
         return (
             <Grid container item className={this.props.classes.root}>
                 <Grid container className={this.props.classes.headerCell}>
@@ -205,20 +222,11 @@ class SeedList extends React.Component<Props, any> {
                                         <Checkbox checked={this.state.geyserTypes.indexOf(element[1].geyserType) > -1} />
                                         <ListItemText primary={element[1].displayName} />
                                     </MenuItem>
-                            ))}
+                                ))}
                         </Select>
                     </FormControl>
-
-                    <TablePagination
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                        ActionsComponent={TablePag} />
+                    {pagination}
                 </Grid>
-
                 <Table>
                     <TableBody>
                         {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Seed) => {
@@ -234,21 +242,8 @@ class SeedList extends React.Component<Props, any> {
                             );
                         })}
                     </TableBody>
-
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                count={rows.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onChangePage={this.handleChangePage}
-                                onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                                ActionsComponent={TablePag} />
-                        </TableRow>
-                    </TableFooter>
                 </Table>
-
-
+                {pagination}
             </Grid>);
     }
 };
