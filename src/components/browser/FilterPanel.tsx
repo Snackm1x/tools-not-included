@@ -111,6 +111,8 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
         super(props);
 
         this.state = this.loadFilteringState();
+
+        this.props.onSubmit(this.state);
     }
 
     getDefaultFilteringState = (): FilteringState => {
@@ -168,6 +170,7 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
         var newState = this.getDefaultFilteringState();
         this.setState(newState);
         localStorage.setItem(LocalStorageKeys.SeedBrowserFilteringState, JSON.stringify(newState));
+        this.props.onSubmit(newState);
     }
 
     handleReset = () => {
