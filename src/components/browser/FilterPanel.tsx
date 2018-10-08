@@ -31,11 +31,11 @@ export interface Props extends WithStyles<typeof styles> {
 const styles = (theme: Theme) => createStyles({
     root: {
         width: '100%',
-        padding: theme.spacing.unit
     },
     paper: {
         width: '100%',
         padding: theme.spacing.unit,
+        margin: theme.spacing.unit,
         paddingBottom: 0
     },
     textField: {
