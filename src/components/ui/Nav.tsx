@@ -102,6 +102,7 @@ function Nav(props: Props) {
                 <Toolbar className={props.classes.toolbar2}>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds" {...props} />}>Browser</Typography>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds/new" {...props} />}>Add new seed</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds/newjson" {...props} />}>Import a JSON string</Typography>
                 </Toolbar>
             </AppBar>
         </div>

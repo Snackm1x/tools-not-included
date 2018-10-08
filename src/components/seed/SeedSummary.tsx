@@ -16,6 +16,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
+import * as LocalStorage from '../../utils/LocalStorageAccess'; 
+import LocalStorageKeys from "../../constants/LocalStorageKeys";
+
 export interface Props extends WithStyles<typeof styles> {
     seed: Seed
 }
@@ -74,18 +77,9 @@ class SeedSummary extends React.Component<Props, State> {
         }
     }
 
-    getFavorites = () : string[] => {
-        var favs = localStorage.getItem("favoriteSeeds");
-
-        if (favs === null)
-            return [];
-
-        return favs.split(',');       
-    }
-
     isFavorite = () : boolean => {
         var seedString = this.props.seed.seedNumber + "/" + this.props.seed.gameVersion.versionNumber;
-        var favorites = this.getFavorites();
+        var favorites = LocalStorage.getFavorites();
 
         return favorites.indexOf(seedString) > -1;
     }
@@ -93,7 +87,7 @@ class SeedSummary extends React.Component<Props, State> {
     toggleFavorite = () => {
         var seedString = this.props.seed.seedNumber + "/" + this.props.seed.gameVersion.versionNumber;
 
-        var favorites = this.getFavorites();
+        var favorites = LocalStorage.getFavorites();
 
         if (this.state.favorite) {
             var index : number = favorites.indexOf(seedString);
@@ -104,7 +98,7 @@ class SeedSummary extends React.Component<Props, State> {
             this.setState({favorite: true})
         }
 
-        localStorage.setItem("favoriteSeeds", favorites.join());
+        localStorage.setItem(LocalStorageKeys.FavoriteSeeds, favorites.join());
     }
 
     render() {

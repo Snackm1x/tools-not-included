@@ -43,7 +43,7 @@ class Loader extends React.Component<Props> {
     }
 
     public static defaultProps: Partial<Props> = {
-        color: "secondary"
+        color: "primary"
     };
 
     render() {

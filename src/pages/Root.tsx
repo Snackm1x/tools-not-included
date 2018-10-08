@@ -14,6 +14,7 @@ import AboutPage from './AboutPage';
 import Error404 from './Error404';
 import Nav from '../components/ui/Nav';
 import '../fonts/fonts.css';
+import AddSeedPage from './AddSeedPage';
 
 
 const myTheme = createMuiTheme({
@@ -76,6 +77,7 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
                   <Route exact path="/" component={SeedBrowserPage} />
                   <Route exact path="/seeds" component={SeedBrowserPage} />
                   <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
+                  <Route exact path="/seeds/new" component={AddSeedPage} />
                   <Route exact path="/about" component={AboutPage} />
                   <Route component={Error404} />
                 </Switch>

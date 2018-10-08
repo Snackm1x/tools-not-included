@@ -29,7 +29,10 @@ import { GeyserType } from '../../types/enums/GeyserType';
 import Seed from '../../types/classes/Seed';
 import SeedCard from "./SeedCard";
 import { FilteringState } from "./FilterPanel";
+
 import LocalStorageKeys from "../../constants/LocalStorageKeys";
+import * as LocalStorage from "../../utils/LocalStorageAccess";
+
 
 interface PaginationProps extends WithStyles<typeof actionsStyles> {
 
@@ -203,12 +206,25 @@ class SeedList extends React.Component<Props, any> {
         }
     }
 
+    isFavorite = (seed: Seed, favorites : string[]): boolean => {
+        var seedString = seed.seedNumber + "/" + seed.gameVersion.versionNumber;
+
+        return favorites.indexOf(seedString) > -1;
+    }
+
     applyFilter() {
         if (!this.props.filteringProps)
             return;
 
         var filter = this.props.filteringProps;
         var filtered = this.state.seeds;
+
+        var favorites = LocalStorage.getFavorites();
+        if (filter.showFavoritesOnly && favorites != null && favorites.length > 0) {
+            filtered = filtered.filter((s: Seed) => {
+                return this.isFavorite(s, favorites);
+            })
+        }
 
         if (filter.selectedSeed != null && filter.selectedSeed > 0) {
             filtered = filtered.filter(function (e: Seed) { return e.seedNumber == filter.selectedSeed!.toString() })
@@ -226,75 +242,75 @@ class SeedList extends React.Component<Props, any> {
             filtered = filtered.filter(function (e: Seed) { return filter.selectedGameUpgrades.indexOf(e.gameVersion.gameUpgrade) > -1 })
         }
 
-        if (filter.min_GEYSER_CO2 != null ) {
+        if (filter.min_GEYSER_CO2 != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.GEYSER_CO2)! >= filter.min_GEYSER_CO2 })
         }
 
-        if (filter.min_GEYSER_COOL_SLUSH != null ) {
+        if (filter.min_GEYSER_COOL_SLUSH != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.GEYSER_COOL_SLUSH)! >= filter.min_GEYSER_COOL_SLUSH })
         }
 
-        if (filter.min_GEYSER_NATGAS != null ) {
+        if (filter.min_GEYSER_NATGAS != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.GEYSER_NATGAS)! >= filter.min_GEYSER_NATGAS })
         }
 
-        if (filter.min_GEYSER_OIL != null ) {
+        if (filter.min_GEYSER_OIL != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.GEYSER_OIL)! >= filter.min_GEYSER_OIL })
         }
 
-        if (filter.min_GEYSER_WATER != null ) {
+        if (filter.min_GEYSER_WATER != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.GEYSER_WATER)! >= filter.min_GEYSER_WATER })
         }
 
-        if (filter.min_VENT_CHLORINE != null ) {
+        if (filter.min_VENT_CHLORINE != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_CHLORINE)! >= filter.min_VENT_CHLORINE })
         }
 
-        if (filter.min_VENT_CO2 != null ) {
+        if (filter.min_VENT_CO2 != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_CO2)! >= filter.min_VENT_CO2 })
         }
 
-        if (filter.min_VENT_COOL_STEAM != null ) {
+        if (filter.min_VENT_COOL_STEAM != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_COOL_STEAM)! >= filter.min_VENT_COOL_STEAM })
         }
 
-        if (filter.min_VENT_GERMY_PO2 != null ) {
+        if (filter.min_VENT_GERMY_PO2 != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_GERMY_PO2)! >= filter.min_VENT_GERMY_PO2 })
         }
 
-        if (filter.min_VENT_HOT_STEAM != null ) {
+        if (filter.min_VENT_HOT_STEAM != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_HOT_STEAM)! >= filter.min_VENT_HOT_STEAM })
         }
 
-        if (filter.min_VENT_HYDROGEN != null ) {
+        if (filter.min_VENT_HYDROGEN != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_HYDROGEN)! >= filter.min_VENT_HYDROGEN })
         }
 
-        if (filter.min_VENT_POLLUTED_H2O != null ) {
+        if (filter.min_VENT_POLLUTED_H2O != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_POLLUTED_H2O)! >= filter.min_VENT_POLLUTED_H2O })
         }
 
-        if (filter.min_VENT_POLLUTED_PO2 != null ) {
+        if (filter.min_VENT_POLLUTED_PO2 != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VENT_POLLUTED_PO2)! >= filter.min_VENT_POLLUTED_PO2 })
         }
 
-        if (filter.min_VOLCANO != null ) {
+        if (filter.min_VOLCANO != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VOLCANO)! >= filter.min_VOLCANO })
         }
 
-        if (filter.min_VOLCANO_COPPER != null ) {
+        if (filter.min_VOLCANO_COPPER != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VOLCANO_COPPER)! >= filter.min_VOLCANO_COPPER })
         }
 
-        if (filter.min_VOLCANO_GOLD != null ) {
+        if (filter.min_VOLCANO_GOLD != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VOLCANO_GOLD)! >= filter.min_VOLCANO_GOLD })
         }
 
-        if (filter.min_VOLCANO_IRON != null ) {
+        if (filter.min_VOLCANO_IRON != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VOLCANO_IRON)! >= filter.min_VOLCANO_IRON })
         }
 
-        if (filter.min_VOLCANO_MINOR != null ) {
+        if (filter.min_VOLCANO_MINOR != null) {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VOLCANO_MINOR)! >= filter.min_VOLCANO_MINOR })
         }
 
