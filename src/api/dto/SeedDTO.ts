@@ -1,6 +1,6 @@
 export default interface SeedDTO {
     id: string;
-    seedNumber: string;
+    seedNumber: number;
     gameVersion: {
         gameUpgrade: string;
         versionNumber: number;

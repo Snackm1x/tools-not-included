@@ -7,13 +7,13 @@ import SeedDTO from '../../api/dto/SeedDTO';
 
 export default class Seed {
     id?: string;
-    seedNumber: string;
+    seedNumber: number;
     gameVersion: GameVersion;
     geysers: Array<Geyser>;
     geyserQuantities: Map<GeyserType, number>;
     creationDate: Date;
 
-    constructor(seed: string, gameVersion: GameVersion, geysers: Array<Geyser>, uploadDate: Date = new Date(), id?: string) {
+    constructor(seed: number, gameVersion: GameVersion, geysers: Array<Geyser>, uploadDate: Date = new Date(), id?: string) {
         this.id = id;
         this.seedNumber = seed;
         this.gameVersion = gameVersion;

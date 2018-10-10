@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { withStyles, WithStyles, createStyles, createMuiTheme } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -27,6 +27,9 @@ import { GameUpgrade } from '../../types/enums/GameUpgrade';
 import IGameUpgradeDetails from "../../types/interfaces/IGameUpgradeDetails";
 import { GeyserProperties } from "../../constants/GeyserProperties";
 import { Link } from "react-router-dom";
+import SeedGeysers from "../seed/SeedGeysers";
+import Geyser from "../../types/classes/Geyser";
+import { GeyserType } from "../../types/enums/GeyserType";
 
 export interface Props extends WithStyles<typeof styles> {
 
@@ -35,7 +38,17 @@ export interface Props extends WithStyles<typeof styles> {
 interface State {
     seedNumber: number,
     gameUpgrade: GameUpgrade,
-    gameVersion: number
+    gameVersion: number,
+    geyserList: Geyser[],
+    geyserType: GeyserType,
+
+    basicInfoCheckPassed: BasicInfoStatus,
+}
+
+enum BasicInfoStatus {
+    FRESH = 'FRESH',
+    PASSED = 'PASSED',
+    DUPLICATE_FOUND = 'DUPLICATE_FOUND'
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -58,6 +71,14 @@ const styles = (theme: Theme) => createStyles({
         width: 200,
         minWidth: 200,
     },
+    textFieldGeyser: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        marginBottom: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 2,
+        width: 150,
+        minWidth: 150,
+    },
     paperGrid: {
         display: 'flex',
         flexDirection: 'column',
@@ -70,7 +91,6 @@ const styles = (theme: Theme) => createStyles({
     },
     expPanelGrid: {
         width: '100%',
-        height: '100%',
         margin: theme.spacing.unit,
     },
     expPanel: {
@@ -85,12 +105,29 @@ const styles = (theme: Theme) => createStyles({
         margin: theme.spacing.unit,
     },
 });
+function createData(type: GeyserType, eruptionRate?: number, activeDormancyPeriod?: number, dormancyPeriod?: number, eruptionPeriod?: number, activeEruptionPeriod?: number) {
+    return new Geyser(type, eruptionRate, activeDormancyPeriod, dormancyPeriod, eruptionPeriod, activeEruptionPeriod)
+}
+const geysers = [
+    createData(GeyserType.GEYSER_COOL_SLUSH, 5400, 163, 233, 1422, 250),
+    createData(GeyserType.GEYSER_COOL_SLUSH),
+    createData(GeyserType.GEYSER_WATER, 5400, 13, 243, 2432, 300),
+    createData(GeyserType.GEYSER_NATGAS),
+    createData(GeyserType.VENT_CHLORINE, 5400, 13, 243, 2432, 300),
+    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
+    createData(GeyserType.VENT_HYDROGEN, 5400, 13, 243, 2432, 300),
+    createData(GeyserType.GEYSER_NATGAS, 5400, 13, 243, 2432, 300),
+    createData(GeyserType.VENT_POLLUTED_H2O),
+    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
+    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
+    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
+];
 
 class SeedAdder extends React.Component<Props, State & any> {
     constructor(props: Props) {
         super(props);
 
-        this.state = { gameUpgrade: GameUpgrades.values().next().value.upgrade };
+        this.state = { gameUpgrade: GameUpgrades.values().next().value.upgrade, geyserType: GeyserProperties.values().next().value.geyserType, basicInfoCheckPassed: BasicInfoStatus.FRESH, geyserList: geysers };
     }
 
     handleChange = (event: any) => {
@@ -101,12 +138,7 @@ class SeedAdder extends React.Component<Props, State & any> {
 
         return (
             <Grid container item className={this.props.classes.root}>
-                <form style={{ width: '100%' }} onSubmit={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    //  this.handleSubmit();
-                }}>
-
+                <Grid container >
                     <Grid className={this.props.classes.expPanelGrid} container>
                         <ExpansionPanel className={this.props.classes.expPanel} defaultExpanded>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -131,78 +163,78 @@ class SeedAdder extends React.Component<Props, State & any> {
 
 
                     <Paper className={this.props.classes.paper}>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            //  this.handleSubmit();
+                        }}>
+                            <Grid className={this.props.classes.paperGrid} container>
+                                <Typography variant='subheading'>Basic game info</Typography>
 
-                        <Grid className={this.props.classes.paperGrid}>
-                            <Typography variant='subheading'>Basic game info</Typography>
-                            <Grid item container className={this.props.classes.inputsGrid}>
-                                <TextField
-                                    id="seed"
-                                    name="seedNumber"
-                                    label="Seed"
-                                    type="number"
-                                    value={this.state.seedNumber}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textField}
-                                    margin="normal" />
-
-                                <FormControl className={this.props.classes.textField}>
-                                    <InputLabel htmlFor="game-upgrade">Game Upgrade</InputLabel>
-                                    <Select
-                                        value={this.state.gameUpgrade}
+                                <Grid item container className={this.props.classes.inputsGrid}>
+                                    <TextField
+                                        id="seed"
+                                        name="seedNumber"
+                                        label="Seed"
+                                        type="number"
+                                        value={this.state.seedNumber}
                                         onChange={this.handleChange}
-                                        inputProps={{
-                                            name: 'gameUpgrade',
-                                            id: 'game-upgrade',
-                                        }}>
-                                        {Array.from(GameUpgrades).map((element) => (
-                                            <MenuItem key={element[1].upgrade} value={element[1].upgrade}>{element[1].displayName}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                        className={this.props.classes.textField}
+                                        margin="normal"
+                                        disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED} />
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Game version number"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textField}
-                                    margin="normal" />
-                                <Grid className={this.props.classes.inputsGrid}>
-                                    <Button variant="raised" color="primary" className={this.props.classes.singleButton}></Button>
+                                    <FormControl className={this.props.classes.textField}>
+                                        <InputLabel htmlFor="game-upgrade">Game Upgrade</InputLabel>
+                                        <Select
+                                            value={this.state.gameUpgrade}
+                                            onChange={this.handleChange}
+                                            disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED}
+                                            inputProps={{
+                                                name: 'gameUpgrade',
+                                                id: 'game-upgrade',
+                                            }}>
+                                            {Array.from(GameUpgrades).map((element) => (
+                                                <MenuItem key={element[1].upgrade} value={element[1].upgrade}>{element[1].displayName}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+
+                                    <TextField
+                                        id="gameVersion"
+                                        name="gameVersion"
+                                        label="Game version number"
+                                        type="number"
+                                        disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED}
+                                        value={this.state.gameVersion}
+                                        onChange={this.handleChange}
+                                        className={this.props.classes.textField}
+                                        margin="normal" />
                                 </Grid>
-                            </Grid>
-                        </Grid>
 
+
+                                {this.state.basicInfoCheckPassed != BasicInfoStatus.PASSED && <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton}>Continue</Button>}
+
+                            </Grid>
+                        </form>
                     </Paper>
+
+
 
                     <Paper className={this.props.classes.paper}>
-
-                        <Grid className={this.props.classes.paperGrid}>
-                            <Typography variant='subheading'>Geyser info</Typography>
+                        <Grid className={this.props.classes.paperGrid} container>
+                            <Typography variant='subheading'>Add new geyser</Typography>
                             <Grid item container className={this.props.classes.inputsGrid}>
-                                <TextField
-                                    id="seed"
-                                    name="seedNumber"
-                                    label="Seed"
-                                    type="number"
-                                    value={this.state.seedNumber}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textField}
-                                    margin="normal" />
-
                                 <FormControl className={this.props.classes.textField}>
-                                    <InputLabel htmlFor="game-upgrade">Game Upgrade</InputLabel>
+                                    <InputLabel htmlFor="geyser-type">Geyser Type</InputLabel>
                                     <Select
-                                        value={this.state.gameUpgrade}
+                                        value={this.state.geyserType}
                                         onChange={this.handleChange}
                                         inputProps={{
-                                            name: 'gameUpgrade',
-                                            id: 'game-upgrade',
+                                            name: 'geyserType',
+                                            id: 'geyser-type',
                                         }}>
-                                        {Array.from(GameUpgrades).map((element) => (
-                                            <MenuItem key={element[1].upgrade} value={element[1].upgrade}>{element[1].displayName}</MenuItem>
+                                        {Array.from(GeyserProperties).map((element) => (
+                                            <MenuItem key={element[1].geyserType} value={element[1].geyserType}>{element[1].displayName}</MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
@@ -210,16 +242,67 @@ class SeedAdder extends React.Component<Props, State & any> {
                                 <TextField
                                     id="gameVersion"
                                     name="gameVersion"
-                                    label="Game version number"
+                                    label="Emission rate (g/s)"
                                     type="number"
                                     value={this.state.gameVersion}
                                     onChange={this.handleChange}
-                                    className={this.props.classes.textField}
+                                    className={this.props.classes.textFieldGeyser}
                                     margin="normal" />
+
+                                <TextField
+                                    id="gameVersion"
+                                    name="gameVersion"
+                                    label="Erupts for ... s"
+                                    type="number"
+                                    value={this.state.gameVersion}
+                                    onChange={this.handleChange}
+                                    className={this.props.classes.textFieldGeyser}
+                                    margin="normal" />
+
+                                <TextField
+                                    id="gameVersion"
+                                    name="gameVersion"
+                                    label="Every ... s"
+                                    type="number"
+                                    value={this.state.gameVersion}
+                                    onChange={this.handleChange}
+                                    className={this.props.classes.textFieldGeyser}
+                                    margin="normal" />
+
+                                <TextField
+                                    id="gameVersion"
+                                    name="gameVersion"
+                                    label="Active for ... cycles"
+                                    type="number"
+                                    value={this.state.gameVersion}
+                                    onChange={this.handleChange}
+                                    className={this.props.classes.textFieldGeyser}
+                                    margin="normal" />
+
+                                <TextField
+                                    id="gameVersion"
+                                    name="gameVersion"
+                                    label="Every ... cycles"
+                                    type="number"
+                                    value={this.state.gameVersion}
+                                    onChange={this.handleChange}
+                                    className={this.props.classes.textFieldGeyser}
+                                    margin="normal" />
+
                             </Grid>
+                            <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton}>Add</Button>
+
                         </Grid>
                     </Paper>
-                </form>
+                </Grid>
+                <SeedGeysers geysers={this.state.geyserList} />
+                <Grid container>
+                    <Paper className={this.props.classes.paper}>
+                        <Grid className={this.props.classes.paperGrid} container>
+                            <Typography variant='subheading'>Summary and save button go here</Typography>
+                        </Grid>
+                    </Paper>
+                </Grid>
             </Grid>);
     }
 };

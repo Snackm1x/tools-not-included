@@ -227,7 +227,7 @@ class SeedList extends React.Component<Props, any> {
         }
 
         if (filter.selectedSeed != null && filter.selectedSeed > 0) {
-            filtered = filtered.filter(function (e: Seed) { return e.seedNumber == filter.selectedSeed!.toString() })
+            filtered = filtered.filter(function (e: Seed) { return e.seedNumber == filter.selectedSeed })
         }
 
         if (filter.selectedEarliestGameVersion != null && filter.selectedEarliestGameVersion > 0) {

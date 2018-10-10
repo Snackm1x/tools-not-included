@@ -72,6 +72,7 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
                   <Route exact path="/" component={SeedBrowserPage} />
                   <Route exact path="/seeds" component={SeedBrowserPage} />
                   <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
+                  <Route exact path="/seeds/edit/:seed/:version" />
                   <Route exact path="/seeds/new" component={AddSeedPage} />
                   <Route exact path="/about" component={AboutPage} />
                   <Route component={Error404} />
