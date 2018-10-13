@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Info from '@material-ui/icons/Info';
 import { Link } from 'react-router-dom'
+import ComponentURL from "src/constants/ComponentURL";
 
 const styles = (theme: Theme) => {
 
@@ -82,7 +83,7 @@ function Nav(props: Props) {
         <div className={props.classes.root}>
             <AppBar position="fixed" color="primary" className={props.classes.appbar}>
                 <Toolbar className={props.classes.toolbar}>
-                    <Grid className={props.classes.clickableDiv} component={({ innerRef, ...props }) => <Link to="/" {...props} />}>
+                    <Grid className={props.classes.clickableDiv} component={({ innerRef, ...props }) => <Link to={ComponentURL.Home} {...props} />}>
                         <img className={props.classes.logo} src='/images/oxygen_helmet.png' />
                         <Typography variant="title" color="inherit" >
                             Oxygen Not Included Seeds Browser
@@ -91,7 +92,7 @@ function Nav(props: Props) {
 
                     <div className={props.classes.buttons}>
                         <Tooltip title="About">
-                            <IconButton color="inherit" component={({ innerRef, ...props }) => <Link to="/about" {...props} />} >
+                            <IconButton color="inherit" component={({ innerRef, ...props }) => <Link to={ComponentURL.About} {...props} />} >
                                 <Info />
                             </IconButton>
                         </Tooltip>
@@ -100,9 +101,9 @@ function Nav(props: Props) {
             </AppBar>
             <AppBar position="absolute" color="default" className={props.classes.appbar2}>
                 <Toolbar className={props.classes.toolbar2}>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds" {...props} />}>Browser</Typography>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds/new" {...props} />}>Add new seed</Typography>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to="/seeds/newjson" {...props} />}>Import a JSON string</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedBrowser} {...props} />}>Browser</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.AddSeed} {...props} />}>Add new seed</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo}{...props} />}>In-game upload</Typography>
                 </Toolbar>
             </AppBar>
         </div>

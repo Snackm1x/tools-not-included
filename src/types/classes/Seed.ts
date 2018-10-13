@@ -7,14 +7,21 @@ import SeedDTO from '../../api/dto/SeedDTO';
 
 export default class Seed {
     id?: string;
+    creationDate: Date;
+    modVersion: number | undefined;
+    addedByMod: boolean;
+
     seedNumber: number;
     gameVersion: GameVersion;
     geysers: Array<Geyser>;
     geyserQuantities: Map<GeyserType, number>;
-    creationDate: Date;
+    
 
-    constructor(seed: number, gameVersion: GameVersion, geysers: Array<Geyser>, uploadDate: Date = new Date(), id?: string) {
+    constructor(seed: number, gameVersion: GameVersion, geysers: Array<Geyser>, uploadDate: Date = new Date(), addedByMod:boolean, modVersion?: number, id?: string) {
         this.id = id;
+        this.addedByMod = addedByMod;
+        this.modVersion = modVersion;
+
         this.seedNumber = seed;
         this.gameVersion = gameVersion;
         this.geysers = geysers;
@@ -40,9 +47,9 @@ export default class Seed {
         var geysers : Geyser[] = [];
 
         dto.geysers.forEach(element => {
-            geysers.push(new Geyser(element.type as GeyserType, element.eruptionRate, element.activeDormancyPeriod, element.dormancyPeriod, element.eruptionPeriod, element.activeEruptionPeriod));
+            geysers.push(new Geyser(element.geyserType as GeyserType, element.eruptionRate, element.activeDormancyPeriod, element.dormancyPeriod, element.eruptionPeriod, element.activeEruptionPeriod));
         });
 
-        return new Seed(dto.seedNumber, new GameVersion(dto.gameVersion.gameUpgrade as GameUpgrade, dto.gameVersion.versionNumber), geysers, new Date(dto.creationDate), dto.id);
+        return new Seed(dto.seed, new GameVersion(dto.gameVersion.gameUpgrade as GameUpgrade, dto.gameVersion.versionNumber), geysers, new Date(dto.creationDate), dto.addedByMod, dto.modVersion, dto.id);
     }
 };

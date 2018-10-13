@@ -1,12 +1,12 @@
 export default interface SeedDTO {
     id: string;
-    seedNumber: number;
+    seed: number;
     gameVersion: {
         gameUpgrade: string;
         versionNumber: number;
     };
     geysers: {
-        type: string;
+        geyserType: string;
         activeDormancyPeriod: number;
         dormancyPeriod: number;
         activeEruptionPeriod: number;     
@@ -14,4 +14,6 @@ export default interface SeedDTO {
         eruptionRate: number;        
     }[];
     creationDate: Date;
+    modVersion: number;
+    addedByMod: boolean;
 }

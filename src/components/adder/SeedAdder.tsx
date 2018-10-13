@@ -30,6 +30,7 @@ import { Link } from "react-router-dom";
 import SeedGeysers from "../seed/SeedGeysers";
 import Geyser from "../../types/classes/Geyser";
 import { GeyserType } from "../../types/enums/GeyserType";
+import ComponentURL from "src/constants/ComponentURL";
 
 export interface Props extends WithStyles<typeof styles> {
 
@@ -155,7 +156,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                                 <Typography align='center'>I gotchu! I have written a mod that you can install that will export your maps that you uncover in debug mode to a file that you can upload here with all details.</Typography>
                                 <br />
                                 <Grid className={this.props.classes.inputsGrid}>
-                                    <Button variant="raised" color="primary" className={this.props.classes.singleButton} component={({ innerRef, ...props }) => <Link to="/seeds/newjson" {...props} />}>I'm cool and I want to import a JSON from the mod, take me there!</Button>
+                                    <Button variant="raised" color="primary" className={this.props.classes.singleButton} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo} {...props} />}>I'm cool and I want to import a world directly from the game, take me there!</Button>
                                 </Grid>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

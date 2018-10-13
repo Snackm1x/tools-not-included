@@ -13,6 +13,8 @@ import Error404 from './Error404';
 import Nav from '../components/ui/Nav';
 import '../fonts/fonts.css';
 import AddSeedPage from './AddSeedPage';
+import SeedModImportInfo from 'src/components/adder/SeedModImportInfo';
+import ComponentURL from 'src/constants/ComponentURL';
 
 
 const myTheme = createMuiTheme({
@@ -69,12 +71,13 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
               <Nav />
               <Grid className={classes.contentGrid}>
                 <Switch>
-                  <Route exact path="/" component={SeedBrowserPage} />
-                  <Route exact path="/seeds" component={SeedBrowserPage} />
+                  <Route exact path={ComponentURL.Home} component={SeedBrowserPage} />
+                  <Route exact path={ComponentURL.SeedBrowser}  component={SeedBrowserPage} />
                   <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
                   <Route exact path="/seeds/edit/:seed/:version" />
-                  <Route exact path="/seeds/new" component={AddSeedPage} />
-                  <Route exact path="/about" component={AboutPage} />
+                  <Route exact path={ComponentURL.AddSeed}  component={AddSeedPage} />
+                  <Route exact path={ComponentURL.SeedModImportInfo}  component={SeedModImportInfo} />
+                  <Route exact path={ComponentURL.About} component={AboutPage} />
                   <Route component={Error404} />
                 </Switch>
               </Grid>
