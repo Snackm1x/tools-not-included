@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { withStyles, WithStyles, createStyles, createMuiTheme } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -27,6 +27,11 @@ import { GameUpgrade } from '../../types/enums/GameUpgrade';
 import IGameUpgradeDetails from "../../types/interfaces/IGameUpgradeDetails";
 import { GeyserProperties } from "../../constants/GeyserProperties";
 import { Link } from "react-router-dom";
+import SeedGeysers from "../seed/SeedGeysers";
+import Geyser from "../../types/classes/Geyser";
+import { GeyserType } from "../../types/enums/GeyserType";
+import ComponentURL from "src/constants/ComponentURL";
+import API from "src/api/api";
 
 export interface Props extends WithStyles<typeof styles> {
 
@@ -35,7 +40,25 @@ export interface Props extends WithStyles<typeof styles> {
 interface State {
     seedNumber: number,
     gameUpgrade: GameUpgrade,
-    gameVersion: number
+    gameVersion: number,
+
+    geyserType: GeyserType,
+    eruptionRate: number,
+    activeEruptionPeriod: number,
+    eruptionPeriod: number,
+    activeDormancyPeriod: number,
+    dormancyPeriod: number
+
+    geyserList: Geyser[],
+
+    basicInfoCheckPassed: BasicInfoStatus,
+    tenGeysersAdded: boolean
+}
+
+enum BasicInfoStatus {
+    FRESH = 'FRESH',
+    PASSED = 'PASSED',
+    DUPLICATE_FOUND = 'DUPLICATE_FOUND'
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -58,6 +81,14 @@ const styles = (theme: Theme) => createStyles({
         width: 200,
         minWidth: 200,
     },
+    textFieldGeyser: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        marginBottom: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 2,
+        width: 150,
+        minWidth: 150,
+    },
     paperGrid: {
         display: 'flex',
         flexDirection: 'column',
@@ -70,7 +101,6 @@ const styles = (theme: Theme) => createStyles({
     },
     expPanelGrid: {
         width: '100%',
-        height: '100%',
         margin: theme.spacing.unit,
     },
     expPanel: {
@@ -90,23 +120,52 @@ class SeedAdder extends React.Component<Props, State & any> {
     constructor(props: Props) {
         super(props);
 
-        this.state = { gameUpgrade: GameUpgrades.values().next().value.upgrade };
+        this.state = { gameUpgrade: GameUpgrades.values().next().value.upgrade, seedNumber: "", gameVersion: "", geyserType: GeyserProperties.values().next().value.geyserType, basicInfoCheckPassed: BasicInfoStatus.FRESH, geyserList: [] };
     }
 
     handleChange = (event: any) => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    verifySeed = () => {
+        if (!this.state.seedNumber || !this.state.gameVersion || !this.state.gameUpgrade) return;
+
+        this.setState({ loading: true });
+        var url = "seeds/exists/" + this.state.seedNumber + "/" + this.state.gameVersion;
+        API.get<boolean>(url)
+            .then(res => {
+
+                if (res.data == true) {
+                    this.setState({ basicInfoCheckPassed: BasicInfoStatus.DUPLICATE_FOUND })
+                } else if (res.data == false) {
+                    this.setState({ basicInfoCheckPassed: BasicInfoStatus.PASSED })
+                }
+
+                this.setState({ loading: false });
+            });
+    }
+
+    getProperGeyserStatValue = (value: any) => {
+        if (!value) return null;
+
+        if (value > 0) return value;
+
+        return null;
+    }
+
+    addGeyserToTheList = () => {
+        var g = new Geyser(this.state.geyserType, this.getProperGeyserStatValue(this.state.eruptionRate), this.getProperGeyserStatValue(this.state.activeDormancyPeriod),
+            this.getProperGeyserStatValue(this.state.dormancyPeriod), this.getProperGeyserStatValue(this.state.eruptionPeriod), this.getProperGeyserStatValue(this.state.activeEruptionPeriod));
+
+        var gList = this.state.geyserList;
+        gList.push(g);
+        this.setState({ geyserList: gList, eruptionRate: "", activeDormancyPeriod: "", dormancyPeriod: "", eruptionPeriod: "", activeEruptionPeriod: "" });
+    }
     render() {
 
         return (
             <Grid container item className={this.props.classes.root}>
-                <form style={{ width: '100%' }} onSubmit={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    //  this.handleSubmit();
-                }}>
-
+                <Grid container >
                     <Grid className={this.props.classes.expPanelGrid} container>
                         <ExpansionPanel className={this.props.classes.expPanel} defaultExpanded>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -117,13 +176,13 @@ class SeedAdder extends React.Component<Props, State & any> {
                                 <Typography align='center'>The seed number can be found at the bottom of the pause menu when you press Esc in game and the game version number is visible at the bottom of the screen in the main menu. </Typography>
                                 <br />
                                 <Typography align='center'>Next, add geysers that are on the map. Take your time to add all of them! You may not save a seed without at least 8 geysers added. Do not add partially explored maps - you should uncover the map completely first.</Typography>
-                                <Typography align='center'>Geyser details such as emission rates and active times do not need to be added, but entries that include all information will have an icon specifying that.</Typography>
+                                <Typography align='center'>Geyser details such as eruption rates and active times do not need to be added, but entries that include all information will have an icon specifying that.</Typography>
                                 <br />
                                 <Typography align='center'>Wait! I'm too lazy to add this manually!</Typography>
                                 <Typography align='center'>I gotchu! I have written a mod that you can install that will export your maps that you uncover in debug mode to a file that you can upload here with all details.</Typography>
                                 <br />
                                 <Grid className={this.props.classes.inputsGrid}>
-                                    <Button variant="raised" color="primary" className={this.props.classes.singleButton} component={({ innerRef, ...props }) => <Link to="/seeds/newjson" {...props} />}>I'm cool and I want to import a JSON from the mod, take me there!</Button>
+                                    <Button variant="raised" color="primary" className={this.props.classes.singleButton} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo} {...props} />}>I'm cool and I want to import a world directly from the game, take me there!</Button>
                                 </Grid>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
@@ -131,95 +190,160 @@ class SeedAdder extends React.Component<Props, State & any> {
 
 
                     <Paper className={this.props.classes.paper}>
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.verifySeed();
+                        }}>
+                            <Grid className={this.props.classes.paperGrid} container>
+                                <Typography variant='subheading'>Basic game info</Typography>
 
-                        <Grid className={this.props.classes.paperGrid}>
-                            <Typography variant='subheading'>Basic game info</Typography>
-                            <Grid item container className={this.props.classes.inputsGrid}>
-                                <TextField
-                                    id="seed"
-                                    name="seedNumber"
-                                    label="Seed"
-                                    type="number"
-                                    value={this.state.seedNumber}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textField}
-                                    margin="normal" />
-
-                                <FormControl className={this.props.classes.textField}>
-                                    <InputLabel htmlFor="game-upgrade">Game Upgrade</InputLabel>
-                                    <Select
-                                        value={this.state.gameUpgrade}
+                                <Grid item container className={this.props.classes.inputsGrid}>
+                                    <TextField
+                                        id="seed"
+                                        name="seedNumber"
+                                        label="Seed"
+                                        type="number"
+                                        value={this.state.seedNumber}
                                         onChange={this.handleChange}
-                                        inputProps={{
-                                            name: 'gameUpgrade',
-                                            id: 'game-upgrade',
-                                        }}>
-                                        {Array.from(GameUpgrades).map((element) => (
-                                            <MenuItem key={element[1].upgrade} value={element[1].upgrade}>{element[1].displayName}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                        className={this.props.classes.textField}
+                                        margin="normal"
+                                        required
+                                        disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED} />
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Game version number"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textField}
-                                    margin="normal" />
-                                <Grid className={this.props.classes.inputsGrid}>
-                                    <Button variant="raised" color="primary" className={this.props.classes.singleButton}></Button>
+                                    <FormControl className={this.props.classes.textField} required>
+                                        <InputLabel htmlFor="game-upgrade" >Game Upgrade</InputLabel>
+                                        <Select
+                                            value={this.state.gameUpgrade}
+                                            onChange={this.handleChange}
+                                            disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED}
+                                            inputProps={{
+                                                name: 'gameUpgrade',
+                                                id: 'game-upgrade',
+                                            }}>
+                                            {Array.from(GameUpgrades).map((element) => (
+                                                <MenuItem key={element[1].upgrade} value={element[1].upgrade}>{element[1].displayName}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+
+                                    <TextField
+                                        id="gameVersion"
+                                        name="gameVersion"
+                                        label="Game version number"
+                                        type="number"
+                                        required
+                                        disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED}
+                                        value={this.state.gameVersion}
+                                        onChange={this.handleChange}
+                                        className={this.props.classes.textField}
+                                        margin="normal" />
                                 </Grid>
-                            </Grid>
-                        </Grid>
 
+
+                                {this.state.basicInfoCheckPassed != BasicInfoStatus.PASSED && <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton}>Continue</Button>}
+
+                            </Grid>
+                        </form>
                     </Paper>
 
-                    <Paper className={this.props.classes.paper}>
 
-                        <Grid className={this.props.classes.paperGrid}>
-                            <Typography variant='subheading'>Geyser info</Typography>
-                            <Grid item container className={this.props.classes.inputsGrid}>
-                                <TextField
-                                    id="seed"
-                                    name="seedNumber"
-                                    label="Seed"
-                                    type="number"
-                                    value={this.state.seedNumber}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textField}
-                                    margin="normal" />
 
-                                <FormControl className={this.props.classes.textField}>
-                                    <InputLabel htmlFor="game-upgrade">Game Upgrade</InputLabel>
-                                    <Select
-                                        value={this.state.gameUpgrade}
-                                        onChange={this.handleChange}
-                                        inputProps={{
-                                            name: 'gameUpgrade',
-                                            id: 'game-upgrade',
-                                        }}>
-                                        {Array.from(GameUpgrades).map((element) => (
-                                            <MenuItem key={element[1].upgrade} value={element[1].upgrade}>{element[1].displayName}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                    {this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED && <Grid container>
+                        <Paper className={this.props.classes.paper}>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                //  this.handleSubmit();
+                            }}>
+                                <Grid className={this.props.classes.paperGrid} container>
+                                    <Typography variant='subheading'>Add new geyser</Typography>
+                                    <Grid item container className={this.props.classes.inputsGrid}>
+                                        <FormControl className={this.props.classes.textField} required>
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Game version number"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textField}
-                                    margin="normal" />
+                                            <InputLabel htmlFor="geyser-type">Geyser Type</InputLabel>
+                                            <Select
+                                                value={this.state.geyserType}
+                                                onChange={this.handleChange}
+
+                                                inputProps={{
+                                                    name: 'geyserType',
+                                                    id: 'geyser-type',
+                                                }}>
+                                                {Array.from(GeyserProperties).map((element) => (
+                                                    <MenuItem key={element[1].geyserType} value={element[1].geyserType}>{element[1].displayName}</MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+
+                                        <TextField
+                                            id="eruptionRate"
+                                            name="eruptionRate"
+                                            label="Eruption rate (g/s)"
+                                            type="number"
+                                            value={this.state.eruptionRate}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
+
+                                        <TextField
+                                            id="activeEruptionPeriod"
+                                            name="activeEruptionPeriod"
+                                            label="Erupts for ... s"
+                                            type="number"
+                                            value={this.state.activeEruptionPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
+
+                                        <TextField
+                                            id="eruptionPeriod"
+                                            name="eruptionPeriod"
+                                            label="Every ... s"
+                                            type="number"
+                                            value={this.state.eruptionPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
+
+                                        <TextField
+                                            id="activeDormancyPeriod"
+                                            name="activeDormancyPeriod"
+                                            label="Active for ... cycles"
+                                            type="number"
+                                            value={this.state.activeDormancyPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
+
+                                        <TextField
+                                            id="dormancyPeriod"
+                                            name="dormancyPeriod"
+                                            label="Every ... cycles"
+                                            type="number"
+                                            value={this.state.dormancyPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
+
+                                    </Grid>
+                                    <Button variant="raised" color="primary" type='submit' onClick={this.addGeyserToTheList} className={this.props.classes.singleButton}>Add</Button>
+                                </Grid>
+                            </form>
+                        </Paper>
+                        <SeedGeysers geysers={this.state.geyserList} />
+                    </Grid>}
+
+
+                    {this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED && <Grid container>
+                        <Paper className={this.props.classes.paper}>
+                            <Grid className={this.props.classes.paperGrid} container>
+                                <Typography variant='subheading'>Summary and save button go here</Typography>
                             </Grid>
-                        </Grid>
-                    </Paper>
-                </form>
+                        </Paper>
+                    </Grid>}
+                </Grid>
+
             </Grid>);
     }
 };

@@ -24,10 +24,12 @@ class SeedGeysers extends React.Component<Props> {
     }
 
     render() {
+        if (!this.props.geysers) return null;
+
         return (
             <Grid container className={this.props.classes.root}>
             {
-                this.props.geysers.map((item, idx) => {
+               this.props.geysers.map((item, idx) => {
                     return (
                      <GeyserCard key={idx} geyser={item}/>
                     );

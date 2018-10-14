@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
+import ComponentURL from 'src/constants/ComponentURL';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -58,7 +59,7 @@ class Error404 extends React.Component<WithStyles<typeof styles>> {
                     <Typography align="center">Go back to the main page.</Typography>
                     <Typography align="center">If you truly believe you're seeing this incorrectly, please contact the developer.</Typography>
                     <br />
-                    <Button variant="raised" color="primary" className={this.props.classes.btn} component={({ innerRef, ...props }) => <Link to="/" {...props} />}>Return to the Main Page</Button>
+                    <Button variant="raised" color="primary" className={this.props.classes.btn} component={({ innerRef, ...props }) => <Link to={ComponentURL.Home} {...props} />}>Return to the Main Page</Button>
                 </Grid>
 
             </Grid>
