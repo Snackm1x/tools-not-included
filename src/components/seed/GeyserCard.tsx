@@ -83,7 +83,7 @@ class GeyserCard extends React.Component<Props> {
 
                         <Grid container className={this.props.classes.cardContainer}>
                             <Typography>
-                                Eruption rate: <b>{this.props.geyser.eruptionRate} g/s</b> at {geyserProperties.outputTemp} °C
+                                Eruption rate: <b>{Number(this.props.geyser.eruptionRate).toFixed(0)} g/s</b> at {geyserProperties.outputTemp} °C
                             </Typography>
 
                             <Typography>
@@ -91,7 +91,7 @@ class GeyserCard extends React.Component<Props> {
                             </Typography>
 
                             <Typography>
-                                Active for <b>{this.props.geyser.activeDormancyPeriod} cycles</b> every <b>{this.props.geyser.dormancyPeriod} cycles</b>
+                                Active for <b>{Number(this.props.geyser.activeDormancyPeriod).toFixed(1)} cycles</b> every <b>{Number(this.props.geyser.dormancyPeriod).toFixed(1)} cycles</b>
                             </Typography>
 
                             <br />

@@ -31,6 +31,7 @@ import SeedGeysers from "../seed/SeedGeysers";
 import Geyser from "../../types/classes/Geyser";
 import { GeyserType } from "../../types/enums/GeyserType";
 import ComponentURL from "src/constants/ComponentURL";
+import API from "src/api/api";
 
 export interface Props extends WithStyles<typeof styles> {
 
@@ -40,10 +41,18 @@ interface State {
     seedNumber: number,
     gameUpgrade: GameUpgrade,
     gameVersion: number,
-    geyserList: Geyser[],
+
     geyserType: GeyserType,
+    eruptionRate: number,
+    activeEruptionPeriod: number,
+    eruptionPeriod: number,
+    activeDormancyPeriod: number,
+    dormancyPeriod: number
+
+    geyserList: Geyser[],
 
     basicInfoCheckPassed: BasicInfoStatus,
+    tenGeysersAdded: boolean
 }
 
 enum BasicInfoStatus {
@@ -106,35 +115,52 @@ const styles = (theme: Theme) => createStyles({
         margin: theme.spacing.unit,
     },
 });
-function createData(type: GeyserType, eruptionRate?: number, activeDormancyPeriod?: number, dormancyPeriod?: number, eruptionPeriod?: number, activeEruptionPeriod?: number) {
-    return new Geyser(type, eruptionRate, activeDormancyPeriod, dormancyPeriod, eruptionPeriod, activeEruptionPeriod)
-}
-const geysers = [
-    createData(GeyserType.GEYSER_COOL_SLUSH, 5400, 163, 233, 1422, 250),
-    createData(GeyserType.GEYSER_COOL_SLUSH),
-    createData(GeyserType.GEYSER_WATER, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.GEYSER_NATGAS),
-    createData(GeyserType.VENT_CHLORINE, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_HYDROGEN, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.GEYSER_NATGAS, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VENT_POLLUTED_H2O),
-    createData(GeyserType.VENT_COOL_STEAM, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
-    createData(GeyserType.VOLCANO, 5400, 13, 243, 2432, 300),
-];
 
 class SeedAdder extends React.Component<Props, State & any> {
     constructor(props: Props) {
         super(props);
 
-        this.state = { gameUpgrade: GameUpgrades.values().next().value.upgrade, geyserType: GeyserProperties.values().next().value.geyserType, basicInfoCheckPassed: BasicInfoStatus.FRESH, geyserList: geysers };
+        this.state = { gameUpgrade: GameUpgrades.values().next().value.upgrade, seedNumber: "", gameVersion: "", geyserType: GeyserProperties.values().next().value.geyserType, basicInfoCheckPassed: BasicInfoStatus.FRESH, geyserList: [] };
     }
 
     handleChange = (event: any) => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
+    verifySeed = () => {
+        if (!this.state.seedNumber || !this.state.gameVersion || !this.state.gameUpgrade) return;
+
+        this.setState({ loading: true });
+        var url = "seeds/exists/" + this.state.seedNumber + "/" + this.state.gameVersion;
+        API.get<boolean>(url)
+            .then(res => {
+
+                if (res.data == true) {
+                    this.setState({ basicInfoCheckPassed: BasicInfoStatus.DUPLICATE_FOUND })
+                } else if (res.data == false) {
+                    this.setState({ basicInfoCheckPassed: BasicInfoStatus.PASSED })
+                }
+
+                this.setState({ loading: false });
+            });
+    }
+
+    getProperGeyserStatValue = (value: any) => {
+        if (!value) return null;
+
+        if (value > 0) return value;
+
+        return null;
+    }
+
+    addGeyserToTheList = () => {
+        var g = new Geyser(this.state.geyserType, this.getProperGeyserStatValue(this.state.eruptionRate), this.getProperGeyserStatValue(this.state.activeDormancyPeriod),
+            this.getProperGeyserStatValue(this.state.dormancyPeriod), this.getProperGeyserStatValue(this.state.eruptionPeriod), this.getProperGeyserStatValue(this.state.activeEruptionPeriod));
+
+        var gList = this.state.geyserList;
+        gList.push(g);
+        this.setState({ geyserList: gList, eruptionRate: "", activeDormancyPeriod: "", dormancyPeriod: "", eruptionPeriod: "", activeEruptionPeriod: "" });
+    }
     render() {
 
         return (
@@ -150,7 +176,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                                 <Typography align='center'>The seed number can be found at the bottom of the pause menu when you press Esc in game and the game version number is visible at the bottom of the screen in the main menu. </Typography>
                                 <br />
                                 <Typography align='center'>Next, add geysers that are on the map. Take your time to add all of them! You may not save a seed without at least 8 geysers added. Do not add partially explored maps - you should uncover the map completely first.</Typography>
-                                <Typography align='center'>Geyser details such as emission rates and active times do not need to be added, but entries that include all information will have an icon specifying that.</Typography>
+                                <Typography align='center'>Geyser details such as eruption rates and active times do not need to be added, but entries that include all information will have an icon specifying that.</Typography>
                                 <br />
                                 <Typography align='center'>Wait! I'm too lazy to add this manually!</Typography>
                                 <Typography align='center'>I gotchu! I have written a mod that you can install that will export your maps that you uncover in debug mode to a file that you can upload here with all details.</Typography>
@@ -167,7 +193,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                         <form onSubmit={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            //  this.handleSubmit();
+                            this.verifySeed();
                         }}>
                             <Grid className={this.props.classes.paperGrid} container>
                                 <Typography variant='subheading'>Basic game info</Typography>
@@ -182,10 +208,11 @@ class SeedAdder extends React.Component<Props, State & any> {
                                         onChange={this.handleChange}
                                         className={this.props.classes.textField}
                                         margin="normal"
+                                        required
                                         disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED} />
 
-                                    <FormControl className={this.props.classes.textField}>
-                                        <InputLabel htmlFor="game-upgrade">Game Upgrade</InputLabel>
+                                    <FormControl className={this.props.classes.textField} required>
+                                        <InputLabel htmlFor="game-upgrade" >Game Upgrade</InputLabel>
                                         <Select
                                             value={this.state.gameUpgrade}
                                             onChange={this.handleChange}
@@ -205,6 +232,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                                         name="gameVersion"
                                         label="Game version number"
                                         type="number"
+                                        required
                                         disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED}
                                         value={this.state.gameVersion}
                                         onChange={this.handleChange}
@@ -221,89 +249,101 @@ class SeedAdder extends React.Component<Props, State & any> {
 
 
 
-                    <Paper className={this.props.classes.paper}>
-                        <Grid className={this.props.classes.paperGrid} container>
-                            <Typography variant='subheading'>Add new geyser</Typography>
-                            <Grid item container className={this.props.classes.inputsGrid}>
-                                <FormControl className={this.props.classes.textField}>
-                                    <InputLabel htmlFor="geyser-type">Geyser Type</InputLabel>
-                                    <Select
-                                        value={this.state.geyserType}
-                                        onChange={this.handleChange}
-                                        inputProps={{
-                                            name: 'geyserType',
-                                            id: 'geyser-type',
-                                        }}>
-                                        {Array.from(GeyserProperties).map((element) => (
-                                            <MenuItem key={element[1].geyserType} value={element[1].geyserType}>{element[1].displayName}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                    {this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED && <Grid container>
+                        <Paper className={this.props.classes.paper}>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                //  this.handleSubmit();
+                            }}>
+                                <Grid className={this.props.classes.paperGrid} container>
+                                    <Typography variant='subheading'>Add new geyser</Typography>
+                                    <Grid item container className={this.props.classes.inputsGrid}>
+                                        <FormControl className={this.props.classes.textField} required>
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Emission rate (g/s)"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textFieldGeyser}
-                                    margin="normal" />
+                                            <InputLabel htmlFor="geyser-type">Geyser Type</InputLabel>
+                                            <Select
+                                                value={this.state.geyserType}
+                                                onChange={this.handleChange}
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Erupts for ... s"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textFieldGeyser}
-                                    margin="normal" />
+                                                inputProps={{
+                                                    name: 'geyserType',
+                                                    id: 'geyser-type',
+                                                }}>
+                                                {Array.from(GeyserProperties).map((element) => (
+                                                    <MenuItem key={element[1].geyserType} value={element[1].geyserType}>{element[1].displayName}</MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Every ... s"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textFieldGeyser}
-                                    margin="normal" />
+                                        <TextField
+                                            id="eruptionRate"
+                                            name="eruptionRate"
+                                            label="Eruption rate (g/s)"
+                                            type="number"
+                                            value={this.state.eruptionRate}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Active for ... cycles"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textFieldGeyser}
-                                    margin="normal" />
+                                        <TextField
+                                            id="activeEruptionPeriod"
+                                            name="activeEruptionPeriod"
+                                            label="Erupts for ... s"
+                                            type="number"
+                                            value={this.state.activeEruptionPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
 
-                                <TextField
-                                    id="gameVersion"
-                                    name="gameVersion"
-                                    label="Every ... cycles"
-                                    type="number"
-                                    value={this.state.gameVersion}
-                                    onChange={this.handleChange}
-                                    className={this.props.classes.textFieldGeyser}
-                                    margin="normal" />
+                                        <TextField
+                                            id="eruptionPeriod"
+                                            name="eruptionPeriod"
+                                            label="Every ... s"
+                                            type="number"
+                                            value={this.state.eruptionPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
 
+                                        <TextField
+                                            id="activeDormancyPeriod"
+                                            name="activeDormancyPeriod"
+                                            label="Active for ... cycles"
+                                            type="number"
+                                            value={this.state.activeDormancyPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
+
+                                        <TextField
+                                            id="dormancyPeriod"
+                                            name="dormancyPeriod"
+                                            label="Every ... cycles"
+                                            type="number"
+                                            value={this.state.dormancyPeriod}
+                                            onChange={this.handleChange}
+                                            className={this.props.classes.textFieldGeyser}
+                                            margin="normal" />
+
+                                    </Grid>
+                                    <Button variant="raised" color="primary" type='submit' onClick={this.addGeyserToTheList} className={this.props.classes.singleButton}>Add</Button>
+                                </Grid>
+                            </form>
+                        </Paper>
+                        <SeedGeysers geysers={this.state.geyserList} />
+                    </Grid>}
+
+
+                    {this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED && <Grid container>
+                        <Paper className={this.props.classes.paper}>
+                            <Grid className={this.props.classes.paperGrid} container>
+                                <Typography variant='subheading'>Summary and save button go here</Typography>
                             </Grid>
-                            <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton}>Add</Button>
+                        </Paper>
+                    </Grid>}
+                </Grid>
 
-                        </Grid>
-                    </Paper>
-                </Grid>
-                <SeedGeysers geysers={this.state.geyserList} />
-                <Grid container>
-                    <Paper className={this.props.classes.paper}>
-                        <Grid className={this.props.classes.paperGrid} container>
-                            <Typography variant='subheading'>Summary and save button go here</Typography>
-                        </Grid>
-                    </Paper>
-                </Grid>
             </Grid>);
     }
 };

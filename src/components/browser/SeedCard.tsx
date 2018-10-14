@@ -13,6 +13,8 @@ import { GeyserProperties } from '../../constants/GeyserProperties';
 import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import { GeyserType } from "../../types/enums/GeyserType";
 
+import Badge from '@material-ui/core/Badge';
+
 export interface Props extends WithStyles<typeof styles> {
     world: Seed,
     displayGeyserTypes?: GeyserType[]
