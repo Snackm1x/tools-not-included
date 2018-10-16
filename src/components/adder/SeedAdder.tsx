@@ -32,6 +32,8 @@ import Geyser from "../../types/classes/Geyser";
 import { GeyserType } from "../../types/enums/GeyserType";
 import ComponentURL from "src/constants/ComponentURL";
 import API from "src/api/api";
+import SeedDTO from "src/api/dto/SeedDTO";
+import { AxiosError } from "axios";
 
 export interface Props extends WithStyles<typeof styles> {
 
@@ -51,8 +53,7 @@ interface State {
 
     geyserList: Geyser[],
 
-    basicInfoCheckPassed: BasicInfoStatus,
-    tenGeysersAdded: boolean
+    basicInfoCheckPassed: BasicInfoStatus
 }
 
 enum BasicInfoStatus {
@@ -247,14 +248,22 @@ class SeedAdder extends React.Component<Props, State & any> {
                         </form>
                     </Paper>
 
-
+                    {this.state.basicInfoCheckPassed == BasicInfoStatus.DUPLICATE_FOUND && <Grid container>
+                        <Paper className={this.props.classes.paper}>
+                            <Grid className={this.props.classes.paperGrid} style={{ paddingTop: createMuiTheme().spacing.unit }} container>
+                                <Typography variant="subheading">It looks like someone else has added this seed/version combo!</Typography>
+                                <Typography>Editing existing seeds is currenly not supported, but if you think the existing entry is not correct or detailed enough, add your seed with version number lowered by 1.</Typography>
+                                <Button variant="raised" color="primary" type='submit' component={({ innerRef, ...props }) => <Link to={"/seeds/" + this.state.seedNumber + "/" + this.state.gameVersion} {...props} />} className={this.props.classes.singleButton}>Go to the existing entry</Button>
+                            </Grid>
+                        </Paper>
+                    </Grid>}
 
                     {this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED && <Grid container>
                         <Paper className={this.props.classes.paper}>
                             <form onSubmit={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                //  this.handleSubmit();
+                                this.addGeyserToTheList();
                             }}>
                                 <Grid className={this.props.classes.paperGrid} container>
                                     <Typography variant='subheading'>Add new geyser</Typography>
@@ -327,7 +336,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             margin="normal" />
 
                                     </Grid>
-                                    <Button variant="raised" color="primary" type='submit' onClick={this.addGeyserToTheList} className={this.props.classes.singleButton}>Add</Button>
+                                    <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton}>Add</Button>
                                 </Grid>
                             </form>
                         </Paper>
@@ -337,14 +346,62 @@ class SeedAdder extends React.Component<Props, State & any> {
 
                     {this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED && <Grid container>
                         <Paper className={this.props.classes.paper}>
-                            <Grid className={this.props.classes.paperGrid} container>
-                                <Typography variant='subheading'>Summary and save button go here</Typography>
-                            </Grid>
+                            <form onSubmit={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                this.uploadSeed();
+                            }}>
+                                <Grid className={this.props.classes.paperGrid} container style={{ paddingTop: createMuiTheme().spacing.unit }}>
+                                    {this.state.geyserList.length >= 10 ? <Typography>All done? Ready to save!</Typography> : <Typography>You need to add at least 10 geysers before you can save.</Typography>}
+                                    <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton} disabled={this.state.geyserList.length < 10}>Upload</Button>
+                                </Grid>
+                            </form>
                         </Paper>
                     </Grid>}
                 </Grid>
 
             </Grid>);
+    }
+
+    uploadSeed = () => {
+        this.setState({ loading: true });
+
+
+        //todo: refactor to a method
+        var geysers: any[] = [];
+        this.state.geyserList.forEach((element: Geyser) => {
+            geysers.push({
+                geyserType: element.type,
+                activeDormancyPeriod: element.activeDormancyPeriod,
+                dormancyPeriod: element.dormancyPeriod,
+                activeEruptionPeriod: element.activeEruptionPeriod,
+                eruptionPeriod: element.eruptionPeriod,
+                eruptionRate: element.eruptionRate
+            })
+        });
+
+        var seed: SeedDTO = {
+            addedByMod: false,
+            seed: this.state.seedNumber,
+            gameVersion: {
+                gameUpgrade: this.state.gameUpgrade,
+                versionNumber: this.state.gameVersion
+            },
+            geysers: geysers
+        }
+
+        var url = "seeds";
+      //  API.post(url, JSON.stringify(seed))
+      API({url: url, method: 'post', data: seed, headers: { "Content-Type": "application/json" }})
+            .then(res => {
+
+                this.setState({ loading: false });
+            })
+            .catch((error: AxiosError) => {
+                alert(error.message);
+                //   this.setState({ errorOccured: true, loading: false });
+            })
+
     }
 };
 
