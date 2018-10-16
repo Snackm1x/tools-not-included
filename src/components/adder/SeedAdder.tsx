@@ -26,7 +26,7 @@ import { GameUpgrades } from '../../constants/GameUpgrades';
 import { GameUpgrade } from '../../types/enums/GameUpgrade';
 import IGameUpgradeDetails from "../../types/interfaces/IGameUpgradeDetails";
 import { GeyserProperties } from "../../constants/GeyserProperties";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import SeedGeysers from "../seed/SeedGeysers";
 import Geyser from "../../types/classes/Geyser";
 import { GeyserType } from "../../types/enums/GeyserType";
@@ -34,8 +34,10 @@ import ComponentURL from "src/constants/ComponentURL";
 import API from "src/api/api";
 import SeedDTO from "src/api/dto/SeedDTO";
 import { AxiosError } from "axios";
+import CircularProgress, { CircularProgressProps } from '@material-ui/core/CircularProgress';
+import ErrorSnackbar from "../ui/ErrorSnackbar";
 
-export interface Props extends WithStyles<typeof styles> {
+export interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
 
 }
 
@@ -53,7 +55,10 @@ interface State {
 
     geyserList: Geyser[],
 
-    basicInfoCheckPassed: BasicInfoStatus
+    basicInfoCheckPassed: BasicInfoStatus,
+    basicInfoLoading: boolean,
+    uploadLoading: boolean,
+    errorOccured: boolean
 }
 
 enum BasicInfoStatus {
@@ -121,7 +126,10 @@ class SeedAdder extends React.Component<Props, State & any> {
     constructor(props: Props) {
         super(props);
 
-        this.state = { gameUpgrade: GameUpgrades.values().next().value.upgrade, seedNumber: "", gameVersion: "", geyserType: GeyserProperties.values().next().value.geyserType, basicInfoCheckPassed: BasicInfoStatus.FRESH, geyserList: [] };
+        this.state = {
+            basicInfoLoading: false, uploadLoading: false, gameUpgrade: GameUpgrades.values().next().value.upgrade, seedNumber: "", gameVersion: "",
+            geyserType: GeyserProperties.values().next().value.geyserType, basicInfoCheckPassed: BasicInfoStatus.FRESH, geyserList: []
+        };
     }
 
     handleChange = (event: any) => {
@@ -131,7 +139,7 @@ class SeedAdder extends React.Component<Props, State & any> {
     verifySeed = () => {
         if (!this.state.seedNumber || !this.state.gameVersion || !this.state.gameUpgrade) return;
 
-        this.setState({ loading: true });
+        this.setState({ basicInfoLoading: true });
         var url = "seeds/exists/" + this.state.seedNumber + "/" + this.state.gameVersion;
         API.get<boolean>(url)
             .then(res => {
@@ -141,8 +149,9 @@ class SeedAdder extends React.Component<Props, State & any> {
                 } else if (res.data == false) {
                     this.setState({ basicInfoCheckPassed: BasicInfoStatus.PASSED })
                 }
-
-                this.setState({ loading: false });
+                this.setState({ basicInfoLoading: false });
+            }).catch((error: AxiosError) => {
+                this.setState({ errorOccured: true, basicInfoLoading: false });
             });
     }
 
@@ -209,6 +218,9 @@ class SeedAdder extends React.Component<Props, State & any> {
                                         onChange={this.handleChange}
                                         className={this.props.classes.textField}
                                         margin="normal"
+                                        InputProps={{
+                                            inputProps: { min: 0, max: 2147483647 }
+                                        }}
                                         required
                                         disabled={this.state.basicInfoCheckPassed == BasicInfoStatus.PASSED} />
 
@@ -238,12 +250,16 @@ class SeedAdder extends React.Component<Props, State & any> {
                                         value={this.state.gameVersion}
                                         onChange={this.handleChange}
                                         className={this.props.classes.textField}
-                                        margin="normal" />
+                                        margin="normal"
+                                        InputProps={{
+                                            inputProps: { min: 0, max: 2147483647 }
+                                        }} />
                                 </Grid>
 
-
-                                {this.state.basicInfoCheckPassed != BasicInfoStatus.PASSED && <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton}>Continue</Button>}
-
+                                <Grid container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '40px', marginTop: createMuiTheme().spacing.unit, marginBottom: createMuiTheme().spacing.unit }}>
+                                    {this.state.basicInfoCheckPassed != BasicInfoStatus.PASSED && !this.state.basicInfoLoading && <Button variant="raised" color="primary" type='submit'>Continue</Button>}
+                                    {this.state.basicInfoLoading && <CircularProgress color="primary" size="40px" />}
+                                </Grid>
                             </Grid>
                         </form>
                     </Paper>
@@ -293,7 +309,10 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             value={this.state.eruptionRate}
                                             onChange={this.handleChange}
                                             className={this.props.classes.textFieldGeyser}
-                                            margin="normal" />
+                                            margin="normal"
+                                            InputProps={{
+                                                inputProps: { min: 0, max: 200000 }
+                                            }} />
 
                                         <TextField
                                             id="activeEruptionPeriod"
@@ -303,7 +322,10 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             value={this.state.activeEruptionPeriod}
                                             onChange={this.handleChange}
                                             className={this.props.classes.textFieldGeyser}
-                                            margin="normal" />
+                                            margin="normal"
+                                            InputProps={{
+                                                inputProps: { min: 0, max: 200000 }
+                                            }} />
 
                                         <TextField
                                             id="eruptionPeriod"
@@ -313,7 +335,10 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             value={this.state.eruptionPeriod}
                                             onChange={this.handleChange}
                                             className={this.props.classes.textFieldGeyser}
-                                            margin="normal" />
+                                            margin="normal"
+                                            InputProps={{
+                                                inputProps: { min: 0, max: 200000 }
+                                            }} />
 
                                         <TextField
                                             id="activeDormancyPeriod"
@@ -323,7 +348,10 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             value={this.state.activeDormancyPeriod}
                                             onChange={this.handleChange}
                                             className={this.props.classes.textFieldGeyser}
-                                            margin="normal" />
+                                            margin="normal"
+                                            InputProps={{
+                                                inputProps: { min: 0, max: 200000 }
+                                            }} />
 
                                         <TextField
                                             id="dormancyPeriod"
@@ -333,7 +361,10 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             value={this.state.dormancyPeriod}
                                             onChange={this.handleChange}
                                             className={this.props.classes.textFieldGeyser}
-                                            margin="normal" />
+                                            margin="normal"
+                                            InputProps={{
+                                                inputProps: { min: 0, max: 200000 }
+                                            }} />
 
                                     </Grid>
                                     <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton}>Add</Button>
@@ -353,19 +384,25 @@ class SeedAdder extends React.Component<Props, State & any> {
                             }}>
                                 <Grid className={this.props.classes.paperGrid} container style={{ paddingTop: createMuiTheme().spacing.unit }}>
                                     {this.state.geyserList.length >= 10 ? <Typography>All done? Ready to save!</Typography> : <Typography>You need to add at least 10 geysers before you can save.</Typography>}
-                                    <Button variant="raised" color="primary" type='submit' className={this.props.classes.singleButton} disabled={this.state.geyserList.length < 10}>Upload</Button>
+
+
+                                    <Grid container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '40px', marginTop: createMuiTheme().spacing.unit, marginBottom: createMuiTheme().spacing.unit }}>
+                                        {!this.state.uploadLoading && <Button variant="raised" color="primary" type='submit' disabled={this.state.geyserList.length < 10}>Upload</Button>}
+                                        {this.state.uploadLoading && <CircularProgress color="primary" size="40px" />}
+                                    </Grid>
                                 </Grid>
                             </form>
                         </Paper>
                     </Grid>}
                 </Grid>
 
+                <ErrorSnackbar open={this.state.errorOccured} message="An error has occured." />
+
             </Grid>);
     }
 
     uploadSeed = () => {
-        this.setState({ loading: true });
-
+        this.setState({ uploadLoading: true });
 
         //todo: refactor to a method
         var geysers: any[] = [];
@@ -391,18 +428,15 @@ class SeedAdder extends React.Component<Props, State & any> {
         }
 
         var url = "seeds";
-      //  API.post(url, JSON.stringify(seed))
-      API({url: url, method: 'post', data: seed, headers: { "Content-Type": "application/json" }})
+        API({ url: url, method: 'post', data: seed, headers: { "Content-Type": "application/json" } })
             .then(res => {
-
-                this.setState({ loading: false });
+                this.setState({ uploadLoading: false });
+                this.props.history.replace(`/seeds/${seed.seed}/${seed.gameVersion.versionNumber}`);
             })
             .catch((error: AxiosError) => {
-                alert(error.message);
-                //   this.setState({ errorOccured: true, loading: false });
+                this.setState({ errorOccured: true, uploadLoading: false });
             })
-
     }
 };
 
-export default withStyles(styles)(SeedAdder);
+export default withRouter(withStyles(styles)(SeedAdder));
