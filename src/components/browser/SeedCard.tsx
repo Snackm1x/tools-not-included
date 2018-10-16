@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, createStyles } from '@material-ui/core';
+import { withStyles, WithStyles, createStyles, createMuiTheme } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Card from '@material-ui/core/Card';
@@ -13,6 +13,8 @@ import { GeyserProperties } from '../../constants/GeyserProperties';
 import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import { GeyserType } from "../../types/enums/GeyserType";
 
+
+import Divider from '@material-ui/core/Divider';
 import Badge from '@material-ui/core/Badge';
 
 export interface Props extends WithStyles<typeof styles> {
@@ -42,7 +44,6 @@ const styles = (theme: Theme) => createStyles({
     typography: {
         marginRight: theme.spacing.unit,
         marginLeft: theme.spacing.unit,
-        flexBasis: '25%',
         textAlign: 'center',
     },
     chipContainer: {
@@ -69,21 +70,33 @@ class SeedCard extends React.Component<Props> {
 
     render() {
         return (
+
             <Card className={this.props.classes.card}>
-                <Grid className={this.props.classes.texts}>
-                    <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seedNumber}</Typography>
-                    <Typography variant="subheading" className={this.props.classes.typography}>{this.props.world.gameVersion.displayNameLong}</Typography>
+                <Grid style={{ display: 'flex', flexDirection: 'column' }} container>
+                    <Grid container>
+                        <Grid className={this.props.classes.texts}>
+                            <Typography variant="subheading" className={this.props.classes.typography}>Seed: {this.props.world.seedNumber}</Typography>
+                            <Typography variant="subheading" className={this.props.classes.typography}>{this.props.world.gameVersion.gameUpgradeDisplayName}</Typography>
+                            <Typography variant="subheading" className={this.props.classes.typography}>{this.props.world.gameVersion.displayNameShort}</Typography>
+
+                        </Grid>
+                        <Grid className={this.props.classes.chipContainer}>
+                            {geyserTypes.map((item, idx) => {
+                                if (this.props.displayGeyserTypes == null || this.props.displayGeyserTypes.indexOf(item.geyserType) > -1)
+                                    return (
+                                        <GeyserChip key={idx} geyserProperties={item} quantity={this.props.world.geyserQuantities.get(item.geyserType) as number} />
+                                    )
+                                else return null;
+                            })}
+                        </Grid>
+                    </Grid>
+
+                    <Divider style={{ marginTop: createMuiTheme().spacing.unit, marginBottom: createMuiTheme().spacing.unit * 2 }} />
+                    <Typography variant="subheading" className={this.props.classes.typography}>Additional stuff goes here</Typography>
                 </Grid>
-                <Grid className={this.props.classes.chipContainer}>
-                    {geyserTypes.map((item, idx) => {
-                        if (this.props.displayGeyserTypes == null || this.props.displayGeyserTypes.indexOf(item.geyserType) > -1)
-                            return (
-                                <GeyserChip key={idx} geyserProperties={item} quantity={this.props.world.geyserQuantities.get(item.geyserType) as number} />
-                            )
-                        else return null;
-                    })}
-                </Grid>
+
             </Card>
+
         );
     }
 };

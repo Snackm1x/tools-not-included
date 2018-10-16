@@ -1,5 +1,8 @@
 import * as React from "react";
 
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
+import { AxiosError } from "axios";
+
 import { withStyles, WithStyles, createStyles, createMuiTheme } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Grid from '@material-ui/core/Grid';
@@ -10,31 +13,23 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Checkbox from '@material-ui/core/Checkbox';
-import Input from '@material-ui/core/Input';
-import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import Seed from '../../types/classes/Seed';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { GameUpgrades } from '../../constants/GameUpgrades';
 import { GameUpgrade } from '../../types/enums/GameUpgrade';
-import IGameUpgradeDetails from "../../types/interfaces/IGameUpgradeDetails";
 import { GeyserProperties } from "../../constants/GeyserProperties";
-import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import SeedGeysers from "../seed/SeedGeysers";
 import Geyser from "../../types/classes/Geyser";
 import { GeyserType } from "../../types/enums/GeyserType";
 import ComponentURL from "src/constants/ComponentURL";
 import API from "src/api/api";
 import SeedDTO from "src/api/dto/SeedDTO";
-import { AxiosError } from "axios";
-import CircularProgress, { CircularProgressProps } from '@material-ui/core/CircularProgress';
+
 import ErrorSnackbar from "../ui/ErrorSnackbar";
 
 export interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> {
@@ -171,6 +166,44 @@ class SeedAdder extends React.Component<Props, State & any> {
         gList.push(g);
         this.setState({ geyserList: gList, eruptionRate: "", activeDormancyPeriod: "", dormancyPeriod: "", eruptionPeriod: "", activeEruptionPeriod: "" });
     }
+
+    uploadSeed = () => {
+        this.setState({ uploadLoading: true });
+
+        //todo: refactor to a method
+        var geysers: any[] = [];
+        this.state.geyserList.forEach((element: Geyser) => {
+            geysers.push({
+                geyserType: element.type,
+                activeDormancyPeriod: element.activeDormancyPeriod,
+                dormancyPeriod: element.dormancyPeriod,
+                activeEruptionPeriod: element.activeEruptionPeriod,
+                eruptionPeriod: element.eruptionPeriod,
+                eruptionRate: element.eruptionRate
+            })
+        });
+
+        var seed: SeedDTO = {
+            addedByMod: false,
+            seed: this.state.seedNumber,
+            gameVersion: {
+                gameUpgrade: this.state.gameUpgrade,
+                versionNumber: this.state.gameVersion
+            },
+            geysers: geysers
+        }
+
+        var url = "seeds";
+        API({ url: url, method: 'post', data: seed, headers: { "Content-Type": "application/json" } })
+            .then(res => {
+                this.setState({ uploadLoading: false });
+                this.props.history.replace(`/seeds/${seed.seed}/${seed.gameVersion.versionNumber}`);
+            })
+            .catch((error: AxiosError) => {
+                this.setState({ errorOccured: true, uploadLoading: false });
+            })
+    }
+    
     render() {
 
         return (
@@ -399,43 +432,6 @@ class SeedAdder extends React.Component<Props, State & any> {
                 <ErrorSnackbar open={this.state.errorOccured} message="An error has occured." />
 
             </Grid>);
-    }
-
-    uploadSeed = () => {
-        this.setState({ uploadLoading: true });
-
-        //todo: refactor to a method
-        var geysers: any[] = [];
-        this.state.geyserList.forEach((element: Geyser) => {
-            geysers.push({
-                geyserType: element.type,
-                activeDormancyPeriod: element.activeDormancyPeriod,
-                dormancyPeriod: element.dormancyPeriod,
-                activeEruptionPeriod: element.activeEruptionPeriod,
-                eruptionPeriod: element.eruptionPeriod,
-                eruptionRate: element.eruptionRate
-            })
-        });
-
-        var seed: SeedDTO = {
-            addedByMod: false,
-            seed: this.state.seedNumber,
-            gameVersion: {
-                gameUpgrade: this.state.gameUpgrade,
-                versionNumber: this.state.gameVersion
-            },
-            geysers: geysers
-        }
-
-        var url = "seeds";
-        API({ url: url, method: 'post', data: seed, headers: { "Content-Type": "application/json" } })
-            .then(res => {
-                this.setState({ uploadLoading: false });
-                this.props.history.replace(`/seeds/${seed.seed}/${seed.gameVersion.versionNumber}`);
-            })
-            .catch((error: AxiosError) => {
-                this.setState({ errorOccured: true, uploadLoading: false });
-            })
     }
 };
 
