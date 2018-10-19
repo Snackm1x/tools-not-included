@@ -219,7 +219,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                                 <Typography align='center'>The seed number can be found at the bottom of the pause menu when you press Esc in game and the game version number is visible at the bottom of the screen in the main menu. </Typography>
                                 <br />
                                 <Typography align='center'>Next, add geysers that are on the map. Take your time to add all of them! You may not save a seed without at least 8 geysers added. Do not add partially explored maps - you should uncover the map completely first.</Typography>
-                                <Typography align='center'>Geyser details such as eruption rates and active times do not need to be added, but entries that include all information will have an icon specifying that.</Typography>
+                                <Typography align='center'>Geyser details such as eruption rates and active times do not need to be added or may be added partially.</Typography>
                                 <br />
                                 <Typography align='center'>Wait! I'm too lazy to add this manually!</Typography>
                                 <Typography align='center'>I gotchu! I have written a mod that you can install that will export your maps that you uncover in debug mode to a file that you can upload here with all details.</Typography>
@@ -230,7 +230,6 @@ class SeedAdder extends React.Component<Props, State & any> {
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     </Grid>
-
 
                     <Paper className={this.props.classes.paper}>
                         <form onSubmit={(e) => {

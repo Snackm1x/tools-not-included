@@ -16,6 +16,7 @@ import AddSeedPage from './AddSeedPage';
 import SeedModImportInfo from 'src/components/adder/SeedModImportInfo';
 import ComponentURL from 'src/constants/ComponentURL';
 
+var HttpsRedirect = require('react-https-redirect');
 
 const myTheme = createMuiTheme({
   palette: {
@@ -63,28 +64,30 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
     const { classes } = this.props;
 
     return (
-      <MuiThemeProvider theme={myTheme}>
-        <CssBaseline />
-        <div className={classes.root}>
-          <BrowserRouter>
-            <Grid className={classes.contentGridUpper}>
-              <Nav />
-              <Grid className={classes.contentGrid}>
-                <Switch>
-                  <Route exact path={ComponentURL.Home} component={SeedBrowserPage} />
-                  <Route exact path={ComponentURL.SeedBrowser} component={SeedBrowserPage} />
-                  <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
-                  <Route exact path="/seeds/edit/:seed/:version" />
-                  <Route exact path={ComponentURL.AddSeed} component={AddSeedPage} />
-                  <Route exact path={ComponentURL.SeedModImportInfo} component={SeedModImportInfo} />
-                  <Route exact path={ComponentURL.About} component={AboutPage} />
-                  <Route component={Error404} />
-                </Switch>
+      <HttpsRedirect>
+        <MuiThemeProvider theme={myTheme}>
+          <CssBaseline />
+          <div className={classes.root}>
+            <BrowserRouter>
+              <Grid className={classes.contentGridUpper}>
+                <Nav />
+                <Grid className={classes.contentGrid}>
+                  <Switch>
+                    <Route exact path={ComponentURL.Home} component={SeedBrowserPage} />
+                    <Route exact path={ComponentURL.SeedBrowser} component={SeedBrowserPage} />
+                    <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
+                    <Route exact path="/seeds/edit/:seed/:version" />
+                    <Route exact path={ComponentURL.AddSeed} component={AddSeedPage} />
+                    <Route exact path={ComponentURL.SeedModImportInfo} component={SeedModImportInfo} />
+                    <Route exact path={ComponentURL.About} component={AboutPage} />
+                    <Route component={Error404} />
+                  </Switch>
+                </Grid>
               </Grid>
-            </Grid>
-          </BrowserRouter>
-        </div>
-      </MuiThemeProvider>
+            </BrowserRouter>
+          </div>
+        </MuiThemeProvider>
+      </HttpsRedirect>
     );
   }
 }

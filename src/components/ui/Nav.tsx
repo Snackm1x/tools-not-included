@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Typography';
 
 import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import Info from '@material-ui/icons/Info';
 import { Link } from 'react-router-dom'
 import ComponentURL from "src/constants/ComponentURL";
