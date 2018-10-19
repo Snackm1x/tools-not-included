@@ -13,8 +13,6 @@ import Geyser from '../../types/classes/Geyser';
 import { GeyserProperties } from '../../constants/GeyserProperties';
 import IGeyserProperties from '../../types/interfaces/IGeyserProperties';
 
-//import { GeyserType } from '../types/geyser-type';
-
 export interface Props extends WithStyles<typeof styles> {
     geyser: Geyser
 }
@@ -64,6 +62,14 @@ class GeyserCard extends React.Component<Props> {
         super(props);
     }
 
+    formatGeyserStatVal = (stat : number | undefined, fixed: boolean = false, decimalPlaces : number = 0) => {
+        if (!stat || stat < 0) return "?";
+
+        if (!fixed) return stat;
+
+        return stat.toFixed(decimalPlaces);
+    }
+
     render() {
         var geyserProperties = GeyserProperties.get(this.props.geyser.type) as IGeyserProperties;
         var imageSrc = '/images/' + geyserProperties.image;
@@ -83,21 +89,21 @@ class GeyserCard extends React.Component<Props> {
 
                         <Grid container className={this.props.classes.cardContainer}>
                             <Typography>
-                                Eruption rate: <b>{Number(this.props.geyser.eruptionRate).toFixed(0)} g/s</b> at {geyserProperties.outputTemp} °C
+                                Eruption rate: <b>{this.formatGeyserStatVal(this.props.geyser.eruptionRate)} g/s</b> at {geyserProperties.outputTemp} °C
                             </Typography>
 
                             <Typography>
-                                Erupts for <b>{this.props.geyser.activeEruptionPeriod} s</b> every <b>{this.props.geyser.eruptionPeriod} s</b>
+                                Erupts for <b>{this.formatGeyserStatVal(this.props.geyser.activeEruptionPeriod)} s</b> every <b>{this.formatGeyserStatVal(this.props.geyser.eruptionPeriod)} s</b>
                             </Typography>
 
                             <Typography>
-                                Active for <b>{Number(this.props.geyser.activeDormancyPeriod).toFixed(1)} cycles</b> every <b>{Number(this.props.geyser.dormancyPeriod).toFixed(1)} cycles</b>
+                                Active for <b>{this.formatGeyserStatVal((this.props.geyser.activeDormancyPeriod), true, 1)} cycles</b> every <b>{this.formatGeyserStatVal(this.props.geyser.dormancyPeriod, true, 1)} cycles</b>
                             </Typography>
 
                             <br />
 
                             <Typography>
-                                Calculated actual output: <b>{isNaN(Number(this.props.geyser.calculatedOutput)) ?  this.props.geyser.calculatedOutput : Number(this.props.geyser.calculatedOutput).toFixed(2) + " g/s"} </b>
+                                Calculated actual output: <b>{isNaN(Number(this.props.geyser.calculatedOutput)) ?  this.props.geyser.calculatedOutput : this.formatGeyserStatVal(Number(this.props.geyser.calculatedOutput), true, 2) + " g/s"} </b>
                             </Typography>
                         </Grid>
                     </CardContent>
