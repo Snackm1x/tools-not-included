@@ -77,11 +77,11 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
                 </Paper>
                 <Switch>
                   <Route exact path={ComponentURL.Home} component={SeedBrowserPage} />
-                  <Route exact path={ComponentURL.SeedBrowser}  component={SeedBrowserPage} />
+                  <Route exact path={ComponentURL.SeedBrowser} component={SeedBrowserPage} />
                   <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
                   <Route exact path="/seeds/edit/:seed/:version" />
-                  <Route exact path={ComponentURL.AddSeed}  component={AddSeedPage} />
-                  <Route exact path={ComponentURL.SeedModImportInfo}  component={SeedModImportInfo} />
+                  <Route exact path={ComponentURL.AddSeed} component={AddSeedPage} />
+                  <Route exact path={ComponentURL.SeedModImportInfo} component={SeedModImportInfo} />
                   <Route exact path={ComponentURL.About} component={AboutPage} />
                   <Route component={Error404} />
                 </Switch>
