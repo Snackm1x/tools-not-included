@@ -91,11 +91,9 @@ function Nav(props: Props) {
                     </Grid>
 
                     <div className={props.classes.buttons}>
-                        <Tooltip title="About">
-                            <IconButton color="inherit" component={({ innerRef, ...props }) => <Link to={ComponentURL.About} {...props} />} >
-                                <Info />
-                            </IconButton>
-                        </Tooltip>
+                        <IconButton color="inherit" component={({ innerRef, ...props }) => <Link to={ComponentURL.About} {...props} />} >
+                            <Info />
+                        </IconButton>
                     </div>
                 </Toolbar>
             </AppBar>

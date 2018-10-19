@@ -226,6 +226,12 @@ class SeedList extends React.Component<Props, any> {
             })
         }
 
+        if (filter.showModAddedOnly) {
+            filtered = filtered.filter((s: Seed) => {
+                return s.addedByMod;
+            })
+        }
+
         if (filter.selectedSeed != null && filter.selectedSeed > 0) {
             filtered = filtered.filter(function (e: Seed) { return e.seedNumber == filter.selectedSeed })
         }
