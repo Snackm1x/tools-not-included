@@ -16,8 +16,6 @@ import AddSeedPage from './AddSeedPage';
 import SeedModImportInfo from 'src/components/adder/SeedModImportInfo';
 import ComponentURL from 'src/constants/ComponentURL';
 
-var HttpsRedirect = require('react-https-redirect');
-
 const myTheme = createMuiTheme({
   palette: {
     type: 'dark'
@@ -64,7 +62,6 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
     const { classes } = this.props;
 
     return (
-      <HttpsRedirect>
         <MuiThemeProvider theme={myTheme}>
           <CssBaseline />
           <div className={classes.root}>
@@ -87,7 +84,6 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
             </BrowserRouter>
           </div>
         </MuiThemeProvider>
-      </HttpsRedirect>
     );
   }
 }
