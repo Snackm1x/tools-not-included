@@ -63,11 +63,11 @@ class GeyserCard extends React.Component<Props> {
     }
 
     formatGeyserStatVal = (stat : number | undefined, fixed: boolean = false, decimalPlaces : number = 0) => {
-        if (!stat || stat < 0) return "?";
+        if (!stat || stat <= 0) return "?";
 
         if (!fixed) return stat;
 
-        return stat.toFixed(decimalPlaces);
+        return (stat as number).toFixed(decimalPlaces);
     }
 
     render() {
@@ -97,7 +97,7 @@ class GeyserCard extends React.Component<Props> {
                             </Typography>
 
                             <Typography>
-                                Active for <b>{this.formatGeyserStatVal((this.props.geyser.activeDormancyPeriod), true, 1)} cycles</b> every <b>{this.formatGeyserStatVal(this.props.geyser.dormancyPeriod, true, 1)} cycles</b>
+                                Active for <b>{this.formatGeyserStatVal((this.props.geyser.activeDormancyPeriod))} cycles</b> every <b>{this.formatGeyserStatVal(this.props.geyser.dormancyPeriod)} cycles</b>
                             </Typography>
 
                             <br />

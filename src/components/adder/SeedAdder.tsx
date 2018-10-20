@@ -382,7 +382,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             className={this.props.classes.textFieldGeyser}
                                             margin="normal"
                                             InputProps={{
-                                                inputProps: { min: 0, max: 200000 }
+                                                inputProps: { min: 0, max: 200000, step: 0.1 }
                                             }} />
 
                                         <TextField
@@ -395,7 +395,7 @@ class SeedAdder extends React.Component<Props, State & any> {
                                             className={this.props.classes.textFieldGeyser}
                                             margin="normal"
                                             InputProps={{
-                                                inputProps: { min: 0, max: 200000 }
+                                                inputProps: { min: 0, max: 200000, step: 0.1 }
                                             }} />
 
                                     </Grid>
