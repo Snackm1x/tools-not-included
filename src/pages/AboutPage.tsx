@@ -4,7 +4,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Paper } from '@material-ui/core';
+import { Paper, Divider } from '@material-ui/core';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -50,6 +50,12 @@ class AboutPage extends React.Component<WithStyles<typeof styles>> {
                             <Typography variant="subheading">In the meantime you can give my game mods a shot! They're available in the <a style={{ color: '#FFFFFF' }} href="https://github.com/Cairath/ONI-Mods">Github repository</a> or in the <a style={{ color: '#FFFFFF' }} href="https://forums.kleientertainment.com/forums/topic/94120-mods-cairaths-mod-corner">thread on the Klei forums</a>.</Typography>
                             <br />
                             <Typography variant="subheading">See you around!</Typography>
+                            <br />
+                            <br />
+                            <Divider></Divider>
+                            <br />
+                            <br />
+                            <Typography variant="subheading">Disclaimer: graphic assets used on the website are taken from Oxygen Not Included and belong to Klei Entertainment.</Typography>
                         </Grid>
                     </Paper>
                 </Grid>
