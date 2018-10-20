@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, createStyles, Typography } from '@material-ui/core';
+import { withStyles, WithStyles, createStyles, Typography, createMuiTheme  } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Card from '@material-ui/core/Card';
@@ -16,8 +16,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
-import * as LocalStorage from '../../utils/LocalStorageAccess'; 
+import * as LocalStorage from '../../utils/LocalStorageAccess';
 import LocalStorageKeys from "../../constants/LocalStorageKeys";
+
+import classNames from 'classnames';
+import Icon from '@material-ui/core/Icon';
+
+const css = require('fg-loadcss/src/loadCSS');
 
 export interface Props extends WithStyles<typeof styles> {
     seed: Seed
@@ -57,6 +62,12 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
+    icon: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        fontSize: '1.2rem',
+        width: 'auto'
+    },
 });
 
 var geyserTypes: IGeyserProperties[] = [];
@@ -76,8 +87,14 @@ class SeedSummary extends React.Component<Props, State> {
             favorite: this.isFavorite()
         }
     }
+    
+    componentDidMount() {
+        css.loadCSS(
+            'https://use.fontawesome.com/releases/v5.1.0/css/all.css', document.querySelector('#insertion-point-jss'),
+        );
+    }
 
-    isFavorite = () : boolean => {
+    isFavorite = (): boolean => {
         var seedString = this.props.seed.seedNumber + "/" + this.props.seed.gameVersion.versionNumber;
         var favorites = LocalStorage.getFavorites();
 
@@ -90,12 +107,12 @@ class SeedSummary extends React.Component<Props, State> {
         var favorites = LocalStorage.getFavorites();
 
         if (this.state.favorite) {
-            var index : number = favorites.indexOf(seedString);
+            var index: number = favorites.indexOf(seedString);
             favorites.splice(index, 1);
-            this.setState({favorite: false})
+            this.setState({ favorite: false })
         } else {
             favorites.push(seedString);
-            this.setState({favorite: true})
+            this.setState({ favorite: true })
         }
 
         localStorage.setItem(LocalStorageKeys.FavoriteSeeds, favorites.join());
@@ -120,10 +137,23 @@ class SeedSummary extends React.Component<Props, State> {
 
                     <Grid container item className={this.props.classes.textContainer}>
                         <Grid item xs={12} sm={6}>
-                            <Typography variant="caption">Upload date: {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
+                            <Grid container style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                {this.props.seed.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: createMuiTheme().spacing.unit / 2 }}>
+                                    <Icon className={classNames(this.props.classes.icon, 'fas fa-terminal')} color="action" />
+                                    <Typography variant="caption">Added with the mod</Typography>
+                                </Grid>}
+
+                                {!this.props.seed.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: createMuiTheme().spacing.unit / 2 }}>
+                                    <Icon className={classNames(this.props.classes.icon, 'fas fa-pencil-alt')} color="action" />
+                                    <Typography variant="caption">Added manually</Typography>
+                                </Grid>}
+
+                                <Typography variant="caption">on {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
+
+                                {this.isFavorite() && <Favorite style={{ color: red["900"], marginLeft: 'auto' }} />}
+                            </Grid>
                         </Grid>
                         <Grid item xs={12} sm={6} style={{ display: 'inline-flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
-                            <Typography variant="caption">Report invalid</Typography>
 
                             <Grid className={this.props.classes.favoriteDiv}>
                                 <Typography variant="caption" style={{ marginLeft: 20 }}> {this.state.favorite ? "Remove" : "Add"} favorite</Typography>

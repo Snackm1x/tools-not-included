@@ -67,7 +67,7 @@ class GeyserCard extends React.Component<Props> {
 
         if (!fixed) return stat;
 
-        return (stat as number).toFixed(decimalPlaces);
+        return (+stat).toFixed(decimalPlaces);
     }
 
     render() {
@@ -89,7 +89,7 @@ class GeyserCard extends React.Component<Props> {
 
                         <Grid container className={this.props.classes.cardContainer}>
                             <Typography>
-                                Eruption rate: <b>{this.formatGeyserStatVal(this.props.geyser.eruptionRate)} g/s</b> at {geyserProperties.outputTemp} °C
+                                Eruption rate: <b>{this.formatGeyserStatVal(this.props.geyser.eruptionRate, true, 0)} g/s</b> at {geyserProperties.outputTemp} °C
                             </Typography>
 
                             <Typography>
@@ -97,7 +97,7 @@ class GeyserCard extends React.Component<Props> {
                             </Typography>
 
                             <Typography>
-                                Active for <b>{this.formatGeyserStatVal((this.props.geyser.activeDormancyPeriod))} cycles</b> every <b>{this.formatGeyserStatVal(this.props.geyser.dormancyPeriod)} cycles</b>
+                                Active for <b>{this.formatGeyserStatVal(this.props.geyser.activeDormancyPeriod, true, 1)} cycles</b> every <b>{this.formatGeyserStatVal(this.props.geyser.dormancyPeriod, true, 1)} cycles</b>
                             </Typography>
 
                             <br />

@@ -19,4 +19,4 @@ ReactGA.initialize('UA-127751254-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(<Root />, document.getElementById('root') as HTMLElement);
-registerServiceWorker();
+//registerServiceWorker();
