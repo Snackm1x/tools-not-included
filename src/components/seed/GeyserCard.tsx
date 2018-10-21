@@ -89,7 +89,7 @@ class GeyserCard extends React.Component<Props> {
 
                         <Grid container className={this.props.classes.cardContainer}>
                             <Typography>
-                                Eruption rate: <b>{this.formatGeyserStatVal(this.props.geyser.eruptionRate, true, 0)} g/s</b> at {geyserProperties.outputTemp} °C
+                                Eruption rate: <b>{this.formatGeyserStatVal(this.props.geyser.eruptionRate, true, 2)} g/s</b> at {geyserProperties.outputTemp} °C
                             </Typography>
 
                             <Typography>
