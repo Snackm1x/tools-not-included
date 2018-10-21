@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, createStyles, createMuiTheme } from '@material-ui/core';
+import { withStyles, WithStyles, createStyles, createMuiTheme, Chip } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Card from '@material-ui/core/Card';
@@ -18,7 +18,7 @@ import classNames from 'classnames';
 import Divider from '@material-ui/core/Divider';
 import Icon from '@material-ui/core/Icon';
 
-import * as LocalStorage from '../../utils/LocalStorageAccess'; 
+import * as LocalStorage from '../../utils/LocalStorageAccess';
 import red from '@material-ui/core/colors/red';
 
 const css = require('fg-loadcss/src/loadCSS');
@@ -85,7 +85,7 @@ class SeedCard extends React.Component<Props> {
         );
     }
 
-    isFavorite = () : boolean => {
+    isFavorite = (): boolean => {
         var seedString = this.props.world.seedNumber + "/" + this.props.world.gameVersion.versionNumber;
         var favorites = LocalStorage.getFavorites();
 
@@ -115,21 +115,24 @@ class SeedCard extends React.Component<Props> {
                         </Grid>
                     </Grid>
 
-                    <Divider style={{ marginTop: createMuiTheme().spacing.unit, marginBottom: createMuiTheme().spacing.unit}} />
-                    <Grid container style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                        {this.props.world.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center',  marginRight: createMuiTheme().spacing.unit/2 }}>
+                    <Divider style={{ marginTop: createMuiTheme().spacing.unit, marginBottom: createMuiTheme().spacing.unit }} />
+                    <Grid container style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        {this.props.world.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: createMuiTheme().spacing.unit / 2 }}>
                             <Icon className={classNames(this.props.classes.icon, 'fas fa-terminal')} color="action" />
                             <Typography variant="caption">Added with the mod</Typography>
                         </Grid>}
 
-                        {!this.props.world.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: createMuiTheme().spacing.unit/2 }}>
+                        {!this.props.world.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: createMuiTheme().spacing.unit / 2 }}>
                             <Icon className={classNames(this.props.classes.icon, 'fas fa-pencil-alt')} color="action" />
                             <Typography variant="caption">Added manually</Typography>
                         </Grid>}
 
                         <Typography variant="caption">on {this.props.world.creationDate.toDateString()} {this.props.world.creationDate.toLocaleTimeString()}</Typography>
 
-                        {this.isFavorite() && <Favorite style={{ color: red["900"], marginLeft: 'auto' }}/> }
+                        {/*this.props.world.modVersion! < 2 && <Chip style={{ marginLeft: 'auto' }} color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. You can update it by uploading it again with the mod." />*/}
+                        {this.props.world.modVersion! < 2 && <Chip style={{ marginLeft: 'auto' }} color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. Soon you will be able to add that info to it." />}
+
+                        {this.isFavorite() && <Favorite style={{ color: red["900"], marginLeft: 'auto' }} />}
                     </Grid>
                 </Grid>
 

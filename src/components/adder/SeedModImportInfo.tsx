@@ -73,7 +73,7 @@ class SeedModImportInfo extends React.Component<Props> {
                             <br />
                             <br />
                             <br />
-                            <Typography variant="caption">Current mod version: 1. Last update: 20/10/2018</Typography>
+                            <Typography variant="caption">Current mod version: 2.0. Last update: 21/10/2018</Typography>
                         </Grid>
                     </Paper>
                 </Grid>

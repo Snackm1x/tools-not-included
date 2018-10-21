@@ -164,7 +164,7 @@ class SeedList extends React.Component<Props, any> {
         this.state = {
             geyserTypes: geysers,
             page: 0,
-            rowsPerPage: 5,
+            rowsPerPage: 50,
             rows: this.props.seeds,
             seeds: this.props.seeds
         };
@@ -320,6 +320,10 @@ class SeedList extends React.Component<Props, any> {
             filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.VOLCANO_MINOR)! >= filter.min_VOLCANO_MINOR })
         }
 
+        if (filter.min_OIL_RESERVOIR != null) {
+            filtered = filtered.filter(function (e: Seed) { return e.geyserQuantities.get(GeyserType.OIL_RESERVOIR)! >= filter.min_OIL_RESERVOIR || (e.modVersion && e.modVersion < 2)})
+        }
+
         this.setState({ rows: filtered });
     }
 
@@ -336,6 +340,7 @@ class SeedList extends React.Component<Props, any> {
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             ActionsComponent={TablePag}
+            rowsPerPageOptions = {[25, 50, 100]}
             classes={{
                 toolbar: this.props.classes.pagbar
             }} />

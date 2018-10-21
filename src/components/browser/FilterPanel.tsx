@@ -105,6 +105,7 @@ export interface FilteringState {
     min_VOLCANO_GOLD: number;
     min_VOLCANO_IRON: number;
     min_VOLCANO_MINOR: number;
+    min_OIL_RESERVOIR: number;
 }
 
 class FilterPanel extends React.Component<Props, FilteringState & any> {
@@ -141,7 +142,8 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
             min_VOLCANO_COPPER: 0,
             min_VOLCANO_GOLD: 0,
             min_VOLCANO_IRON: 0,
-            min_VOLCANO_MINOR: 0
+            min_VOLCANO_MINOR: 0,
+            min_OIL_RESERVOIR: 0
         }
     }
 

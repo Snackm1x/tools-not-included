@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, createStyles, Typography, createMuiTheme  } from '@material-ui/core';
+import { withStyles, WithStyles, createStyles, Typography, createMuiTheme, Chip  } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import Card from '@material-ui/core/Card';
@@ -149,8 +149,6 @@ class SeedSummary extends React.Component<Props, State> {
                                 </Grid>}
 
                                 <Typography variant="caption">on {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
-
-                                {this.isFavorite() && <Favorite style={{ color: red["900"], marginLeft: 'auto' }} />}
                             </Grid>
                         </Grid>
                         <Grid item xs={12} sm={6} style={{ display: 'inline-flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
@@ -164,6 +162,9 @@ class SeedSummary extends React.Component<Props, State> {
                             </Grid>
                         </Grid>
                     </Grid>
+
+                     {/*this.props.seed.modVersion! < 2 && <Chip color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. You can update it by uploading it again with the mod." />*/}
+                     {this.props.seed.modVersion! < 2 && <Chip color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. Soon you will be able to add that info to it." />}
                 </Card>
             </Grid>);
     }

@@ -19,5 +19,7 @@ export enum GeyserType {
     VOLCANO_IRON = "VOLCANO_IRON",
     VOLCANO_MINOR = "VOLCANO_MINOR",
     VOLCANO = "VOLCANO",
+
+    OIL_RESERVOIR = "OIL_RESERVOIR"
 }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
-import { withStyles, WithStyles } from '@material-ui/core/styles';
+import { withStyles, WithStyles, createMuiTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -11,6 +11,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Info from '@material-ui/icons/Info';
 import { Link } from 'react-router-dom'
 import ComponentURL from "src/constants/ComponentURL";
+import { Chip } from "@material-ui/core";
+
+import red from '@material-ui/core/colors/red';
 
 const styles = (theme: Theme) => {
 
@@ -99,8 +102,8 @@ function Nav(props: Props) {
             <AppBar position="absolute" color="default" className={props.classes.appbar2}>
                 <Toolbar className={props.classes.toolbar2}>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedBrowser} {...props} />}>Browser</Typography>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.AddSeed} {...props} />}>Add new seed</Typography>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo}{...props} />}>In-game upload</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo}{...props} />}>In-game seed upload</Typography>
+                    <Chip style={{marginLeft: 'auto', marginRight: createMuiTheme().spacing.unit, height: 25, backgroundColor: red["900"], fontSize: '1.1rem'}} color="default" label="Current mod version: 2.0, updated Oct 21 2018. Please make sure you always have the newest version." />
                 </Toolbar>
             </AppBar>
         </div>

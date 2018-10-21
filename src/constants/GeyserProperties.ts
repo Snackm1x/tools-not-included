@@ -21,7 +21,9 @@ export const GeyserProperties = new Map<GeyserType, IGeyserProperties>(
         [GeyserType.VOLCANO_COPPER, { displayName: "Copper Volcano", image: "volcano_copper.png", outputTemp: 2226.9, geyserType: GeyserType.VOLCANO_COPPER }],
         [GeyserType.VOLCANO_GOLD, { displayName: "Gold Volcano", image: "volcano_gold.png", outputTemp: 2626.9, geyserType: GeyserType.VOLCANO_GOLD }],
         [GeyserType.VOLCANO_IRON, { displayName: "Iron Volcano", image: "volcano_iron.png", outputTemp: 2526.9, geyserType: GeyserType.VOLCANO_IRON }],
-        [GeyserType.VOLCANO_MINOR, { displayName: "Minor Volcano", image: "volcano_minor.png", outputTemp: 1726.9, geyserType: GeyserType.VOLCANO_MINOR }],
+        [GeyserType.VOLCANO_MINOR, { displayName: "Minor Volcano", image: "volcano_minor.png", outputTemp: 1726.9, geyserType: GeyserType.VOLCANO_MINOR }],       
         [GeyserType.VOLCANO, { displayName: "Volcano", image: "volcano.png", outputTemp: 1726.9, geyserType: GeyserType.VOLCANO }],
+
+        [GeyserType.OIL_RESERVOIR, { displayName: "Oil Reservoir", image: "oil_reservoir.png", outputTemp: 150, geyserType: GeyserType.OIL_RESERVOIR }],
     ]
 );
