@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as WebFont from 'webfontloader';
 
-
 import './index.css';
 import Root from './pages/Root';
 import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 var ReactGA = require('react-ga');
 
@@ -20,3 +20,4 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 
 ReactDOM.render(<Root />, document.getElementById('root') as HTMLElement);
 //registerServiceWorker();
+unregister();
