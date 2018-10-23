@@ -163,8 +163,7 @@ class SeedSummary extends React.Component<Props, State> {
                         </Grid>
                     </Grid>
 
-                     {/*this.props.seed.modVersion! < 2 && <Chip color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. You can update it by uploading it again with the mod." />*/}
-                     {this.props.seed.modVersion! < 2 && <Chip color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. Soon you will be able to add that info to it." />}
+                     {this.props.seed.modVersion! < 2 && <Typography style={{marginRight: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1rem", display: 'inline-flex', backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16}}>This seed was added before Oil Reservoirs could be uploaded to the website. Soon you will be able to add that info to it.</Typography>}
                 </Card>
             </Grid>);
     }

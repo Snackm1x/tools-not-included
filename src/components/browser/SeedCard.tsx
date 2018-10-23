@@ -129,8 +129,7 @@ class SeedCard extends React.Component<Props> {
 
                         <Typography variant="caption">on {this.props.world.creationDate.toDateString()} {this.props.world.creationDate.toLocaleTimeString()}</Typography>
 
-                        {/*this.props.world.modVersion! < 2 && <Chip style={{ marginLeft: 'auto' }} color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. You can update it by uploading it again with the mod." />*/}
-                        {this.props.world.modVersion! < 2 && <Chip style={{ marginLeft: 'auto' }} color="default" label="This seed was added before Oil Reservoirs could be uploaded to the website. Soon you will be able to add that info to it." />}
+                        {this.props.world.modVersion! < 2 && <Typography style={{marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "0.96rem", backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16}}>This seed was added before Oil Reservoirs could be uploaded to the website. Soon you will be able to add that info to it.</Typography>}
 
                         {this.isFavorite() && <Favorite style={{ color: red["900"], marginLeft: 'auto' }} />}
                     </Grid>

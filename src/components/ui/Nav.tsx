@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Info from '@material-ui/icons/Info';
 import { Link } from 'react-router-dom'
 import ComponentURL from "src/constants/ComponentURL";
-import { Chip } from "@material-ui/core";
+import Hidden from '@material-ui/core/Hidden';
 
 import red from '@material-ui/core/colors/red';
 
@@ -103,7 +103,9 @@ function Nav(props: Props) {
                 <Toolbar className={props.classes.toolbar2}>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedBrowser} {...props} />}>Browser</Typography>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo}{...props} />}>In-game seed upload</Typography>
-                    <Chip style={{marginLeft: 'auto', marginRight: createMuiTheme().spacing.unit, height: 25, backgroundColor: red["900"], fontSize: '1.1rem'}} color="default" label="Current mod version: 2.0, updated Oct 21 2018. Please make sure you always have the newest version." />
+                    <Hidden smDown>
+                        <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: red["900"], borderRadius: 16 }}>Current mod version: 2.0, updated Oct 21 2018. Please make sure you always have the newest version.</Typography>
+                    </Hidden>
                 </Toolbar>
             </AppBar>
         </div>
