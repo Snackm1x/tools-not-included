@@ -32,9 +32,22 @@ class SeedBrowserPage extends React.Component<Props, State> {
         this.state = { errorOccured: false}
     }
 
-    errorOccured = (error: AxiosError) => {
-        handleError(error, this.props.history);
-        this.setState({ errorOccured: true });
+    componentDidMount() {
+        var url = "seeds/all";
+
+        API.get<Array<SeedDTO>>(url)
+            .then(res => {
+                var seeds: Seed[] = [];
+                res.data.forEach(element => {
+                    var seed = Seed.FromDTO(element);
+                    seeds.push(seed);
+                });
+                this.setState({ seeds: seeds, loading: false });
+            })
+            .catch((error: AxiosError) => {
+                handleError(error, this.props.history);
+                this.setState({ errorOccured: true, loading: false });
+            })
     }
 
     render() {
