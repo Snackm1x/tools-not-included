@@ -12,7 +12,6 @@ import AboutPage from './AboutPage';
 import Error404 from './Error404';
 import Nav from '../components/ui/Nav';
 import '../fonts/fonts.css';
-import AddSeedPage from './AddSeedPage';
 import SeedModImportInfo from 'src/components/adder/SeedModImportInfo';
 import ComponentURL from 'src/constants/ComponentURL';
 
