@@ -41,7 +41,7 @@ class SeedBrowserPage extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        var url = "seeds";
+        var url = "seeds/all";
 
         API.get<Array<SeedDTO>>(url)
             .then(res => {
