@@ -4,8 +4,10 @@ import * as WebFont from 'webfontloader';
 
 import './index.css';
 import Root from './pages/Root';
-import registerServiceWorker from './registerServiceWorker';
 import { unregister } from './registerServiceWorker';
+import  configureStore from './store/store';
+
+import { createBrowserHistory} from 'history'
 
 var ReactGA = require('react-ga');
 
@@ -17,9 +19,13 @@ WebFont.load({
 
 if (location.protocol !== "http:") location.protocol = "http:";
 
+unregister();
 ReactGA.initialize('UA-127751254-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-ReactDOM.render(<Root />, document.getElementById('root') as HTMLElement);
-//registerServiceWorker();
-unregister();
+const history = createBrowserHistory();
+const store = configureStore(history);
+
+ReactDOM.render(
+    <Root store={store} history={history}/>,
+  document.getElementById('root') as HTMLElement);

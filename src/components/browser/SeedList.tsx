@@ -164,10 +164,8 @@ class SeedList extends React.Component<Props, any> {
 
         this.state = {
             geyserTypes: geysers,
-            page: 0,
-            rowsPerPage: 50,
-            rows: this.props.seeds,
-            seeds: this.props.seeds,
+            page: 1,
+            rowsPerPage: 50
         };
     }
 
@@ -239,12 +237,11 @@ class SeedList extends React.Component<Props, any> {
 
     render() {
         const { rowsPerPage, page } = this.state;
-        const rows = this.state.rows;
 
         const pagination = <TablePagination
             style={{ marginLeft: 'auto' }}
             component="div"
-            count={rows.length}
+            count={0}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={this.handleChangePage}
@@ -278,9 +275,9 @@ class SeedList extends React.Component<Props, any> {
                     {pagination}
                 </Grid>
                 {this.props.loading && <CircularProgress size={35} color="primary" />}
-                <Table>
+                {!this.props.loading &&  this.props.seeds && <Table>
                     <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Seed) => {
+                        {this.props.seeds.map((row: Seed) => {
                             var url = "/seeds/" + row.seedNumber + "/" + row.gameVersion.versionNumber;
                             return (
                                 <TableRow key={row.id} >
@@ -293,7 +290,7 @@ class SeedList extends React.Component<Props, any> {
                             );
                         })}
                     </TableBody>
-                </Table>
+                </Table>}
                 {pagination}
             </Grid>);
     }

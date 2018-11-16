@@ -3,17 +3,21 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import Grid from '@material-ui/core/Grid';
 
-import SeedDetailsPage from './SeedDetailsPage';
-import SeedBrowserPage from './SeedBrowserPage';
-import AboutPage from './AboutPage';
-import Error404 from './Error404';
+
 import Nav from '../components/ui/Nav';
 import '../fonts/fonts.css';
-import SeedModImportInfo from 'src/components/adder/SeedModImportInfo';
-import ComponentURL from 'src/constants/ComponentURL';
+import Routes from '../routes';
+
+import { Provider } from 'react-redux';
+import { Store } from 'redux'
+import { History } from 'history'
+import { ConnectedRouter } from 'connected-react-router'
+
+// Import the state interface and our combined reducers/sagas.
+import { ApplicationState } from '../store'
 
 const myTheme = createMuiTheme({
   palette: {
@@ -48,9 +52,13 @@ const styles = () =>
     },
   });
 
+   export interface RootProps extends WithStyles<typeof styles> {
+    store: Store<ApplicationState>
+    history: History
+  }
 
-class Root extends React.Component<WithStyles<typeof styles>, any> {
-  constructor(props: WithStyles<typeof styles>) {
+class Root extends React.Component<RootProps, any> {
+  constructor(props: RootProps) {
     super(props);
     this.state = {
       errorFound: false
@@ -61,27 +69,21 @@ class Root extends React.Component<WithStyles<typeof styles>, any> {
     const { classes } = this.props;
 
     return (
-        <MuiThemeProvider theme={myTheme}>
-          <CssBaseline />
-          <div className={classes.root}>
-            <BrowserRouter>
+      <MuiThemeProvider theme={myTheme}>
+        <CssBaseline />
+        <div className={classes.root}>
+          <Provider store={this.props.store}>
+            <ConnectedRouter history={this.props.history}>
               <Grid className={classes.contentGridUpper}>
                 <Nav />
                 <Grid className={classes.contentGrid}>
-                  <Switch>
-                    <Route exact path={ComponentURL.Home} component={SeedBrowserPage} />
-                    <Route exact path={ComponentURL.SeedBrowser} component={SeedBrowserPage} />
-                    <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
-                    <Route exact path="/seeds/edit/:seed/:version" />
-                    <Route exact path={ComponentURL.SeedModImportInfo} component={SeedModImportInfo} />
-                    <Route exact path={ComponentURL.About} component={AboutPage} />
-                    <Route component={Error404} />
-                  </Switch>
+                  <Routes/>
                 </Grid>
               </Grid>
-            </BrowserRouter>
-          </div>
-        </MuiThemeProvider>
+            </ConnectedRouter>
+          </Provider>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

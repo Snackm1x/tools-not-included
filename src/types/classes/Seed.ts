@@ -50,6 +50,6 @@ export default class Seed {
             geysers.push(new Geyser(element.geyserType as GeyserType, element.eruptionRate, element.activeDormancyPeriod, element.dormancyPeriod, element.eruptionPeriod, element.activeEruptionPeriod));
         });
 
-        return new Seed(dto.seed, new GameVersion(dto.gameVersion.gameUpgrade as GameUpgrade, dto.gameVersion.versionNumber), geysers, dto.creationDate ? new Date(dto.creationDate) : undefined, dto.addedByMod, dto.modVersion, dto.id);
+        return new Seed(dto.seed, new GameVersion(dto.gameUpgrade as GameUpgrade, dto.versionNumber), geysers, dto.creationDate ? new Date(dto.creationDate) : undefined, dto.addedByMod, dto.modVersion, dto.id);
     }
 };

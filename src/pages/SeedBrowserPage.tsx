@@ -2,13 +2,16 @@ import Grid from '@material-ui/core/Grid';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import * as React from 'react';
-import { withRouter } from 'react-router'
-import { RouteComponentProps } from 'react-router'
 import SeedBrowser from '../components/browser/SeedBrowser';
 
-import { AxiosError } from 'axios';
-import handleError from '../api/errorHandler';
-import ErrorSnackbar from '../components/ui/ErrorSnackbar';
+
+import { connect } from 'react-redux';
+import { ApplicationState, ConnectedReduxProps } from '../store';
+import SeedListDTO from 'src/api/dto/SeedListDTO';
+import { fetchRequest } from 'src/store/browser/actions';
+import { Dispatch } from 'redux';
+import Seed from 'src/types/classes/Seed';
+import SeedListFilterDTO from 'src/api/dto/SeedListFilterDTO';
 
 const styles = () => createStyles({
     root: {
@@ -19,47 +22,58 @@ const styles = () => createStyles({
     },
 });
 
-export interface Props extends WithStyles<typeof styles>, RouteComponentProps<any> { }
+export interface Props extends WithStyles<typeof styles> { }
 
-export interface State {
-    errorOccured: boolean;
+// Separate state props + dispatch props to their own interfaces.
+interface PropsFromState {
+    loading: boolean,
+    seeds: Seed[],
+    errors: string | undefined
 }
 
-class SeedBrowserPage extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+// We can use `typeof` here to map our dispatch types to the props, like so.
+interface PropsFromDispatch {
+    fetchRequest: typeof fetchRequest
+}
 
-        this.state = { errorOccured: false}
+// Combine both state + dispatch props - as well as any props we want to pass - in a union type.
+type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps & WithStyles<typeof styles>
+
+class SeedBrowserPage extends React.Component<AllProps> {
+    constructor(props: AllProps) {
+        super(props);
     }
 
     componentDidMount() {
-        var url = "seeds/all";
-
-        API.get<Array<SeedDTO>>(url)
-            .then(res => {
-                var seeds: Seed[] = [];
-                res.data.forEach(element => {
-                    var seed = Seed.FromDTO(element);
-                    seeds.push(seed);
-                });
-                this.setState({ seeds: seeds, loading: false });
-            })
-            .catch((error: AxiosError) => {
-                handleError(error, this.props.history);
-                this.setState({ errorOccured: true, loading: false });
-            })
+        this.props.fetchRequest({ page: 1, rowsPerPage: 100 });
     }
 
     render() {
         return (
             <Grid item container className={this.props.classes.root}>
                 <Grid item container>
-                    <SeedBrowser onErrorOccured={this.errorOccured}/>
+                    <SeedBrowser seeds={this.props.seeds} loading={this.props.loading}/>
                 </Grid>
-                <ErrorSnackbar open={this.state.errorOccured} message="An error has occured, the website isn't able to connect to the database right now." />
             </Grid>
         );
     }
 }
 
-export default withRouter(withStyles(styles)(SeedBrowserPage));
+//export default withStyles(styles)(SeedBrowserPage);
+
+// It's usually good practice to only include one context at a time in a connected component.
+// Although if necessary, you can always include multiple contexts. Just make sure to
+// separate them from each other to prevent prop conflicts.
+const mapStateToProps = ({ browser }: ApplicationState) => ({
+    loading: browser.loading,
+    errors: browser.errors,
+    seeds: browser.seedList
+})
+
+// mapDispatchToProps is especially useful for constraining our actions to the connected component.
+// You can access these via `this.props`.
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    fetchRequest: (filter : SeedListFilterDTO) => dispatch(fetchRequest(filter)) //todo
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SeedBrowserPage));
