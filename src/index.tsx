@@ -5,7 +5,7 @@ import * as WebFont from 'webfontloader';
 import './index.css';
 import Root from './pages/Root';
 import { unregister } from './registerServiceWorker';
-import  configureStore from './store/store';
+import  configureStore from './store';
 
 import { createBrowserHistory} from 'history'
 

@@ -33,7 +33,7 @@ const styles = (theme: Theme) => createStyles({
 });
 
 
-class SeedModImportInfo extends React.Component<Props> {
+class SeedModImportInfoPage extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -81,4 +81,4 @@ class SeedModImportInfo extends React.Component<Props> {
     }
 };
 
-export default withStyles(styles)(SeedModImportInfo);
+export default withStyles(styles)(SeedModImportInfoPage);

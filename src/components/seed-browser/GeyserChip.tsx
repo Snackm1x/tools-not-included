@@ -7,7 +7,7 @@ import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import Avatar from '@material-ui/core/Avatar';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
-import CustomChip from './CustomChip';
+import CustomChip from '../ui/CustomChip';
 
 export interface Props extends WithStyles<typeof styles> {
     geyserProperties: IGeyserProperties,

@@ -4,7 +4,7 @@ import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import Grid from '@material-ui/core/Grid';
 
-import Seed from '../../types/classes/Seed';
+import Seed from '../../../types/classes/Seed';
 import SeedSummary from './SeedSummary';
 import SeedGeysers from './SeedGeysers';
 

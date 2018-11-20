@@ -10,6 +10,7 @@ import Seed from '../../types/classes/Seed';
 
 export interface Props extends WithStyles<typeof styles> {
     seeds: Seed[];
+    totalEntries: number;
     loading: boolean;
 }
 
@@ -23,12 +24,6 @@ const styles = (theme: Theme) => createStyles({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
-    },
-    worldCards: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center'
     }
 });
 
@@ -46,7 +41,7 @@ class SeedBrowser extends React.Component<Props, State> {
         return (
             <Grid container item className={this.props.classes.root}>
                 <FilterPanel onSubmit={this.filteringSubmitted} />
-                <SeedList seeds={this.props.seeds} loading={this.props.loading} />
+                <SeedList seeds={this.props.seeds} totalEntries={this.props.totalEntries} loading={this.props.loading} />
             </Grid>);
     }
 };

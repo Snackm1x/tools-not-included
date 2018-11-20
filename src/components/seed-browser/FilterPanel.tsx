@@ -85,8 +85,6 @@ export interface FilteringState {
     selectedSeed: number | null;
     selectedEarliestGameVersion: number | null;
     selectedLatestGameVersion: number | null;
-    showFavoritesOnly: boolean;
-    showModAddedOnly: boolean;
     min_GEYSER_CO2: number;
     min_GEYSER_COOL_SLUSH: number;
     min_GEYSER_NATGAS: number;
@@ -123,8 +121,6 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
             selectedSeed: null,
             selectedEarliestGameVersion: null,
             selectedLatestGameVersion: null,
-            showFavoritesOnly: false,
-            showModAddedOnly: false,
             min_GEYSER_CO2: 0,
             min_GEYSER_COOL_SLUSH: 0,
             min_GEYSER_NATGAS: 0,
@@ -263,24 +259,6 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
                             </Grid>
 
                             <Grid style={{ display: 'flex', flexFlow: 'row wrap', alignContent: 'center' }}>
-                                <FormControlLabel
-                                    className={this.props.classes.box}
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.showFavoritesOnly}
-                                            onChange={this.handleChangeCheckbox('showFavoritesOnly')} />
-                                    }
-                                    label="Favorites only" />
-
-                                    <FormControlLabel
-                                    className={this.props.classes.box}
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.showModAddedOnly}
-                                            onChange={this.handleChangeCheckbox('showModAddedOnly')} />
-                                    }
-                                    label="Mod-added only" />
-
                                 <Grid className={this.props.classes.buttonRight}>
                                     <Button variant="text" color="default" className={this.props.classes.singleButton} onClick={this.handleReset}>Reset Filters</Button>
                                     <Button variant="raised" color="primary" type="submit" className={this.props.classes.singleButton}>Search</Button>

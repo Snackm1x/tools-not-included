@@ -3,7 +3,7 @@ import GameVersion from './GameVersion';
 import { GeyserType } from '../enums/GeyserType';
 import { GameUpgrade } from '../enums/GameUpgrade';
 import { GeyserProperties } from '../../constants/GeyserProperties';
-import SeedDTO from '../../api/dto/SeedDTO';
+import SeedDTO from '../../services/api/dto/SeedDTO';
 
 export default class Seed {
     id?: string;

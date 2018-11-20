@@ -4,7 +4,7 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import GeyserCard from './GeyserCard';
-import Geyser from '../../types/classes/Geyser';
+import Geyser from '../../../types/classes/Geyser';
 
 
 export interface Props extends WithStyles<typeof styles> {

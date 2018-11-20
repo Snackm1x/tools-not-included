@@ -3,21 +3,16 @@ import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
+import { Provider } from 'react-redux';
+import { Store } from 'redux';
+import { History } from 'history';
+import { ConnectedRouter } from 'connected-react-router';
 import Grid from '@material-ui/core/Grid';
-
 
 import Nav from '../components/ui/Nav';
 import '../fonts/fonts.css';
-import Routes from '../routes';
-
-import { Provider } from 'react-redux';
-import { Store } from 'redux'
-import { History } from 'history'
-import { ConnectedRouter } from 'connected-react-router'
-
-// Import the state interface and our combined reducers/sagas.
-import { ApplicationState } from '../store'
+import Routes from './Routes';
+import { ApplicationState } from '../store';
 
 const myTheme = createMuiTheme({
   palette: {
@@ -52,10 +47,10 @@ const styles = () =>
     },
   });
 
-   export interface RootProps extends WithStyles<typeof styles> {
-    store: Store<ApplicationState>
-    history: History
-  }
+export interface RootProps extends WithStyles<typeof styles> {
+  store: Store<ApplicationState>
+  history: History
+}
 
 class Root extends React.Component<RootProps, any> {
   constructor(props: RootProps) {
@@ -77,7 +72,7 @@ class Root extends React.Component<RootProps, any> {
               <Grid className={classes.contentGridUpper}>
                 <Nav />
                 <Grid className={classes.contentGrid}>
-                  <Routes/>
+                  <Routes />
                 </Grid>
               </Grid>
             </ConnectedRouter>

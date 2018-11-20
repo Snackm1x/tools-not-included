@@ -1,7 +1,6 @@
 import { RouterAction, LocationChangeAction } from 'react-router-redux';
 
-import  { HeroesAction }  from './heroes/reducer';
-import { BrowserAction } from './browser';
+import { SeedBrowserAction } from './seed-browser/reducer';
 
 type ReactRouterAction = RouterAction | LocationChangeAction;
-export type RootAction = ReactRouterAction | HeroesAction;
+export type RootAction = ReactRouterAction | SeedBrowserAction;

@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Favorite from '@material-ui/icons/Favorite';
 
 import Seed from '../../types/classes/Seed';
-import GeyserChip from '../ui/GeyserChip';
+import GeyserChip from './GeyserChip';
 import { GeyserProperties } from '../../constants/GeyserProperties';
 import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import { GeyserType } from "../../types/enums/GeyserType";

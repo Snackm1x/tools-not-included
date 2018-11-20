@@ -3,11 +3,11 @@ import { connectRouter } from 'connected-react-router'
 import { StateType } from 'typesafe-actions';
 import { History } from 'history';
 
-import { browserReducer } from './browser/reducer';
+import { seedBrowserReducer } from './seed-browser/reducer';
 
 const rootReducer = (history: History) => combineReducers({
   router: connectRouter(history),
-  browser: browserReducer
+  seedBrowser: seedBrowserReducer
 });
 
 export type RootState = StateType<typeof rootReducer>;

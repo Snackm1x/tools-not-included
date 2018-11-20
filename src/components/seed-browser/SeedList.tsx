@@ -110,6 +110,7 @@ const TablePag = (withStyles(actionsStyles)(TablePaginationActions));
 
 export interface Props extends WithStyles<typeof styles> {
     seeds: Seed[];
+    totalEntries: number;
     loading: boolean;
 }
 
@@ -165,7 +166,7 @@ class SeedList extends React.Component<Props, any> {
         this.state = {
             geyserTypes: geysers,
             page: 1,
-            rowsPerPage: 50
+            rowsPerPage: 30
         };
     }
 
@@ -206,12 +207,6 @@ class SeedList extends React.Component<Props, any> {
         // }
     }
 
-    isFavorite = (seed: Seed, favorites : string[]): boolean => {
-        var seedString = seed.seedNumber + "/" + seed.gameVersion.versionNumber;
-
-        return favorites.indexOf(seedString) > -1;
-    }
-
     // applyFilter() {
     //     if (!this.props.filteringProps)
     //         return;
@@ -241,13 +236,13 @@ class SeedList extends React.Component<Props, any> {
         const pagination = <TablePagination
             style={{ marginLeft: 'auto' }}
             component="div"
-            count={0}
+            count={this.props.totalEntries}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             ActionsComponent={TablePag}
-            rowsPerPageOptions = {[25, 50, 100]}
+            rowsPerPageOptions = {[10, 20, 30]}
             classes={{
                 toolbar: this.props.classes.pagbar
             }} />

@@ -7,17 +7,17 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import red from '@material-ui/core/colors/red';
 
-import GeyserChip from '../ui/GeyserChip';
-import { GeyserProperties } from '../../constants/GeyserProperties';
-import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
-import Seed from '../../types/classes/Seed';
+import GeyserChip from '../../seed-browser/GeyserChip';
+import { GeyserProperties } from '../../../constants/GeyserProperties';
+import IGeyserProperties from "../../../types/interfaces/IGeyserProperties";
+import Seed from '../../../types/classes/Seed';
 
 import IconButton from '@material-ui/core/IconButton';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
-import * as LocalStorage from '../../utils/LocalStorageAccess';
-import LocalStorageKeys from "../../constants/LocalStorageKeys";
+import * as LocalStorage from '../../../utils/LocalStorageAccess';
+import LocalStorageKeys from "../../../constants/LocalStorageKeys";
 
 import classNames from 'classnames';
 import Icon from '@material-ui/core/Icon';
@@ -75,47 +75,16 @@ GeyserProperties.forEach((item, idx) => {
     geyserTypes.push(item)
 })
 
-export interface State {
-    favorite: boolean
-}
 
-class SeedSummary extends React.Component<Props, State> {
+class SeedSummary extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
-
-        this.state = {
-            favorite: this.isFavorite()
-        }
     }
     
     componentDidMount() {
         css.loadCSS(
             'https://use.fontawesome.com/releases/v5.1.0/css/all.css', document.querySelector('#insertion-point-jss'),
         );
-    }
-
-    isFavorite = (): boolean => {
-        var seedString = this.props.seed.seedNumber + "/" + this.props.seed.gameVersion.versionNumber;
-        var favorites = LocalStorage.getFavorites();
-
-        return favorites.indexOf(seedString) > -1;
-    }
-
-    toggleFavorite = () => {
-        var seedString = this.props.seed.seedNumber + "/" + this.props.seed.gameVersion.versionNumber;
-
-        var favorites = LocalStorage.getFavorites();
-
-        if (this.state.favorite) {
-            var index: number = favorites.indexOf(seedString);
-            favorites.splice(index, 1);
-            this.setState({ favorite: false })
-        } else {
-            favorites.push(seedString);
-            this.setState({ favorite: true })
-        }
-
-        localStorage.setItem(LocalStorageKeys.FavoriteSeeds, favorites.join());
     }
 
     render() {
@@ -153,13 +122,6 @@ class SeedSummary extends React.Component<Props, State> {
                         </Grid>
                         <Grid item xs={12} sm={6} style={{ display: 'inline-flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
 
-                            <Grid className={this.props.classes.favoriteDiv}>
-                                <Typography variant="caption" style={{ marginLeft: 20 }}> {this.state.favorite ? "Remove" : "Add"} favorite</Typography>
-
-                                <IconButton style={{ color: red["900"] }} onClick={this.toggleFavorite}>
-                                    {this.state.favorite ? <Favorite /> : <FavoriteBorder />}
-                                </IconButton>
-                            </Grid>
                         </Grid>
                     </Grid>
 
