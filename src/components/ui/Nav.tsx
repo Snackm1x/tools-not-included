@@ -103,9 +103,9 @@ function Nav(props: Props) {
                 <Toolbar className={props.classes.toolbar2}>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedBrowser} {...props} />}>Browser</Typography>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo}{...props} />}>In-game seed upload</Typography>
-                    <Hidden smDown>
+                    {/* <Hidden smDown>
                         <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: green["900"], borderRadius: 16 }}>For the time being please use HTTP instead of HTTPS. Issue should be solved this weekend.</Typography>
-                    </Hidden>
+                    </Hidden> */}
                 </Toolbar>
             </AppBar>
         </div>
