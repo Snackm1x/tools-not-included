@@ -27,7 +27,7 @@ const styles = (theme: Theme) =>
 
 interface UrlParams {
     seed: string,
-    version: number
+    version: string
 }
 
 export interface Props extends WithStyles<typeof styles>, RouteComponentProps<UrlParams> {
