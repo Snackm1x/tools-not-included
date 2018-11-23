@@ -32,15 +32,12 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-
 class SeedModImportInfoPage extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
 
-
     render() {
-
         return (
             <Grid container item className={this.props.classes.root}>
                 <Grid container >
@@ -58,7 +55,7 @@ class SeedModImportInfoPage extends React.Component<Props> {
                             <Typography variant="subheading">Download the newest release of ModLoader (downloadable <a style={{ color: '#FFFFFF' }} href="https://github.com/javisar/ONI-Modloader/blob/master/Managed/ModLoader.dll">here</a> and place it in your ...\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed game folder, or visit the <a style={{ color: '#FFFFFF' }} href="https://forums.kleientertainment.com/topic/88186-mod01-oni-modloader/">forum thread</a> for help and more details.</Typography>
                             <br />
                             <Typography variant="subheading"><b>3. Download the Seed Sharing Mod </b></Typography>
-                            <Typography variant="subheading">Last step: download the Mod available <a style={{ color: '#FFFFFF' }} href="https://www.dropbox.com/sh/9rthkmzrnyl2zi0/AAAQuno33XiOlw3Uxdrzm-10a?dl=0">here</a> and put it in the Mods folder in your game directory that the ModLoader created.</Typography>
+                            <Typography variant="subheading">Last step: download the Mod available <a style={{ color: '#FFFFFF' }} href="https://www.dropbox.com/sh/9rthkmzrnyl2zi0/AAAQuno33XiOlw3Uxdrzm-10a?dl=0">here</a> and put it in the ...\Steam\steamapps\common\OxygenNotIncluded\Mods folder in your game directory (you need to create the Mods folder!).</Typography>
                             <br />
 
                             <Typography variant="subheading"><b>WIN: Add seeds!</b></Typography>
@@ -67,13 +64,10 @@ class SeedModImportInfoPage extends React.Component<Props> {
 
                             <br />
                             <br />
-                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}><img src="https://puu.sh/BNLaz/fd5b68c1fe.png" width="auto"></img></div>
-                            <Typography variant="subheading" style={{ width: '100%', textAlign: 'center' }}>P.S. It's this button up here!</Typography>
                             <br />
                             <br />
                             <br />
-                            <br />
-                            <Typography variant="caption">Current mod version: 2.0. Last update: 21/10/2018</Typography>
+                            <Typography variant="caption">Current mod version: 3.0. Last update: 22/11/2018</Typography>
                         </Grid>
                     </Paper>
                 </Grid>

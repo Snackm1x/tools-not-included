@@ -10,6 +10,4 @@ export default interface SeedListFilterDTO {
         type: string;
         min?: number;
     }[];
-
-    modOnly?: boolean;
 }

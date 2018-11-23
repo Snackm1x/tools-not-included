@@ -52,12 +52,9 @@ export interface RootProps extends WithStyles<typeof styles> {
   history: History
 }
 
-class Root extends React.Component<RootProps, any> {
+class Root extends React.Component<RootProps> {
   constructor(props: RootProps) {
     super(props);
-    this.state = {
-      errorFound: false
-    };
   }
 
   render() {

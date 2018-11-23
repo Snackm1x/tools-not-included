@@ -13,7 +13,7 @@ const Routes = () => (
         <Route exact path={ComponentURL.Home} component={SeedBrowserPage} />
         <Route exact path={ComponentURL.SeedBrowser} component={SeedBrowserPage} />
         <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
-        <Route exact path="/seeds/edit/:seed/:version" />
+        <Route exact path="/seeds/:seed" component={SeedDetailsPage} />
         <Route exact path={ComponentURL.SeedModImportInfo} component={SeedModImportInfoPage} />
         <Route exact path={ComponentURL.About} component={AboutPage} />
         <Route component={Error404} />

@@ -17,7 +17,7 @@ WebFont.load({
   },
 });
 
-if (location.protocol !== "http:") location.protocol = "http:";
+//if (process.env.NODE_ENV === "production") if (location.protocol !== "https:") location.protocol = "https:";
 
 unregister();
 ReactGA.initialize('UA-127751254-1');

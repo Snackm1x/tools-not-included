@@ -1,28 +1,14 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, createStyles, Typography, createMuiTheme, Chip  } from '@material-ui/core';
+import { withStyles, WithStyles, createStyles, Typography, createMuiTheme, Chip } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import red from '@material-ui/core/colors/red';
 
 import GeyserChip from '../../seed-browser/GeyserChip';
 import { GeyserProperties } from '../../../constants/GeyserProperties';
 import IGeyserProperties from "../../../types/interfaces/IGeyserProperties";
 import Seed from '../../../types/classes/Seed';
-
-import IconButton from '@material-ui/core/IconButton';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-
-import * as LocalStorage from '../../../utils/LocalStorageAccess';
-import LocalStorageKeys from "../../../constants/LocalStorageKeys";
-
-import classNames from 'classnames';
-import Icon from '@material-ui/core/Icon';
-
-const css = require('fg-loadcss/src/loadCSS');
 
 export interface Props extends WithStyles<typeof styles> {
     seed: Seed
@@ -75,16 +61,9 @@ GeyserProperties.forEach((item, idx) => {
     geyserTypes.push(item)
 })
 
-
 class SeedSummary extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
-    }
-    
-    componentDidMount() {
-        css.loadCSS(
-            'https://use.fontawesome.com/releases/v5.1.0/css/all.css', document.querySelector('#insertion-point-jss'),
-        );
     }
 
     render() {
@@ -105,27 +84,12 @@ class SeedSummary extends React.Component<Props> {
                     </Grid>
 
                     <Grid container item className={this.props.classes.textContainer}>
-                        <Grid item xs={12} sm={6}>
-                            <Grid container style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                {this.props.seed.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: createMuiTheme().spacing.unit / 2 }}>
-                                    <Icon className={classNames(this.props.classes.icon, 'fas fa-terminal')} color="action" />
-                                    <Typography variant="caption">Added with the mod</Typography>
-                                </Grid>}
-
-                                {!this.props.seed.addedByMod && <Grid style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: createMuiTheme().spacing.unit / 2 }}>
-                                    <Icon className={classNames(this.props.classes.icon, 'fas fa-pencil-alt')} color="action" />
-                                    <Typography variant="caption">Added manually</Typography>
-                                </Grid>}
-
-                                <Typography variant="caption">on {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12} sm={6} style={{ display: 'inline-flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'flex-end' }}>
-
+                        <Grid container style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <Typography variant="caption">Added on {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
+                            {this.props.seed.modVersion! < 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1rem", display: 'inline-flex', backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Oil Reservoirs and Planets were uploaded by the mod.  You can add this info by re-uploading this seed.</Typography>}
+                            {this.props.seed.modVersion! < 3 && this.props.seed.modVersion! >= 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1rem", display: 'inline-flex', backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Planets were uploaded by the mod. You can add this info by re-uploading this seed.</Typography>}
                         </Grid>
                     </Grid>
-
-                     {this.props.seed.modVersion! < 2 && <Typography style={{marginRight: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1rem", display: 'inline-flex', backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16}}>This seed was added before Oil Reservoirs could be uploaded to the website. Soon you will be able to add that info to it.</Typography>}
                 </Card>
             </Grid>);
     }

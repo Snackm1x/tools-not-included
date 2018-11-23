@@ -28,11 +28,9 @@ import IGeyserProperties from "../../types/interfaces/IGeyserProperties";
 import { GeyserType } from '../../types/enums/GeyserType';
 import Seed from '../../types/classes/Seed';
 import SeedCard from "./SeedCard";
-import { FilteringState } from "./FilterPanel";
 
 import LocalStorageKeys from "../../constants/LocalStorageKeys";
-import * as LocalStorage from "../../utils/LocalStorageAccess";
-import Loader from "../ui/Loader";
+import { Pagination } from "src/pages/seed-browser/SeedBrowserPage";
 
 
 interface PaginationProps extends WithStyles<typeof actionsStyles> {
@@ -157,16 +155,14 @@ const defaultGeysers = [
     GeyserType.VOLCANO_GOLD
 ];
 
-class SeedList extends React.Component<Props, any> {
-    constructor(props: Props) {
+class SeedList extends React.Component<Props & Pagination & {changePagination: Function}, any> {
+    constructor(props: Props & Pagination & {changePagination: Function}) {
         super(props);
 
         var geysers = this.loadGeyserTypes();
 
         this.state = {
-            geyserTypes: geysers,
-            page: 1,
-            rowsPerPage: 30
+            geyserTypes: geysers
         };
     }
 
@@ -187,58 +183,21 @@ class SeedList extends React.Component<Props, any> {
     };
 
     handleChangePage = (event: React.MouseEvent<HTMLButtonElement>, page: number) => {
-        this.setState({ page });
+        this.props.changePagination({page: page, rowsPerPage: this.props.rowsPerPage});
     };
 
     handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ rowsPerPage: event.target.value });
+        this.props.changePagination({page: this.props.page, rowsPerPage: event.target.value});
     };
-
-    componentDidUpdate(prevProps: any, prevState: any) {
-        if (this.props != prevProps)
-            this.setState({seeds: this.props.seeds, rows: this.props.seeds})
-        // if (this.props.seeds != prevState.seeds) {
-        //     this.setState({ seeds: this.props.seeds });
-        //     this.setState({ rows: this.props.seeds });
-        //     this.applyFilter();
-        // }
-        // else if (this.props.filteringProps != prevProps.filteringProps) {
-        //     this.applyFilter();
-        // }
-    }
-
-    // applyFilter() {
-    //     if (!this.props.filteringProps)
-    //         return;
-
-    //     var filter = this.props.filteringProps;
-    //     var filtered = this.state.seeds;
-
-    //     var favorites = LocalStorage.getFavorites();
-    //     if (filter.showFavoritesOnly && favorites != null && favorites.length > 0) {
-    //         filtered = filtered.filter((s: Seed) => {
-    //             return this.isFavorite(s, favorites);
-    //         })
-    //     }
-
-    //     if (filter.showModAddedOnly) {
-    //         filtered = filtered.filter((s: Seed) => {
-    //             return s.addedByMod;
-    //         })
-    //     }
-
-    //     this.setState({ rows: filtered });
-    // }
-
+  
     render() {
-        const { rowsPerPage, page } = this.state;
 
         const pagination = <TablePagination
             style={{ marginLeft: 'auto' }}
             component="div"
             count={this.props.totalEntries}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            rowsPerPage={this.props.rowsPerPage}
+            page={this.props.page}
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             ActionsComponent={TablePag}

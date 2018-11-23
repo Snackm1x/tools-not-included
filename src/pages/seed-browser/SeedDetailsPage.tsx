@@ -1,17 +1,19 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router'
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
-import SeedDetails from '../../components/seed-browser/seed-details/SeedDetails';
-import Seed from '../../types/classes/Seed';
-import { withRouter } from 'react-router'
-import { RouteComponentProps } from 'react-router'
 
-import { ApplicationState, ConnectedReduxProps } from 'src/store';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
-import { SeedDetailsRequestModel, fetchDetailsRequest } from 'src/store/seed-browser/actions';
+import Seed from '../../types/classes/Seed';
+import { ApplicationState, ConnectedReduxProps } from '../../store';
+import { SeedDetailsRequestModel, fetchDetailsRequest } from '../../store/seed-browser/actions';
+import SeedSummary from '../../components/seed-browser/seed-details/SeedSummary';
+import SeedGeysers from '../../components/seed-browser/seed-details/SeedGeysers';
+import ErrorSnackbar from 'src/components/ui/ErrorSnackbar';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -51,11 +53,21 @@ class SeedDetailsPage extends React.Component<AllProps> {
     }
 
     render() {
-        return (
-            <Grid item container className={this.props.classes.root}>
-                {!this.props.loading && this.props.seed && <SeedDetails seed={this.props.seed} />}
-            </Grid>
-        );
+        if (this.props.seed != undefined) {
+            return (
+                <Grid item container className={this.props.classes.root}>
+                     <SeedSummary seed={this.props.seed} />
+                     <SeedGeysers geysers={this.props.seed.geysers} /> 
+                 </Grid>
+             );
+        } else {
+            return (
+                <div>
+                    <Grid item container className={this.props.classes.root} />
+                    <ErrorSnackbar open={this.props.errors !== undefined} message="An error has occured. If problem keeps occuring please contact the admin." />
+                </div>
+            );
+        }   
     }
 }
 
@@ -69,4 +81,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     fetchSeedDetails: (request: SeedDetailsRequestModel) => dispatch(fetchDetailsRequest(request))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(SeedDetailsPage)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SeedDetailsPage));

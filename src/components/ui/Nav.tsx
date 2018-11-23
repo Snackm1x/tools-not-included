@@ -81,6 +81,9 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 function Nav(props: Props) {
+
+    var showDomainInfo = !window.location.hostname.includes("toolsnotincluded") && !window.location.hostname.includes("localhost");
+
     return (
         <div className={props.classes.root}>
             <AppBar position="fixed" color="primary" className={props.classes.appbar}>
@@ -102,9 +105,12 @@ function Nav(props: Props) {
             <AppBar position="absolute" color="default" className={props.classes.appbar2}>
                 <Toolbar className={props.classes.toolbar2}>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedBrowser} {...props} />}>Browser</Typography>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo}{...props} />}>In-game seed upload</Typography>
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo} {...props} />}>In-game seed upload</Typography>
+
+                    {showDomainInfo && <Typography variant="button" color="inherit" style={{ marginLeft: 30 }} className={props.classes.textLink} component={({ innerRef, ...props }) => <a href="https://toolsnotincluded.net" {...props} />}> We're moving to    https://ToolsNotIncluded.net</Typography>}
+
                     <Hidden smDown>
-                        <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: red["900"], borderRadius: 16 }}>Current mod version: 2.0, updated Oct 21 2018. Please make sure you always have the newest version.</Typography>
+                        <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: red["900"], borderRadius: 16 }}>UPDATE mod version: 3.0 - Nov 22 2018</Typography>
                     </Hidden>
                 </Toolbar>
             </AppBar>
