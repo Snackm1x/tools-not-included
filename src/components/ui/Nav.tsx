@@ -110,7 +110,7 @@ function Nav(props: Props) {
                     {showDomainInfo && <Typography variant="button" color="inherit" style={{ marginLeft: 30 }} className={props.classes.textLink} component={({ innerRef, ...props }) => <a href="https://toolsnotincluded.net" {...props} />}> We're moving to    https://ToolsNotIncluded.net</Typography>}
 
                     <Hidden smDown>
-                        <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: red["900"], borderRadius: 16 }}>UPDATE mod version: 3.0 - Nov 22 2018</Typography>
+                        <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: red["900"], borderRadius: 16 }}>UPDATE mod version: 4.0 - Nov 23 2018</Typography>
                     </Hidden>
                 </Toolbar>
             </AppBar>

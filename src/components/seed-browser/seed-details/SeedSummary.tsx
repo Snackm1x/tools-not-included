@@ -87,7 +87,7 @@ class SeedSummary extends React.Component<Props> {
                         <Grid container style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                             <Typography variant="caption">Added on {this.props.seed.creationDate.toDateString()} {this.props.seed.creationDate.toLocaleTimeString()}</Typography>
                             {this.props.seed.modVersion! < 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1rem", display: 'inline-flex', backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Oil Reservoirs and Planets were uploaded by the mod.  You can add this info by re-uploading this seed.</Typography>}
-                            {this.props.seed.modVersion! < 3 && this.props.seed.modVersion! >= 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1rem", display: 'inline-flex', backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Planets were uploaded by the mod. You can add this info by re-uploading this seed.</Typography>}
+                            {this.props.seed.modVersion! < 4 && this.props.seed.modVersion! >= 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1rem", display: 'inline-flex', backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Planets were uploaded by the mod. You can add this info by re-uploading this seed.</Typography>}
                         </Grid>
                     </Grid>
                 </Card>

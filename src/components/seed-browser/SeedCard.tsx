@@ -98,7 +98,7 @@ class SeedCard extends React.Component<Props> {
                         </Grid>
 
                         {this.props.world.modVersion! < 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "0.96rem", backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Oil Reservoirs and Planets were uploaded by the mod.  You can add this info by re-uploading this seed.</Typography>}
-                        {this.props.world.modVersion! < 3 && this.props.world.modVersion! >= 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, marginTop: 2, fontSize: "0.96rem", backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Planets were uploaded by the mod. You can add this info by re-uploading this seed.</Typography>}
+                        {this.props.world.modVersion! < 4 && this.props.world.modVersion! >= 2 && <Typography style={{ marginLeft: 'auto', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, marginTop: 2, fontSize: "0.96rem", backgroundColor: createMuiTheme().palette.grey[700], borderRadius: 16 }}>This seed was added before Planets were uploaded by the mod. You can add this info by re-uploading this seed.</Typography>}
                     </Grid>
                 </Grid>
             </Card>
