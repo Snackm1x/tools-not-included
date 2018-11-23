@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { withStyles, WithStyles, createStyles } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -15,15 +14,15 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import { GameUpgrades } from '../../constants/GameUpgrades';
 import { GameUpgrade } from '../../types/enums/GameUpgrade';
 import IGameUpgradeDetails from "../../types/interfaces/IGameUpgradeDetails";
 import { GeyserProperties } from "../../constants/GeyserProperties";
-
 import LocalStorageKeys from "../../constants/LocalStorageKeys";
 
+
+//TODO: this component desperately needs rewriting
 export interface Props extends WithStyles<typeof styles> {
     onSubmit: Function
 }
@@ -85,8 +84,6 @@ export interface FilteringState {
     selectedSeed: number | null;
     selectedEarliestGameVersion: number | null;
     selectedLatestGameVersion: number | null;
-    showFavoritesOnly: boolean;
-    showModAddedOnly: boolean;
     min_GEYSER_CO2: number;
     min_GEYSER_COOL_SLUSH: number;
     min_GEYSER_NATGAS: number;
@@ -112,19 +109,17 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
     constructor(props: Props) {
         super(props);
 
-        this.state = this.loadFilteringState();
+        this.state= this.loadFilteringState()
 
         this.props.onSubmit(this.state);
     }
 
-    getDefaultFilteringState = (): FilteringState => {
+    getDefaultFilteringState = () : FilteringState => {
         return {
             selectedGameUpgrades: [],
             selectedSeed: null,
             selectedEarliestGameVersion: null,
             selectedLatestGameVersion: null,
-            showFavoritesOnly: false,
-            showModAddedOnly: false,
             min_GEYSER_CO2: 0,
             min_GEYSER_COOL_SLUSH: 0,
             min_GEYSER_NATGAS: 0,
@@ -147,7 +142,7 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
         }
     }
 
-    loadFilteringState = (): FilteringState => {
+    loadFilteringState = () : FilteringState => {
         var lsState = localStorage.getItem(LocalStorageKeys.SeedBrowserFilteringState);
 
         if (lsState === null || lsState.length < 1) {
@@ -167,6 +162,7 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
 
     handleSubmit = () => {
         localStorage.setItem(LocalStorageKeys.SeedBrowserFilteringState, JSON.stringify(this.state));
+        this.setState({page: 1});
         this.props.onSubmit(this.state);
     }
 
@@ -253,7 +249,7 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
                                                         type="number"
                                                         className={this.props.classes.geyserInputNumber}
                                                         margin="normal"
-                                                        inputProps={{ min: "0", max: "5", step: "1" }}
+                                                        inputProps={{ min: "0", step: "1" }}
                                                         InputProps={{ disableUnderline: true }} />
                                                 </Grid>
                                             );
@@ -263,24 +259,6 @@ class FilterPanel extends React.Component<Props, FilteringState & any> {
                             </Grid>
 
                             <Grid style={{ display: 'flex', flexFlow: 'row wrap', alignContent: 'center' }}>
-                                <FormControlLabel
-                                    className={this.props.classes.box}
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.showFavoritesOnly}
-                                            onChange={this.handleChangeCheckbox('showFavoritesOnly')} />
-                                    }
-                                    label="Favorites only" />
-
-                                    <FormControlLabel
-                                    className={this.props.classes.box}
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.showModAddedOnly}
-                                            onChange={this.handleChangeCheckbox('showModAddedOnly')} />
-                                    }
-                                    label="Mod-added only" />
-
                                 <Grid className={this.props.classes.buttonRight}>
                                     <Button variant="text" color="default" className={this.props.classes.singleButton} onClick={this.handleReset}>Reset Filters</Button>
                                     <Button variant="raised" color="primary" type="submit" className={this.props.classes.singleButton}>Search</Button>

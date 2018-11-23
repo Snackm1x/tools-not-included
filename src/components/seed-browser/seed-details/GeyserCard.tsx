@@ -9,9 +9,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import Geyser from '../../types/classes/Geyser';
-import { GeyserProperties } from '../../constants/GeyserProperties';
-import IGeyserProperties from '../../types/interfaces/IGeyserProperties';
+import Geyser from '../../../types/classes/Geyser';
+import { GeyserProperties } from '../../../constants/GeyserProperties';
+import IGeyserProperties from '../../../types/interfaces/IGeyserProperties';
 
 export interface Props extends WithStyles<typeof styles> {
     geyser: Geyser

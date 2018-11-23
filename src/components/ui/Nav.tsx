@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import createStyles from '@material-ui/core/styles/createStyles';
-import { withStyles, WithStyles, createMuiTheme } from '@material-ui/core/styles';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 import ComponentURL from "src/constants/ComponentURL";
 import Hidden from '@material-ui/core/Hidden';
 
-import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 const styles = (theme: Theme) => {
 
@@ -81,6 +81,9 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 function Nav(props: Props) {
+
+    var showDomainInfo = !window.location.hostname.includes("toolsnotincluded") && !window.location.hostname.includes("localhost");
+
     return (
         <div className={props.classes.root}>
             <AppBar position="fixed" color="primary" className={props.classes.appbar}>
@@ -102,10 +105,13 @@ function Nav(props: Props) {
             <AppBar position="absolute" color="default" className={props.classes.appbar2}>
                 <Toolbar className={props.classes.toolbar2}>
                     <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedBrowser} {...props} />}>Browser</Typography>
-                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo}{...props} />}>In-game seed upload</Typography>
-                    {/* <Hidden smDown>
-                        <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: green["900"], borderRadius: 16 }}>For the time being please use HTTP instead of HTTPS. Issue should be solved this weekend.</Typography>
-                    </Hidden> */}
+                    <Typography variant="button" color="inherit" className={props.classes.textLink} component={({ innerRef, ...props }) => <Link to={ComponentURL.SeedModImportInfo} {...props} />}>In-game seed upload</Typography>
+
+                    {showDomainInfo && <Typography variant="button" color="inherit" style={{ marginLeft: 30 }} className={props.classes.textLink} component={({ innerRef, ...props }) => <a href="https://toolsnotincluded.net" {...props} />}> We're moving to    https://ToolsNotIncluded.net</Typography>}
+
+                    <Hidden smDown>
+                        <Typography style={{ marginLeft: 'auto', marginRight: 8, paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2, fontSize: "1.1rem", backgroundColor: red["900"], borderRadius: 16 }}>UPDATE mod version: 3.0 - Nov 22 2018</Typography>
+                    </Hidden>
                 </Toolbar>
             </AppBar>
         </div>

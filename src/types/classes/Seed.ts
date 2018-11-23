@@ -3,7 +3,7 @@ import GameVersion from './GameVersion';
 import { GeyserType } from '../enums/GeyserType';
 import { GameUpgrade } from '../enums/GameUpgrade';
 import { GeyserProperties } from '../../constants/GeyserProperties';
-import SeedDTO from '../../api/dto/SeedDTO';
+import SeedDTO from '../../services/api/dto/SeedDTO';
 
 export default class Seed {
     id?: string;
@@ -50,6 +50,6 @@ export default class Seed {
             geysers.push(new Geyser(element.geyserType as GeyserType, element.eruptionRate, element.activeDormancyPeriod, element.dormancyPeriod, element.eruptionPeriod, element.activeEruptionPeriod));
         });
 
-        return new Seed(dto.seed, new GameVersion(dto.gameVersion.gameUpgrade as GameUpgrade, dto.gameVersion.versionNumber), geysers, dto.creationDate ? new Date(dto.creationDate) : undefined, dto.addedByMod, dto.modVersion, dto.id);
+        return new Seed(dto.seed, new GameVersion(dto.gameUpgrade as GameUpgrade, dto.versionNumber), geysers, dto.creationDate ? new Date(dto.creationDate) : undefined, dto.addedByMod, dto.modVersion, dto.id);
     }
 };
