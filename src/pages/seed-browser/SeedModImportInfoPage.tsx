@@ -55,7 +55,7 @@ class SeedModImportInfoPage extends React.Component<Props> {
                             <Typography variant="subheading">Download the newest release of ModLoader (downloadable <a style={{ color: '#FFFFFF' }} href="https://github.com/javisar/ONI-Modloader/blob/master/Managed/ModLoader.dll">here</a> and place it in your ...\Steam\steamapps\common\OxygenNotIncluded\OxygenNotIncluded_Data\Managed game folder, or visit the <a style={{ color: '#FFFFFF' }} href="https://forums.kleientertainment.com/topic/88186-mod01-oni-modloader/">forum thread</a> for help and more details.</Typography>
                             <br />
                             <Typography variant="subheading"><b>3. Download the Seed Sharing Mod </b></Typography>
-                            <Typography variant="subheading">Last step: download the Mod available <a style={{ color: '#FFFFFF' }} href="https://www.dropbox.com/sh/9rthkmzrnyl2zi0/AAAQuno33XiOlw3Uxdrzm-10a?dl=0">here</a> and put it in the ...\Steam\steamapps\common\OxygenNotIncluded\Mods folder in your game directory (you need to create the Mods folder!).</Typography>
+                            <Typography variant="subheading">Last step: download the Mod available <a style={{ color: '#FFFFFF' }} href="https://www.dropbox.com/s/pcj68o1kirgepdb/ASeedSharingMod-v3.0.dll?dl=1">here</a> and put it in the ...\Steam\steamapps\common\OxygenNotIncluded\Mods folder in your game directory (you need to create the Mods folder!).</Typography>
                             <br />
 
                             <Typography variant="subheading"><b>WIN: Add seeds!</b></Typography>
