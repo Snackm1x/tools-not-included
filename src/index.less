@@ -1,19 +1,222 @@
 @import "theme";
 
+@primaryNavBarHeight: 64px;
+@secondaryNavBarHeight: 32px;
+@footerHeight: @secondaryNavBarHeight;
+@contentMaxWidth: 1100px;
+
+@spacingUnit: 8px;
+@scrollWidth: 0.6rem;
+
 body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-  }
-  
-.secondary-color {
-  color: @secondary-color;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Economica", sans-serif;
+}
+
+button {
+	font-family: "Economica", sans-serif;
+	text-transform: uppercase;
+}
+
+::-webkit-scrollbar {
+	width: @scrollWidth;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: rgba(200, 200, 200, 0.2);
+	outline: 1px solid rgba(200, 200, 200, 0.2);
+}
+
+::-webkit-scrollbar-corner {
+	background-color: rgba(200, 200, 200, 0.2);
+	outline: 1px solid rgba(200, 200, 200, 0.2);
+}
+
+#root {
+	height: 100vh;
+}
+
+#logo {
+	width: 50px;
+	height: 50px;
+	margin: @spacingUnit;
 }
 
 .ant-layout {
-    min-height: 100vh;
+	min-height: 100%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
 }
 
 .ant-layout-content {
-    margin-top: 64px;
+	margin-top: @primaryNavBarHeight + @secondaryNavBarHeight;
+	margin-bottom: @footerHeight;
+	width: 100%;
+
+	overflow: auto;
+	display: flex;
+	justify-content: center;
+	//padding: @spacingUnit 0px;
+}
+.seed-card {
+	.ant-card-body {
+		padding: 8px 24px 0px 24px;
+	}
+}
+
+.ant-btn:focus {
+	background-color: none !important;
+	border-color: none !important;
+}
+
+#narrow-content-container {
+	max-width: @contentMaxWidth;
+	width: 100%;
+}
+
+#narrow-content-container:after {
+	content: ' ';
+	display: block;
+	background-color: transparent;
+	height: @spacingUnit;
+}
+
+.ant-layout-header {
+	position: fixed;
+	z-index: 1;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	padding: 0px;
+	padding-right: @scrollWidth;
+	div {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	.ant-menu-horizontal {
+		margin-right: auto;
+		font-family: "Economica", sans-serif;
+	}
+}
+
+.ant-layout-header.primary-header {
+	height: @primaryNavBarHeight;
+	.ant-menu-horizontal {
+		line-height: @primaryNavBarHeight;
+		font-size: 28px;
+		background-color: transparent;
+		a {
+			color: #fff;
+		}
+	}
+}
+
+.ant-layout-header.secondary-header {
+	height: @secondaryNavBarHeight;
+	margin-top: @primaryNavBarHeight;
+	background-color: @layout-header-background-secondary;
+	box-shadow: 0px 2px 0px -1px rgba(0, 0, 0, 0.2), 0px 4px 0px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 0px 0px rgba(0, 0, 0, 0.12);
+	.ant-menu-horizontal {
+		line-height: @secondaryNavBarHeight;
+		background-color: transparent;
+		font-size: 1rem;
+		text-transform: uppercase;
+	}
+	#first-sub-menu {
+		margin-right: auto;
+		max-width: 50%;
+	}
+
+	#second-sub-menu-gradient-wrapper {
+		margin-left: auto;
+		margin-right: 0px;
+		max-width: 60%;
+
+		padding-left: @spacingUnit * 6;
+		margin-left: -@spacingUnit * 6;
+
+		@media (min-width: @contentMaxWidth) {
+			background-image: -webkit-linear-gradient(30deg, #212121 15%, #004e95 15%, #004e95 50%, transparent 85%),
+				-webkit-linear-gradient(150deg, #212121 15%, #004e95 15%, #004e95 50%, transparent 85%);
+			padding-right: @spacingUnit * 6;
+			margin-right: -@spacingUnit * 6;
+		}
+
+		@media (max-width: @contentMaxWidth) {
+			background-image: -webkit-linear-gradient(30deg, #212121 15%, #004e95 15%);
+			padding-right: @scrollWidth * 2;
+			margin-right: -@scrollWidth;
+		}
+	}
+
+	#second-sub-menu {
+		margin-right: @spacingUnit * 2;
+		margin-left: @spacingUnit * 2;
+		max-width: 100%;
+	}
+}
+
+.ant-layout-footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
+	width: 100%;
+	height: @footerHeight;
+	color: #ffffff;
+	box-shadow: 0px -2px 4px -1px rgba(0, 0, 0, 0.2), 0px -4px 5px 0px rgba(0, 0, 0, 0.14),
+		0px -1px 10px 0px rgba(0, 0, 0, 0.12);
+	padding: 0px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	.ant-menu-horizontal {
+		line-height: @footerHeight;
+		background-color: @layout-header-background-secondary;
+		float: right;
+		a {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+		i {
+			font-size: 20px;
+		}
+	}
+}
+
+.ant-card.shadow-card {
+	background-color: @card-background;
+	border-radius: @spacingUnit / 2;
+	margin: @spacingUnit;
+
+	box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+		0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+	&.card-full-width {
+		width: calc(100% - @spacingUnit * 2);
+	}
+}
+
+.full-width {
+	width: 100%;
+}
+
+.max-content-width {
+	max-width: @contentMaxWidth;
+	width: 100%;
 }

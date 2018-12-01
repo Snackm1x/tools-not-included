@@ -26,6 +26,7 @@ module.exports = function override(config, env) {
         config.module.rules,
         rule => loaderNameMatches(rule, 'ts-loader')
       );
+      
       if (!tsLoader) {
         console.log ('ts-loader was not found');
         return config;

@@ -1,11 +1,21 @@
-// This file will contain all varibales, our custom varibales and 
-//those from Ant Design which we want to override.
 @import "../node_modules/antd/lib/style/themes/default.less";
-@secondry-color: #dddddd;
-@primary-color: #00375B;
-@text-color: #000000;
-@text-color-secondary: #eb2f96;
+@primary-color: #004E95;
+
+@heading-color     : fade(#fff, 100%);
+@text-color      : fade(#fff, 85%);
+@text-color-secondary: fade(#fff, 75%);
+@text-color-secondary-dark: fade(#fff, 75%);
+@menu-dark-color: fade(#fff, 75%);
+
 @secondary-color: #0000ff;
-@layout-header-background: #9e8989;
-@btn-primary-bg: #397dcc;
-@bg-color: #dddddd;
+@btn-primary-bg: @primary-color;
+
+@layout-body-background: #2f3136;
+@layout-header-background: @primary-color;
+@layout-footer-background: #212121;
+
+@font-family: "Roboto Condensed", sans-serif;
+
+//custom
+@layout-header-background-secondary: #212121;
+@card-background: rgba(255, 255, 255, 0.1);
