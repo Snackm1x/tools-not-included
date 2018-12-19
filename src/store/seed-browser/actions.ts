@@ -1,23 +1,40 @@
 import { action } from 'typesafe-actions'
-import { SeedListFilter, Seed, SeedList } from 'src/api/models';
+import { SeedListFilter, Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType } from 'src/api/models';
 import { SeedDetailsRequestModel } from 'src/api/request-models';
 
 export const enum SeedBrowserActionTypes {
-    FETCH_ALL_REQUEST = '@@seedbrowser/FETCH_ALL_REQUEST',
-    FETCH_FILTERED_REQUEST = '@@seedbrowser/FETCH_FILTERED_REQUEST',
-    FETCH_LIST_SUCCESS = '@@seedbrowser/FETCH_LIST_SUCCESS',
-    FETCH_LIST_ERROR = '@@seedbrowser/FETCH_LIST_ERROR',
+    GET_FILTERED_SEEDS = '@@seedbrowser/GET_FILTERED_SEEDS',
 
-    FETCH_ONE_REQUEST = '@@seedbrowser/FETCH_ONE_REQUEST',
-    FETCH_ONE_SUCCESS = '@@seedbrowser/FETCH_ONE_SUCCESS',
-    FETCH_ONE_ERROR = '@@seedbrowser/FETCH_ONE_ERROR'
+    GET_FILTERED_SEEDS_SUCCESS = '@@seedbrowser/GET_FILTERED_SEEDS_SUCCESS',
+    GET_FILTERED_SEEDS_ERROR = '@@seedbrowser/GET_FILTERED_SEEDS_ERROR',
+
+    GET_SEED = '@@seedbrowser/GET_SEED',
+    GET_SEED_SUCCESS = '@@seedbrowser/GET_SEED_SUCCESS',
+    GET_SEED_ERROR = '@@seedbrowser/GET_SEED_ERROR',
+
+    GET_GAME_UPGRADES = '@@seedbrowser/GET_GAME_UPGRADES',
+    GET_GAME_UPGRADES_SUCCESS = '@@seedbrowser/GET_GAME_UPGRADES_SUCCESS',
+
+    GET_GEYSER_TYPES = '@@seedbrowser/GET_GEYSER_TYPES',
+    GET_GEYSER_TYPES_SUCCESS = '@@seedbrowser/GET_GEYSER_TYPES_SUCCESS',
+
+    GET_SPACE_DESTINATION_TYPES = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES',
+    GET_SPACE_DESTINATION_TYPES_SUCCESS = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES_SUCCESS'
 };
 
-export const fetchAllRequest = () => action(SeedBrowserActionTypes.FETCH_ALL_REQUEST);
-export const fetchFilteredRequest = (filter: SeedListFilter) => action(SeedBrowserActionTypes.FETCH_FILTERED_REQUEST, filter);
-export const fetchListSuccess = (data: SeedList) => action(SeedBrowserActionTypes.FETCH_LIST_SUCCESS, data);
-export const fetchListError = (message: string) => action(SeedBrowserActionTypes.FETCH_LIST_ERROR, message);
+export const getFilteredSeeds = (filter: SeedListFilter) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS, filter);
+export const getSeedListSuccess = (data: SeedList) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS_SUCCESS, data);
+export const getSeedListError = (message: string) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS_ERROR, message);
 
-export const fetchDetailsRequest = (request: SeedDetailsRequestModel) => action(SeedBrowserActionTypes.FETCH_ONE_REQUEST, request);
-export const fetchDetailsSuccess = (data: Seed) => action(SeedBrowserActionTypes.FETCH_ONE_SUCCESS, data);
-export const fetchDetailsError = (message: string) => action(SeedBrowserActionTypes.FETCH_ONE_ERROR, message);
+export const getSeed = (request: SeedDetailsRequestModel) => action(SeedBrowserActionTypes.GET_SEED, request);
+export const getSeedSuccess = (data: Seed) => action(SeedBrowserActionTypes.GET_SEED_SUCCESS, data);
+export const getSeedError = (message: string) => action(SeedBrowserActionTypes.GET_SEED_ERROR, message);
+
+export const getGameUpgrades = () => action(SeedBrowserActionTypes.GET_GAME_UPGRADES);
+export const getGameUpgradesSuccess = (data: { [key: string]: GameUpgrade }) => action(SeedBrowserActionTypes.GET_GAME_UPGRADES_SUCCESS, data);
+
+export const getGeyserTypes = () => action(SeedBrowserActionTypes.GET_GEYSER_TYPES);
+export const getGeyserTypesSuccess = (data: { [key: string]: GeyserType }) => action(SeedBrowserActionTypes.GET_GEYSER_TYPES_SUCCESS, data);
+
+export const getSpaceDestinationTypes = () => action(SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES);
+export const getSpaceDestinationTypesSuccess = (data: { [key: string]: SpaceDestinationType }) => action(SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES_SUCCESS, data);

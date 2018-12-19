@@ -1,6 +1,7 @@
 import API from "../../../api/api";
-import { SeedListFilter, SeedList, Seed } from "src/api/models";
+import { SeedListFilter, SeedList, Seed, GeyserType, SpaceDestinationType, GameUpgrade } from "src/api/models";
 import { SeedDetailsRequestModel } from "src/api/request-models";
+import { string } from "prop-types";
 
 export function getFilteredSeeds(filter: SeedListFilter) {
     return API.post<SeedList>("/seeds/filtered", filter, { headers: { 'Accept': 'application/json' } })
@@ -8,16 +9,37 @@ export function getFilteredSeeds(filter: SeedListFilter) {
         .catch(error => handleError(error));
 }
 
-export function getAllSeeds() {
-    return API.post<SeedList>("/seeds/all", { headers: { 'Accept': 'application/json' } })
-        .then(res => res.data)
-        .catch(error => handleError(error));
-}
+// export function getAllSeeds() {
+//     return API.post<SeedList>("/seeds/all", { headers: { 'Accept': 'application/json' } })
+//         .then(res => res.data)
+//         .catch(error => handleError(error));
+// }
 
 export function getSeed(request: SeedDetailsRequestModel) {
     var url = "/seeds/" + request.seedNumber;
     if (request.gameVersion != undefined) url += "/" + request.gameVersion;
     return API.get<Seed>(url, { headers: { 'Accept': 'application/json' } })
+        .then(res => res.data)
+        .catch(error => handleError(error));
+}
+
+export function getGeyserTypes() {
+    var url = "/geysers/types";
+    return API.get<GeyserType[]>(url)
+        .then(res => res.data)
+        .catch(error => handleError(error));
+}
+
+export function getSpaceDestinationTypes() {
+    var url = "/spacedestinations/types";
+    return API.get<SpaceDestinationType[]>(url)
+        .then(res => res.data)
+        .catch(error => handleError(error));
+}
+
+export function getGameUpgrades() {
+    var url = "/gameupgrades";
+    return API.get<GameUpgrade[]>(url)
         .then(res => res.data)
         .catch(error => handleError(error));
 }

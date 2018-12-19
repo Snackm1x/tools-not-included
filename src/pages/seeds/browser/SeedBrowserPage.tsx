@@ -6,18 +6,20 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { withNamespaces, WithNamespaces } from 'react-i18next';
 import SeedBrowser from './components/SeedBrowser';
-import { Seed } from 'src/api/models';
-import { fetchDetailsRequest } from 'src/store/seed-browser/actions';
+import { Seed, GeyserType, GameUpgrade } from 'src/api/models';
+import { getSeed } from 'src/store/seed-browser/actions';
 import SeedCard from './components/SeedCard';
 import { SeedDetailsRequestModel } from 'src/api/request-models';
 
 interface PropsFromState {
 	seed: Seed,
-	loading: boolean
+	loading: boolean,
+	geyserTypes: { [key: string]: GeyserType }
+	gameUpgrades: { [key: string]: GameUpgrade }
 }
 
 interface PropsFromDispatch {
-	getSeed: typeof fetchDetailsRequest
+	getSeed: typeof getSeed
 }
 
 type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps & RouteComponentProps & WithNamespaces;
@@ -31,9 +33,8 @@ class SeedBrowserPage extends React.Component<AllProps> {
 	public render() {
 		const { t } = this.props;
 		return (
-			//	<SeedBrowser/>
 			<div>
-				{!this.props.loading && <SeedCard seed={this.props.seed} />}
+				{!this.props.loading && <SeedBrowser seed={this.props.seed} geyserTypes={this.props.geyserTypes} gameUpgrades={this.props.gameUpgrades} />}
 			</div>
 		);
 	}
@@ -41,11 +42,13 @@ class SeedBrowserPage extends React.Component<AllProps> {
 
 const mapStateToProps = ({ seedBrowser }: ApplicationState) => ({
 	seed: seedBrowser.details.seed,
-	loading: seedBrowser.details.loading
+	loading: seedBrowser.details.loading,
+	geyserTypes: seedBrowser.geyserTypes,
+	gameUpgrades: seedBrowser.gameUpgrades
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-	getSeed: (request: SeedDetailsRequestModel) => dispatch(fetchDetailsRequest(request))
+	getSeed: (request: SeedDetailsRequestModel) => dispatch(getSeed(request))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withNamespaces()(SeedBrowserPage)));

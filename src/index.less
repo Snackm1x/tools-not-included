@@ -73,6 +73,21 @@ button {
 	.ant-card-body {
 		padding: 8px 24px 0px 24px;
 	}
+	.seed-card-row-left {
+		justify-content: center;
+		display: flex;
+		flex-flow: column wrap;
+		align-items: center;
+		flex: 1;
+		min-width: 150px;
+	}
+	.seed-card-row-right {
+		justify-content: center;
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		flex: 9
+	}
 }
 
 .ant-btn:focus {
@@ -219,4 +234,105 @@ button {
 .max-content-width {
 	max-width: @contentMaxWidth;
 	width: 100%;
+}
+
+.transparent-background-color {
+	background-color: transparent;
+	&.ant-btn {
+		&:hover{
+			background-color: rgba(0, 0, 0, 0.12);
+			color: #fff;
+		}
+		&:focus {
+			background-color: rgba(0, 0, 0, 0.05);
+			color: #fff;
+		}
+	}
+	.ant-select-selection {
+		background: transparent;	
+	}
+	&.ant-select-dropdown-menu-item {
+		background: #2f3136;
+		&:hover{
+			background:lighten(#2f3136, 5%);
+		}
+	}
+	&.ant-select-dropdown-menu-item-active {
+		background: @primary-color;
+		&:hover{
+			background:lighten(@primary-color, 10%);
+		}
+	}	
+}
+
+.ant-input-group-addon {
+	background: #2f3136;
+}
+
+.dark-cascader {
+	background:#2f3136;//lighten( 20%); #484C56
+	&.ant-cascader-menus{
+		box-shadow: 0px 2px 0px -1px rgba(0, 0, 0, 0.2), 0px 4px 0px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 0px 0px rgba(0, 0, 0, 0.12);
+	}
+	.ant-cascader-menu-item  {
+		background: transparent;
+		&:hover{
+			background:lighten(#2f3136, 5%);
+		}
+	}
+
+	.ant-cascader-menu-item-active  {
+		background: @primary-color;
+		&:hover{
+			background:lighten(@primary-color, 10%);
+		}
+	}
+
+	.ant-cascader-menu {
+		height: inherit;
+	}
+}
+
+.chip-geyser {
+	margin: 4px;
+	height: 32px;
+	background: rgba(255, 255, 255, 0.15);
+	display: flex;
+	border-radius: 16px;
+	align-items: center;
+	justify-content: left;
+	padding: 4px 4px 4px 4px;
+	min-width: 210px;
+	max-width: 210px;
+}
+
+.chip-geyser-img-container {
+	overflow: hidden;
+	margin: -10px 4px -10px -5px;
+	border-radius: 20px;
+}
+.chip-geyser-img {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+}
+
+.chip-geyser-count-container {
+	border-radius: 20px;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	p {
+		margin-bottom: inherit;
+	}
+	&.green {
+		background: rgb(46, 125, 50);
+	}
+	&.red {
+		background: rgb(183, 28, 28);
+	}
 }

@@ -8,67 +8,103 @@
 
 
 
+export interface GameUpgrade {
+    key: string;
+    displayName: string;
+    symbol: string;
+}
+
+export interface GeyserType {
+    key: string;
+    displayName: string;
+}
+
 export interface SeedListFilter {
     rowsPerPage: number;
     page: number;
-    seed?: number | undefined;
-    gameUpgrades?: string[] | undefined;
-    earliestVersionNumber?: number | undefined;
-    latestVersionNumber?: number | undefined;
-    geysers?: MinGeyser[] | undefined;
+    seed: number | undefined;
+    gameUpgrades: string[] | undefined;
+    earliestVersionNumber: number | undefined;
+    latestVersionNumber: number | undefined;
+    geysers: MinGeyser[] | undefined;
 }
 
 export interface MinGeyser {
-    type?: string | undefined;
-    min?: number | undefined;
+    type: string | undefined;
+    min: number | undefined;
 }
 
 export interface SeedList {
-    totalEntries?: number | undefined;
-    seeds?: Seed[] | undefined;
+    totalEntries: number | undefined;
+    seeds: Seed[] | undefined;
 }
 
 export interface Seed {
-    id?: string | undefined;
+    id: string;
     creationDate: Date;
-    seed?: number | undefined;
-    gameUpgrade?: string | undefined;
-    versionNumber?: number | undefined;
-    geysers?: Geyser[] | undefined;
-    spaceDestinations?: SpaceDestination[] | undefined;
-    modVersion?: number | undefined;
+    seed: number;
+    gameUpgrade: string;
+    versionNumber: number;
+    geysers: Geyser[];
+    geyserQuantities: { [key: string] : number; };
+    spaceDestinations: SpaceDestination[];
+    modVersion: number;
 }
 
 export interface Geyser {
-    geyserType?: string | undefined;
-    eruptionRate?: number | undefined;
-    activeDormancyPeriod?: number | undefined;
-    dormancyPeriod?: number | undefined;
-    eruptionPeriod?: number | undefined;
-    activeEruptionPeriod?: number | undefined;
-    posX?: number | undefined;
-    posY?: number | undefined;
-    calculatedOutput?: number | undefined;
+    type: string;
+    eruptionRate: number;
+    activeDormancyPeriod: number;
+    dormancyPeriod: number;
+    eruptionPeriod: number;
+    activeEruptionPeriod: number;
+    calculatedOutput: number;
+    posX: number;
+    posY: number;
 }
 
 export interface SpaceDestination {
-    destinationType?: string | undefined;
-    distance?: number | undefined;
+    type: string;
+    distance: number;
+}
+
+export interface ModSeed {
+    seed: number;
+    versionNumber: number;
+    geysers: ModGeyser[];
+    spaceDestinations: SpaceDestination[];
+    modVersion: number;
+}
+
+export interface ModGeyser {
+    type: string;
+    eruptionRate: number;
+    activeDormancyPeriod: number;
+    dormancyPeriod: number;
+    eruptionPeriod: number;
+    activeEruptionPeriod: number;
+    posX: number;
+    posY: number;
+}
+
+export interface SpaceDestinationType {
+    key: string;
+    displayName: string;
 }
 
 export interface SeedBrowserFilter {
-    seedNumber?: number | undefined;
-    includeArchived?: boolean | undefined;
-    conditions?: SeedBrowserFilterCondition[] | undefined;
+    seedNumber: number | undefined;
+    includeArchived: boolean | undefined;
+    conditions: SeedBrowserFilterCondition[] | undefined;
     page: number;
     pageSize: number;
 }
 
 export interface SeedBrowserFilterCondition {
-    type?: SeedBrowserFilterConditionType | undefined;
-    objectKey?: string | undefined;
-    comparator?: SeedBrowserFilterConditionComparator | undefined;
-    value?: number | undefined;
+    type: SeedBrowserFilterConditionType | undefined;
+    objectKey: string | undefined;
+    comparator: SeedBrowserFilterConditionComparator | undefined;
+    value: number | undefined;
 }
 
 export enum SeedBrowserFilterConditionType {

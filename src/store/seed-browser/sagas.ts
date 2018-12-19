@@ -4,84 +4,168 @@ import * as Actions from './actions'
 import * as seedBrowserService from '../../api/services/seed-browser/SeedService'
 import { ActionType } from 'typesafe-actions';
 import { push } from 'connected-react-router';
+import { GeyserType, SpaceDestinationType, GameUpgrade } from 'src/api/models';
 
-function* handleFetchAll(action: ActionType<typeof Actions.fetchAllRequest>) {
-  try {
-    const res = yield call(seedBrowserService.getAllSeeds);
-    if (res == 404) {
-      yield put(push('/404'));
-    }
-    if (res.message) {
-      yield put(Actions.fetchListError(res.error));
-    } else {
-      yield put(Actions.fetchListSuccess(res));
-    }
-  } catch (err) {
-    if (err instanceof Error) {
-      yield put(Actions.fetchListError(err.stack!))
-    } else {
-      yield put(Actions.fetchListError('An unknown error occured.'))
-    }
-  }
-}
+// function* handleGetAllSeeds(action: ActionType<typeof Actions.getAllSeeds>) {
+//   try {
+//     const res = yield call(seedBrowserService.getAllSeeds);
+//     if (res == 404) {
+//       yield put(push('/404'));
+//     }
+//     if (res.message) {
+//       yield put(Actions.getSeedListError(res.error));
+//     } else {
+//       yield put(Actions.getSeedListSuccess(res));
+//     }
+//   } catch (err) {
+//     if (err instanceof Error) {
+//       yield put(Actions.getSeedListError(err.stack!))
+//     } else {
+//       yield put(Actions.getSeedListError('An unknown error occured.'))
+//     }
+//   }
+// }
 
-function* handleFetchFiltered(action: ActionType<typeof Actions.fetchFilteredRequest>) {
+function* handleGetFilteredSeeds(action: ActionType<typeof Actions.getFilteredSeeds>) {
   try {
     const res = yield call(seedBrowserService.getFilteredSeeds, action.payload);
     if (res == 404) {
       yield put(push('/404'));
     }
     if (res.message) {
-      yield put(Actions.fetchListError(res.error));
+      yield put(Actions.getSeedListError(res.error));
     } else {
-      yield put(Actions.fetchListSuccess(res));
+      yield put(Actions.getSeedListSuccess(res));
     }
   } catch (err) {
     if (err instanceof Error) {
-      yield put(Actions.fetchListError(err.stack!))
+      yield put(Actions.getSeedListError(err.stack!))
     } else {
-      yield put(Actions.fetchListError('An unknown error occured.'))
+      yield put(Actions.getSeedListError('An unknown error occured.'))
     }
   }
 }
 
-function* handleFetchOne(action: ActionType<typeof Actions.fetchDetailsRequest>) {
+function* handleGetSeed(action: ActionType<typeof Actions.getSeed>) {
   try {
-    const res = yield call(seedBrowserService.getSeed, action.payload);
+    const [seed, geyserTypes, spaceDestinationTypes, gameUpgrades] = yield all([
+      call(seedBrowserService.getSeed, action.payload),
+      put(Actions.getGeyserTypes()),
+      put(Actions.getSpaceDestinationTypes()),
+      put(Actions.getGameUpgrades())
+    ]);
+
+    if (seed == 404) {
+      yield put(push('/404'));
+    }
+    if (seed.message) {
+      yield put(Actions.getSeedError(seed.message));
+    } else {
+      yield put(Actions.getSeedSuccess(seed));
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      yield put(Actions.getSeedError(err.stack!))
+    } else {
+      yield put(Actions.getSeedError('An unknown error occured.'))
+    }
+  }
+}
+
+function* handleGetGeyserTypes(action: ActionType<typeof Actions.getGeyserTypes>) {
+  try {
+    const res = yield call(seedBrowserService.getGeyserTypes);
     if (res == 404) {
       yield put(push('/404'));
     }
     if (res.message) {
-      yield put(Actions.fetchDetailsError(res.message));
+      yield put(Actions.getSeedError(res.message));
     } else {
-      yield put(Actions.fetchDetailsSuccess(res));
+      var types: { [key: string]: GeyserType } = {};
+      (res as GeyserType[]).forEach((geyserType) => { types[geyserType.key] = geyserType; })
+      yield put(Actions.getGeyserTypesSuccess(types));
     }
   } catch (err) {
     if (err instanceof Error) {
-      yield put(Actions.fetchDetailsError(err.stack!))
+      yield put(Actions.getSeedError(err.stack!))
     } else {
-      yield put(Actions.fetchDetailsError('An unknown error occured.'))
+      yield put(Actions.getSeedError('An unknown error occured.'))
     }
   }
 }
 
-function* watchFetchRequest() {
-  yield takeEvery(SeedBrowserActionTypes.FETCH_ALL_REQUEST, handleFetchAll);
+function* handleGetSpaceDestinationTypes(action: ActionType<typeof Actions.getSpaceDestinationTypes>) {
+  try {
+    const res = yield call(seedBrowserService.getSpaceDestinationTypes);
+    if (res == 404) {
+      yield put(push('/404'));
+    }
+    if (res.message) {
+      yield put(Actions.getSeedError(res.message));
+    } else {
+      var types: { [key: string]: SpaceDestinationType } = {};
+      (res as SpaceDestinationType[]).forEach((spaceDestinationType) => { types[spaceDestinationType.key] = spaceDestinationType; })
+      yield put(Actions.getSpaceDestinationTypesSuccess(types));
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      yield put(Actions.getSeedError(err.stack!))
+    } else {
+      yield put(Actions.getSeedError('An unknown error occured.'))
+    }
+  }
 }
 
-function* watchFetchFilteredRequest() {
-  yield takeEvery(SeedBrowserActionTypes.FETCH_FILTERED_REQUEST, handleFetchFiltered);
+function* handleGetGameUpgrades(action: ActionType<typeof Actions.getGameUpgrades>) {
+  try {
+    const res = yield call(seedBrowserService.getGameUpgrades);
+    if (res == 404) {
+      yield put(push('/404'));
+    }
+    if (res.message) {
+      yield put(Actions.getSeedError(res.message));
+    } else {
+      var types: { [key: string]: GameUpgrade } = {};
+      (res as GameUpgrade[]).forEach((gameUpgrade) => { types[gameUpgrade.key] = gameUpgrade; })
+      yield put(Actions.getGameUpgradesSuccess(types));
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      yield put(Actions.getSeedError(err.stack!))
+    } else {
+      yield put(Actions.getSeedError('An unknown error occured.'))
+    }
+  }
 }
 
-function* watchFetchOneRequest() {
-  yield takeEvery(SeedBrowserActionTypes.FETCH_ONE_REQUEST, handleFetchOne);
+
+function* watchGetFilteredSeeds() {
+  yield takeEvery(SeedBrowserActionTypes.GET_FILTERED_SEEDS, handleGetFilteredSeeds);
+}
+
+function* watchGetSeed() {
+  yield takeEvery(SeedBrowserActionTypes.GET_SEED, handleGetSeed);
+}
+
+function* watchGetGeyserTypes() {
+  yield takeEvery(SeedBrowserActionTypes.GET_GEYSER_TYPES, handleGetGeyserTypes);
+}
+
+function* watchGetSpaceDestinationTypes() {
+  yield takeEvery(SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES, handleGetSpaceDestinationTypes);
+}
+
+function* watchGetGameUpgrades() {
+  yield takeEvery(SeedBrowserActionTypes.GET_GAME_UPGRADES, handleGetGameUpgrades);
 }
 
 function* seedBrowserSaga() {
   yield all([
-    fork(watchFetchRequest),
-    fork(watchFetchFilteredRequest),
-    fork(watchFetchOneRequest),
+    fork(watchGetFilteredSeeds),
+    fork(watchGetSeed),
+    fork(watchGetGeyserTypes),
+    fork(watchGetSpaceDestinationTypes),
+    fork(watchGetGameUpgrades)
   ]);
 }
 
