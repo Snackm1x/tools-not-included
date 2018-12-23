@@ -3,12 +3,7 @@ import { Button, Card } from 'antd';
 import { withNamespaces, WithNamespaces } from 'react-i18next';
 import SeedCard from './SeedCard';
 import { Seed, GeyserType, GameUpgrade } from 'src/api/models';
-import { InputNumber } from 'antd';
-import { number } from 'prop-types';
-import FilterForm from './FilterForm';
-import DynamicFormTest from './DynamicFormTest';
-import TestForm from './TestForm';
-import TestFormikAntd from './TestFormikAntd';
+import SeedBrowserFilterForm from './SeedBrowserFilterForm';
 
 type AllProps = WithNamespaces & Props;
 
@@ -28,16 +23,13 @@ class SeedBrowser extends React.Component<AllProps, State> {
 		return (
 			<div>
 				<Card className="shadow-card card-full-width" bordered={false}>
-					<TestFormikAntd />
+					<SeedBrowserFilterForm />
 				</Card>
-
-
-				
+	
 				<SeedCard seed={this.props.seed} geyserTypes={this.props.geyserTypes} gameUpgrades={this.props.gameUpgrades} />
 			</div>
 		);
 	}
 }
-
 
 export default withNamespaces()(SeedBrowser);

@@ -2,40 +2,31 @@ import * as React from "react";
 import { Form, InputNumber } from "antd";
 
 interface Props {
-    values,
-    errors,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched,
-    name: string,
-    label?: string | undefined,
-    max?: number,
-    min?: number,
-    step?: number
+    field,
+    prop?,
+    form: { touched, errors, setFieldValue, setFieldTouched }
 }
 
-class TextInput extends React.PureComponent<Props> {
+class NumericInput extends React.PureComponent<Props> {
     render() {
-        const { values, errors, handleSubmit, setFieldValue, setFieldTouched, name, label, max, min, step } = this.props;
+        const { field, prop } = this.props;
+        const { errors, touched, setFieldValue } = this.props.form;
+
         return (
             <Form.Item
-                hasFeedback={!!errors[name]}
-                validateStatus={errors[name] && "error"}
-                help={errors[name]}
-                label={label ? label : ""}>
+                {...prop}
+                hasFeedback={!!errors[field.name]}
+                validateStatus={errors[field.name] && touched[field.name] && "error"}
+                help={!!touched[field.name] && errors[field.name]}>
                 <InputNumber
-                    value={values[name]}
-                    onBlur={() => setFieldTouched(name)}
-                    onSubmit={handleSubmit}
-                    onChange={(value) => setFieldValue(name, value)}
-                    min={min}
-                    max={max}
-                    step={step ? step : 1}
-                    className="transparent-background-color"
+                    {...field}
+                    {...prop && prop.inner}
+                    onChange={(value) => setFieldValue(field.name, value)}
+                    step={prop && prop.inner && prop.inner.step ? prop.inner.step : 1}
                 />
             </Form.Item>
         );
     }
 }
 
-export default TextInput;
+export default NumericInput;

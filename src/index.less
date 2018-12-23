@@ -13,7 +13,12 @@ body {
 	padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-family: "Economica", sans-serif;
 }
 
@@ -86,7 +91,7 @@ button {
 		display: flex;
 		flex-flow: row wrap;
 		align-items: center;
-		flex: 9
+		flex: 9;
 	}
 }
 
@@ -236,10 +241,80 @@ button {
 	width: 100%;
 }
 
+.ant-cascader-picker-clear {
+	background: transparent;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.ant-cascader-picker-arrow {
+	color: rgba(255, 255, 255, 1);
+}
+
+.ant-select-arrow {
+	color: rgba(255, 255, 255, 1);
+}
+form .has-feedback .ant-input {
+	padding-right: 11px;
+}
+
+@cascaderWidth: 200px;
+@selectWidth: 100px;
+@numberWidth: 100px;
+@totalWidth: calc(@cascaderWidth + @selectWidth + @numberWidth);
+
+form {
+	.ant-input-group.browser-filter-rule-row {
+		width: @totalWidth;
+		.ant-cascader-picker.browser-filter-rule-row-cascader {
+			width: @cascaderWidth;
+		}
+		.ant-select.browser-filter-rule-row-select {
+			width: @selectWidth;
+		}
+		.ant-input-number.browser-filter-rule-row-number {
+			width: @numberWidth;
+		}
+	}
+	.has-feedback :not(.ant-input-group-addon) > .ant-select {
+		.ant-select-arrow {
+			right: 11px;
+		}
+		.ant-select-selection-selected-value {
+			padding-right: 10px;
+		}
+	}
+	.has-feedback {
+		.ant-cascader-picker-arrow {
+			margin-right: 0px;
+		}
+	}
+}
+
+.browser-filter-form {
+	// .ant-row {
+	// 	display: flex;
+	// 	justify-content: center;
+	// }
+	.ant-row.ant-form-item {
+		padding-bottom: 0px
+	}
+}
+
+
+.browser-filter-add-rule-button {
+	width: @totalWidth;
+}
+.browser-filter-seed-number {
+	width: @totalWidth;
+}
+.browser-filter-add-alternative-button {
+	width: @totalWidth;
+}
+
 .transparent-background-color {
 	background-color: transparent;
 	&.ant-btn {
-		&:hover{
+		&:hover {
 			background-color: rgba(0, 0, 0, 0.12);
 			color: #fff;
 		}
@@ -249,20 +324,20 @@ button {
 		}
 	}
 	.ant-select-selection {
-		background: transparent;	
+		background: transparent;
 	}
 	&.ant-select-dropdown-menu-item {
 		background: #2f3136;
-		&:hover{
-			background:lighten(#2f3136, 5%);
+		&:hover {
+			background: lighten(#2f3136, 5%);
 		}
 	}
 	&.ant-select-dropdown-menu-item-active {
 		background: @primary-color;
-		&:hover{
-			background:lighten(@primary-color, 10%);
+		&:hover {
+			background: lighten(@primary-color, 10%);
 		}
-	}	
+	}
 }
 
 .ant-input-group-addon {
@@ -270,22 +345,22 @@ button {
 }
 
 .dark-cascader {
-	background:#2f3136;//lighten( 20%); #484C56
-	&.ant-cascader-menus{
+	background: #2f3136; //lighten( 20%); #484C56
+	&.ant-cascader-menus {
 		box-shadow: 0px 2px 0px -1px rgba(0, 0, 0, 0.2), 0px 4px 0px 0px rgba(0, 0, 0, 0.14),
-		0px 1px 0px 0px rgba(0, 0, 0, 0.12);
+			0px 1px 0px 0px rgba(0, 0, 0, 0.12);
 	}
-	.ant-cascader-menu-item  {
+	.ant-cascader-menu-item {
 		background: transparent;
-		&:hover{
-			background:lighten(#2f3136, 5%);
+		&:hover {
+			background: lighten(#2f3136, 5%);
 		}
 	}
 
-	.ant-cascader-menu-item-active  {
+	.ant-cascader-menu-item-active {
 		background: @primary-color;
-		&:hover{
-			background:lighten(@primary-color, 10%);
+		&:hover {
+			background: lighten(@primary-color, 10%);
 		}
 	}
 
