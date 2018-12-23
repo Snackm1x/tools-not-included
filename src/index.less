@@ -288,18 +288,30 @@ form {
 			margin-right: 0px;
 		}
 	}
-}
-
-.browser-filter-form {
-	// .ant-row {
-	// 	display: flex;
-	// 	justify-content: center;
-	// }
-	.ant-row.ant-form-item {
-		padding-bottom: 0px
+	.has-error {
+		.ant-input-group.ant-input-group-compact > *:last-child {
+			border-right-color: red;
+		}
 	}
 }
 
+.ant-row.browser-filter-rule-row-container {
+	.browser-filter-field-column {
+		display: flex;
+		justify-content: center;
+	}
+}
+
+.ant-row.browser-filter-header-row {
+	display: flex;
+	justify-content: center;
+}
+
+.browser-filter-form {
+	.ant-row.ant-form-item {
+		padding-bottom: 0px;
+	}
+}
 
 .browser-filter-add-rule-button {
 	width: @totalWidth;
@@ -411,3 +423,4 @@ form {
 		background: rgb(183, 28, 28);
 	}
 }
+

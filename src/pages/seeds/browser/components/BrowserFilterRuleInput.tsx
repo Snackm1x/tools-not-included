@@ -31,16 +31,13 @@ interface Props {
     setFieldValue,
     setFieldTouched,
     name: string,
-    label?: string | undefined,
-    placeholder?: string | undefined,
-    formItemProps?,
     ruleId: number,
     groupId: number,
     showOrLabel: boolean,
     onDelete: Function
 }
 
-class CompositeRow extends React.Component<Props>  {
+class BrowserFilterRuleInput extends React.Component<Props>  {
 
     getCascaderValue(values: RuleValues): string[] {
         if (!values || !values.conditionObjectType || !values.conditionObject) {
@@ -50,17 +47,23 @@ class CompositeRow extends React.Component<Props>  {
         return [values.conditionObjectType, values.conditionObject];
     }
 
+    hasNoValues(values: RuleValues): boolean {
+        return this.getCascaderValue(values).length === 0;
+    }
+
     render() {
-        const { values, errors, touched, handleSubmit, setFieldValue, setFieldTouched, name, label, placeholder, formItemProps, ruleId, groupId, showOrLabel, onDelete } = this.props;
+        const { values, errors, touched, handleSubmit, setFieldValue, setFieldTouched, name, ruleId, groupId } = this.props;
         var idx = values.rules.findIndex(value => value.ruleId == ruleId && value.ruleGroupId == groupId);
 
         return (
-            <Col xs={12}>
+            <Col xs={12} className="browser-filter-field-column">
                 <FormItem
-                    {...formItemProps}
-                    hasFeedback={!!errors[name] && !!errors[name][idx]}
+                    hasFeedback={!!errors[name] && !!errors[name][idx] && !!touched[name] && !!touched[name][idx]}
                     validateStatus={errors[name] && errors[name][idx] && touched[name] && touched[name][idx] && "error"}
-                    help={errors[name] && errors[name][idx] && touched[name] && touched[name][idx] && Object.keys(errors[name][idx]).map(key => errors[name][idx][key]).join(", ")}
+                    help={errors[name] && errors[name][idx] 
+                        && touched[name] && touched[name][idx] 
+                        && this.hasNoValues(values[name][idx]) === true //prevents error flash after value selection
+                        && Object.keys(errors[name][idx]).map(key => errors[name][idx][key]).join(", ")}
                 >
 
                     <InputGroup compact className="browser-filter-rule-row">
@@ -69,14 +72,14 @@ class CompositeRow extends React.Component<Props>  {
                             placeholder={"Select object type"}
                             displayRender={(values) => values[1]}
                             options={options}
-                            value={this.getCascaderValue(values[`${name}`][`${idx}`])}
+                            value={this.getCascaderValue(values[name][idx])}
                             onChange={(value) => {
                                 setFieldValue(`${name}.${idx}.conditionObjectType`, value[0]);
                                 setFieldValue(`${name}.${idx}.conditionObject`, value[1]);
                             }}
+                            expandTrigger="hover"
                             className={classNames("transparent-background-color", "browser-filter-rule-row-cascader")}
                             popupClassName="dark-cascader"
-                            changeOnSelect
                             onPopupVisibleChange={(popupVisible: boolean) => {
                                 if (!popupVisible) {
                                     setFieldTouched(`${name}.${idx}.conditionObjectType`);
@@ -88,7 +91,7 @@ class CompositeRow extends React.Component<Props>  {
                         <Select
                             onChange={(value) => setFieldValue(`${name}.${idx}.conditionComparator`, value)}
                             onBlur={() => setFieldTouched(`${name}.${idx}.conditionComparator`)}
-                            value={values[`${name}`][`${idx}`].conditionComparator}
+                            value={values[name][idx].conditionComparator}
                             className={classNames("transparent-background-color", "browser-filter-rule-row-select")}>
 
                             <Option value="at_least" className="transparent-background-color">at least</Option>
@@ -98,7 +101,7 @@ class CompositeRow extends React.Component<Props>  {
                         <InputNumber
                             min={0}
                             className={classNames("transparent-background-color", "browser-filter-rule-row-number")}
-                            value={values[`${name}`][`${idx}`].conditionValue}
+                            value={values[name][idx].conditionValue}
                             onChange={(value) => setFieldValue(`${name}.${idx}.conditionValue`, value)}
                             onBlur={() => setFieldTouched(`${name}.${idx}.conditionValue`)}
                             onSubmit={handleSubmit}
@@ -113,7 +116,7 @@ class CompositeRow extends React.Component<Props>  {
 
                     <Button
                         className="dynamic-delete-button"
-                        style={{ marginLeft: 10, background: 'transparent', border: 'none' }}
+                        style={{ marginLeft: 10, background: 'transparent', border: 'none', marginRight: -40 }}
                         icon="delete"
                         onClick={() => this.props.onDelete(ruleId, groupId) }
                     />
@@ -123,4 +126,4 @@ class CompositeRow extends React.Component<Props>  {
     }
 };
 
-export default CompositeRow;
+export default BrowserFilterRuleInput;

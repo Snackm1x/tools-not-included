@@ -11,7 +11,7 @@ import './index.less';
 
 WebFont.load({
   google: {
-    families: ['Roboto Condensed:300,400,500,700', 'Source Sans Pro', 'Economica'],
+    families: ['Roboto Condensed:300,400,500,700', 'Source Sans Pro', 'Economica:300,400,500,700'],
   },
 });
 

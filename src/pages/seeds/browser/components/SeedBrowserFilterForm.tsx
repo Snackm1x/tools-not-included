@@ -1,6 +1,5 @@
 import * as React from 'react';
-import * as Yup from 'yup';
-import CompositeRow from './CompositeRow';
+import BrowserFilterRuleInput from './BrowserFilterRuleInput';
 import FormItem from 'antd/lib/form/FormItem';
 import NumericInput from '../../../../components/forms/NumericInput';
 import {
@@ -14,12 +13,11 @@ import {
 import {
     Field,
     FieldArray,
-    InjectedFormikProps,
-    validateYupSchema,
     withFormik,
     FormikProps,
 } from 'formik';
 import classNames from 'classnames';
+import SeedBrowserFilterFormValidationSchema, { maxRules } from './SeedBrowserFilterFormValidationSchema';
 
 const groupBy = (items, key) =>
     items.reduce((result, item) => ({
@@ -50,7 +48,6 @@ export interface RuleValues {
     ruleId: number
 }
 
-const maxRules = 25;
 let initialValues: FormValues =
 {
     seedNumber: undefined,
@@ -94,34 +91,30 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
         const form: FormikProps<FormValues> = this.props;
         const groupedValues = groupBy(form.values.rules, "ruleGroupId");
 
-        const formItemLayoutWithOutLabel = {
-
-        };
-
         return (
             <Form
                 layout="vertical"
                 onSubmit={form.handleSubmit}
-                style={{ margin: 20 }}
                 className="browser-filter-form">
 
-                <Row><h1>Seed Browser</h1></Row>
-                <Row><p>Search for a specific seed</p></Row>
-                <Field name="seedNumber" component={NumericInput} prop={{ ...formItemLayoutWithOutLabel, inner: { max: 5, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number") } }} />
+                <Row className="browser-filter-header-row"><h1>Seed Browser</h1></Row>
+                <Row className="browser-filter-header-row"><h3>Search for a specific seed</h3></Row>
+                <Row className="browser-filter-header-row">
+                    <Field name="seedNumber" component={NumericInput} prop={{ inner: { max: 5, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number") } }} />
+                </Row>
 
-                <Row><p>Or make your own rules</p></Row>
+                <Row className="browser-filter-header-row" ><h3>Or make your own rules</h3></Row>
                 <FieldArray name="rules"
                     render={arrayHelpers => (
-                        <div>
+                        <div style={{marginTop: 10}}>
                             {
                                 Object.keys(groupedValues).map((groupId: string, groupIndex: number, array: string[]) => {
                                     const groupRules = groupedValues[groupId];
                                     return (
-                                        <Row key={groupId}>
+                                        <Row key={groupId} className="browser-filter-rule-row-container">
                                             {groupRules.map((rule: RuleValues, ruleIndex: number) => {
                                                 return (
-                                                    <CompositeRow {...form}
-                                                        formItemProps={formItemLayoutWithOutLabel}
+                                                    <BrowserFilterRuleInput {...form}
                                                         name="rules" key={`group${groupId}-rule${rule.ruleId}`}
                                                         ruleId={rule.ruleId}
                                                         groupId={parseInt(groupId)}
@@ -131,82 +124,48 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
                                                             arrayHelpers.remove(arrayIdx);
                                                         }} />)
                                             })}
-                                            <Col xs={12}>
-                                                <FormItem {...formItemLayoutWithOutLabel}>
+                                            <Col xs={12} className="browser-filter-field-column">
+                                                <FormItem>
                                                     <Button type="dashed"
                                                         className={classNames("transparent-background-color", "browser-filter-add-alternative-button")}
                                                         disabled={form.values.rules && form.values.rules.length >= maxRules}
                                                         onClick={() => {
-                                                            arrayHelpers.insert(this.state.nextRuleId, { ...InitialRuleValue, ruleGroupId: groupId, ruleId: this.state.nextRuleId });
+                                                            arrayHelpers.push({ ...InitialRuleValue, ruleGroupId: groupId, ruleId: this.state.nextRuleId });
                                                             this.setState({ nextRuleId: this.state.nextRuleId + 1 });
                                                         }}>
-                                                        <Icon type="plus" /> Add alternative (OR)
+                                                        <Icon type="plus" /><p style={{display: 'inline', marginRight: 5}}>Add <b style={{color: '#9BCBF6'}}> ( OR ) </b> rule</p>
                                                         </Button>
                                                 </FormItem>
                                             </Col>
-                                            <Divider style={{ background: 'rgba(255, 255, 255, 0.25)', margin: '0.5em 0px', marginBottom: 20 }} />
+                                            <Divider style={{ background: 'rgba(255, 255, 255, 0.25)', margin: '0.5em 0px', marginBottom: 25 }}></Divider>
                                         </Row>
                                     )
                                 })}
 
-                            <FormItem {...formItemLayoutWithOutLabel}>
-                                <Button type="dashed"
-                                    className={classNames("transparent-background-color", "browser-filter-add-rule-button")}
-                                    disabled={form.values.rules && form.values.rules.length >= maxRules}
-                                    onClick={() => {
-                                        arrayHelpers.insert(this.state.nextRuleId, { ...InitialRuleValue, ruleGroupId: this.state.nextGroupId, ruleId: this.state.nextRuleId });
-                                        this.setState({ nextRuleId: this.state.nextRuleId + 1, nextGroupId: this.state.nextGroupId + 1 });
-                                    }}>
-                                    <Icon type="plus" /> Add rule (AND)
-                                </Button>
-                            </FormItem>
+                            <Row className="browser-filter-rule-row-container">
+                                <Col xs={12} className="browser-filter-field-column">
+                                    <FormItem>
+                                        <Button type="dashed"
+                                            className={classNames("transparent-background-color", "browser-filter-add-rule-button")}
+                                            disabled={form.values.rules && form.values.rules.length >= maxRules}
+                                            onClick={() => {
+                                                arrayHelpers.push({ ...InitialRuleValue, ruleGroupId: this.state.nextGroupId, ruleId: this.state.nextRuleId });
+                                                this.setState({ nextRuleId: this.state.nextRuleId + 1, nextGroupId: this.state.nextGroupId + 1 });
+                                            }}>
+                                            <Icon type="plus" /><p style={{display: 'inline', marginRight: 5}}>Add <b style={{color: '#FAFF9A'}}>( AND )</b> rule</p></Button>
+                                    </FormItem>
+                                </Col>
+                            </Row>
                         </div>
                     )} />
-
-                <Button type="primary" htmlType="submit" disabled={form.isSubmitting}>Search</Button>
-
-                <pre>
-                    {JSON.stringify(form.touched, null, 2)}
-                </pre>
-
-                <pre>
-                    {JSON.stringify(form.errors, null, 2)}
-                </pre>
-
-                <pre>
-                    {JSON.stringify(form.values, null, 2)}
-                </pre>
+                <Button type="primary" htmlType="submit" disabled={form.isSubmitting}>Search</Button>           
             </Form>
         );
     }
-
 };
 
 export default withFormik<any, FormValues>({
-    handleSubmit: ((values: FormValues) => { validateYupSchema }),
+    handleSubmit: ((values: FormValues) => { alert(JSON.stringify(values)) }),
     mapPropsToValues: () => ({ ...initialValues }),
-    validationSchema: Yup.object().shape({
-        seedNumber: Yup.number()
-            .moreThan(-1)
-            .lessThan(2147483648)
-            .notRequired()
-            .integer(),
-        rules: Yup.array()
-            .of(
-                Yup.object().shape({
-                    conditionObjectType: Yup.string(),
-                    conditionObject: Yup.string()
-                        .required("Please select an object or remove the incomplete rule"),
-                    conditionValue: Yup.number()
-                        .min(0, "Please provide a non-negative value"),
-                    conditionComparator: Yup.string()
-                        .required(),
-                    ruleGroupId: Yup.number()
-                        .required(),
-                    ruleId: Yup.number()
-                        .required()
-                })
-            )
-            .max(maxRules, `You picky bastard, you. Maximum of ${maxRules} rules allowed.`)
-    })
+    validationSchema: SeedBrowserFilterFormValidationSchema
 })(SeedBrowserFilterForm);
