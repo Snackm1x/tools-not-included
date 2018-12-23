@@ -22,21 +22,21 @@ export interface GeyserType {
 export interface SeedListFilter {
     rowsPerPage: number;
     page: number;
-    seed: number | undefined;
-    gameUpgrades: string[] | undefined;
-    earliestVersionNumber: number | undefined;
-    latestVersionNumber: number | undefined;
-    geysers: MinGeyser[] | undefined;
+    seed?: number | undefined;
+    gameUpgrades?: string[] | undefined;
+    earliestVersionNumber?: number | undefined;
+    latestVersionNumber?: number | undefined;
+    geysers?: MinGeyser[] | undefined;
 }
 
 export interface MinGeyser {
-    type: string | undefined;
-    min: number | undefined;
+    type?: string | undefined;
+    min?: number | undefined;
 }
 
 export interface SeedList {
-    totalEntries: number | undefined;
-    seeds: Seed[] | undefined;
+    totalEntries?: number | undefined;
+    seeds?: Seed[] | undefined;
 }
 
 export interface Seed {
@@ -93,27 +93,29 @@ export interface SpaceDestinationType {
 }
 
 export interface SeedBrowserFilter {
-    seedNumber: number | undefined;
-    includeArchived: boolean | undefined;
-    conditions: SeedBrowserFilterCondition[] | undefined;
+    seedNumber?: number | undefined;
+    includeArchived?: boolean | undefined;
+    rules?: SeedBrowserFilterRule[] | undefined;
     page: number;
     pageSize: number;
 }
 
-export interface SeedBrowserFilterCondition {
-    type: SeedBrowserFilterConditionType | undefined;
-    objectKey: string | undefined;
-    comparator: SeedBrowserFilterConditionComparator | undefined;
-    value: number | undefined;
+export interface SeedBrowserFilterRule {
+    id: number;
+    groupId: number;
+    type: SeedBrowserFilterRuleType;
+    object: string;
+    comparator: SeedBrowserFilterRuleComparator;
+    value: number;
 }
 
-export enum SeedBrowserFilterConditionType {
+export enum SeedBrowserFilterRuleType {
     Total_Output = "Total Output", 
     Geyser = "Geyser", 
     Planet = "Planet", 
 }
 
-export enum SeedBrowserFilterConditionComparator {
+export enum SeedBrowserFilterRuleComparator {
     At_least = "at least", 
     At_most = "at most", 
 }

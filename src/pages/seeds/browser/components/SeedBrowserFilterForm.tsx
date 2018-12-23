@@ -124,7 +124,7 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
                                                             arrayHelpers.remove(arrayIdx);
                                                         }} />)
                                             })}
-                                            <Col xs={12} className="browser-filter-field-column">
+                                            <Col xs={24} lg={12} className="browser-filter-field-column">
                                                 <FormItem>
                                                     <Button type="dashed"
                                                         className={classNames("transparent-background-color", "browser-filter-add-alternative-button")}
@@ -143,7 +143,7 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
                                 })}
 
                             <Row className="browser-filter-rule-row-container">
-                                <Col xs={12} className="browser-filter-field-column">
+                                <Col xs={24} lg={12} className="browser-filter-field-column">
                                     <FormItem>
                                         <Button type="dashed"
                                             className={classNames("transparent-background-color", "browser-filter-add-rule-button")}
@@ -158,7 +158,7 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
                             </Row>
                         </div>
                     )} />
-                <Button type="primary" htmlType="submit" disabled={form.isSubmitting}>Search</Button>           
+                <Button type="primary" htmlType="submit" disabled={form.isSubmitting}>Search</Button>
             </Form>
         );
     }

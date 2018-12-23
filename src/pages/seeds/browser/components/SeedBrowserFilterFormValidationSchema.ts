@@ -25,4 +25,5 @@ export default Yup.object().shape({
             })
         )
         .max(maxRules, `You picky bastard, you. Maximum of ${maxRules} rules allowed.`)
+        .notRequired()
 })

@@ -56,7 +56,7 @@ class BrowserFilterRuleInput extends React.Component<Props>  {
         var idx = values.rules.findIndex(value => value.ruleId == ruleId && value.ruleGroupId == groupId);
 
         return (
-            <Col xs={12} className="browser-filter-field-column">
+            <Col xs={24} lg={12} className="browser-filter-field-column">
                 <FormItem
                     hasFeedback={!!errors[name] && !!errors[name][idx] && !!touched[name] && !!touched[name][idx]}
                     validateStatus={errors[name] && errors[name][idx] && touched[name] && touched[name][idx] && "error"}

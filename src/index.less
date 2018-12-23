@@ -257,6 +257,10 @@ form .has-feedback .ant-input {
 	padding-right: 11px;
 }
 
+.ant-row {
+	max-width: 100%;
+}
+
 @cascaderWidth: 200px;
 @selectWidth: 100px;
 @numberWidth: 100px;
@@ -265,14 +269,27 @@ form .has-feedback .ant-input {
 form {
 	.ant-input-group.browser-filter-rule-row {
 		width: @totalWidth;
+		@media only screen and (max-width:600px) {
+			max-width: 90%;
+		}
 		.ant-cascader-picker.browser-filter-rule-row-cascader {
 			width: @cascaderWidth;
+			@media only screen and (max-width:600px) {
+				max-width: 40%;
+			}
+			
 		}
 		.ant-select.browser-filter-rule-row-select {
 			width: @selectWidth;
+			@media only screen and (max-width:600px) {
+				max-width: 30%;
+			}
 		}
 		.ant-input-number.browser-filter-rule-row-number {
 			width: @numberWidth;
+			@media only screen and (max-width:600px) {
+				max-width: 30%;
+			}
 		}
 	}
 	.has-feedback :not(.ant-input-group-addon) > .ant-select {
@@ -315,12 +332,15 @@ form {
 
 .browser-filter-add-rule-button {
 	width: @totalWidth;
+	max-width: 100%;
 }
 .browser-filter-seed-number {
 	width: @totalWidth;
+	max-width: 100%;
 }
 .browser-filter-add-alternative-button {
 	width: @totalWidth;
+	max-width: 100%;
 }
 
 .transparent-background-color {
