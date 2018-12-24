@@ -20,9 +20,9 @@ class GeyserChip extends React.Component<Props> {
                 <div className='chip-geyser-img-container'>
                     <img className='chip-geyser-img' src={imgSrc} />
                 </div>
-                <p style={{ margin: '0px 5px 0px 0px' }}>{this.props.label}</p>
+                <h3 style={{ margin: '0px' }}>{this.props.label}</h3>
                 <div className={'chip-geyser-count-container ' + colorClass}>
-                    <p>{this.props.count}</p>
+                    <h3 style={{ margin: '0px' }}>{this.props.count}</h3>
                 </div>
             </div>
         );

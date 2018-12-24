@@ -1,74 +1,53 @@
 import * as React from 'react';
 import BrowserFilterRuleInput from './BrowserFilterRuleInput';
+import classNames from 'classnames';
 import FormItem from 'antd/lib/form/FormItem';
 import NumericInput from '../../../../components/forms/NumericInput';
+import SeedBrowserFilterFormValidationSchema, { maxRules } from './SeedBrowserFilterFormValidationSchema';
 import {
     Button,
     Col,
+    Divider,
     Form,
     Icon,
-    Row,
-    Divider
+    Row
 } from 'antd';
+import {
+    GeyserType,
+    SeedBrowserFilterRule,
+    SeedBrowserFilterRuleComparator,
+    SpaceDestinationType
+} from '../../../../api/models';
+import { groupBy } from '../../../../utils/groupBy';
 import {
     Field,
     FieldArray,
     withFormik,
     FormikProps,
 } from 'formik';
-import classNames from 'classnames';
-import SeedBrowserFilterFormValidationSchema, { maxRules } from './SeedBrowserFilterFormValidationSchema';
 
-const groupBy = (items, key) =>
-    items.reduce((result, item) => ({
-        ...result,
-        [item[key]]: [
-            ...(result[item[key]] || []),
-            item,
-        ],
-    }),
-        {},
-    );
-
-export interface FormProps {
-
+export interface SeedBrowserFilterFormProps {
+    initialValues: SeedBrowserFilterFormValues,
+    geyserTypes: { [key: string]: GeyserType }
+    spaceDestinationTypes: { [key: string]: SpaceDestinationType }
 }
 
-export interface FormValues {
+export interface SeedBrowserFilterFormValues {
     seedNumber?: number,
-    rules: RuleValues[]
+    rules: SeedBrowserFilterRule[]
 }
 
-export interface RuleValues {
-    conditionObjectType: string | undefined,
-    conditionObject: string | undefined,
-    conditionValue: number,
-    conditionComparator: string,
-    ruleGroupId: number,
-    ruleId: number
-}
-
-let initialValues: FormValues =
-{
-    seedNumber: undefined,
-    rules: [
-        { ruleId: 0, ruleGroupId: 0, conditionValue: 0, conditionComparator: 'at_least', conditionObject: undefined, conditionObjectType: undefined },
-        { ruleId: 1, ruleGroupId: 1, conditionValue: 10, conditionComparator: 'at_least', conditionObject: 'hangzhou', conditionObjectType: 'zhejiang' },
-        { ruleId: 2, ruleGroupId: 2, conditionValue: 20, conditionComparator: 'at_most', conditionObject: 'nanjing', conditionObjectType: 'jiangsu' },
-    ]
-}
-
-const InitialRuleValue = {
-    conditionValue: 0, conditionComparator: 'at_least', conditionObject: undefined, conditionObjectType: undefined
-}
-
-interface SeedBrowserState {
+interface SeedBrowserFilterState {
     nextRuleId: number,
     nextGroupId: number
 }
 
-class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<FormValues>, SeedBrowserState> {
-    constructor(props: FormProps & FormikProps<FormValues>) {
+const InitialRuleValue = {
+    conditionValue: 0, value: 0, comparator: SeedBrowserFilterRuleComparator.At_least, object: undefined, objectType: undefined
+}
+
+class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps & FormikProps<SeedBrowserFilterFormValues>, SeedBrowserFilterState> {
+    constructor(props: SeedBrowserFilterFormProps & FormikProps<SeedBrowserFilterFormValues>) {
         super(props);
 
         var nextIndices = this.findInitialNextIds();
@@ -76,20 +55,23 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
     }
 
     findInitialNextIds() {
-        var highestRuleId = -1;
+        var highestid = -1;
         var highestGroupId = -1;
 
-        initialValues.rules.forEach(rule => {
-            if (rule.ruleId > highestRuleId) highestRuleId = rule.ruleId;
-            if (rule.ruleGroupId > highestGroupId) highestGroupId = rule.ruleGroupId;
+        if (!this.props.initialValues.rules)
+            return { nextRuleId: 0, nextGroupId: 0 };
+
+        this.props.initialValues.rules.forEach(rule => {
+            if (rule.id > highestid) highestid = rule.id;
+            if (rule.groupId > highestGroupId) highestGroupId = rule.groupId;
         });
 
-        return { nextRuleId: highestRuleId + 1, nextGroupId: highestGroupId + 1 };
+        return { nextRuleId: highestid + 1, nextGroupId: highestGroupId + 1 };
     }
 
     render() {
-        const form: FormikProps<FormValues> = this.props;
-        const groupedValues = groupBy(form.values.rules, "ruleGroupId");
+        const form: FormikProps<SeedBrowserFilterFormValues> = this.props;
+        const groupedValues = groupBy(form.values.rules, "groupId");
 
         return (
             <Form
@@ -100,27 +82,28 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
                 <Row className="browser-filter-header-row"><h1>Seed Browser</h1></Row>
                 <Row className="browser-filter-header-row"><h3>Search for a specific seed</h3></Row>
                 <Row className="browser-filter-header-row">
-                    <Field name="seedNumber" component={NumericInput} prop={{ inner: { max: 5, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number") } }} />
+                    <Field name="seedNumber" component={NumericInput} prop={{ inner: { max: 5, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number")}}}/>
                 </Row>
 
                 <Row className="browser-filter-header-row" ><h3>Or make your own rules</h3></Row>
                 <FieldArray name="rules"
                     render={arrayHelpers => (
-                        <div style={{marginTop: 10}}>
+                        <div style={{ marginTop: 10 }}>
                             {
                                 Object.keys(groupedValues).map((groupId: string, groupIndex: number, array: string[]) => {
                                     const groupRules = groupedValues[groupId];
                                     return (
                                         <Row key={groupId} className="browser-filter-rule-row-container">
-                                            {groupRules.map((rule: RuleValues, ruleIndex: number) => {
+                                            {groupRules.map((rule: SeedBrowserFilterRule, ruleIndex: number) => {
                                                 return (
                                                     <BrowserFilterRuleInput {...form}
-                                                        name="rules" key={`group${groupId}-rule${rule.ruleId}`}
-                                                        ruleId={rule.ruleId}
+                                                        name="rules" key={`group${groupId}-rule${rule.id}`}
+                                                        ruleId={rule.id}
                                                         groupId={parseInt(groupId)}
-                                                        showOrLabel={true}
-                                                        onDelete={(ruleId: number, groupId: number) => {
-                                                            var arrayIdx = form.values.rules.findIndex((value: RuleValues) => value.ruleId == ruleId && value.ruleGroupId == groupId);
+                                                        geyserTypes={this.props.geyserTypes}
+                                                        spaceDestinationTypes={this.props.spaceDestinationTypes}
+                                                        onDelete={(id: number, groupId: number) => {
+                                                            var arrayIdx = form.values.rules.findIndex((value: SeedBrowserFilterRule) => value.id == id && value.groupId == groupId);
                                                             arrayHelpers.remove(arrayIdx);
                                                         }} />)
                                             })}
@@ -130,11 +113,11 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
                                                         className={classNames("transparent-background-color", "browser-filter-add-alternative-button")}
                                                         disabled={form.values.rules && form.values.rules.length >= maxRules}
                                                         onClick={() => {
-                                                            arrayHelpers.push({ ...InitialRuleValue, ruleGroupId: groupId, ruleId: this.state.nextRuleId });
+                                                            arrayHelpers.push({ ...InitialRuleValue, groupId: groupId, id: this.state.nextRuleId });
                                                             this.setState({ nextRuleId: this.state.nextRuleId + 1 });
                                                         }}>
-                                                        <Icon type="plus" /><p style={{display: 'inline', marginRight: 5}}>Add <b style={{color: '#9BCBF6'}}> ( OR ) </b> rule</p>
-                                                        </Button>
+                                                        <Icon type="plus" /><p style={{ display: 'inline', marginRight: 5 }}>Add <b style={{ color: '#9BCBF6' }}> ( OR ) </b> rule</p>
+                                                    </Button>
                                                 </FormItem>
                                             </Col>
                                             <Divider style={{ background: 'rgba(255, 255, 255, 0.25)', margin: '0.5em 0px', marginBottom: 25 }}></Divider>
@@ -149,23 +132,23 @@ class SeedBrowserFilterForm extends React.Component<FormProps & FormikProps<Form
                                             className={classNames("transparent-background-color", "browser-filter-add-rule-button")}
                                             disabled={form.values.rules && form.values.rules.length >= maxRules}
                                             onClick={() => {
-                                                arrayHelpers.push({ ...InitialRuleValue, ruleGroupId: this.state.nextGroupId, ruleId: this.state.nextRuleId });
+                                                arrayHelpers.push({ ...InitialRuleValue, groupId: this.state.nextGroupId, id: this.state.nextRuleId });
                                                 this.setState({ nextRuleId: this.state.nextRuleId + 1, nextGroupId: this.state.nextGroupId + 1 });
                                             }}>
-                                            <Icon type="plus" /><p style={{display: 'inline', marginRight: 5}}>Add <b style={{color: '#FAFF9A'}}>( AND )</b> rule</p></Button>
+                                            <Icon type="plus" /><p style={{ display: 'inline', marginRight: 5 }}>Add <b style={{ color: '#FAFF9A' }}>( AND )</b> rule</p></Button>
                                     </FormItem>
                                 </Col>
                             </Row>
                         </div>
                     )} />
-                <Button type="primary" htmlType="submit" disabled={form.isSubmitting}>Search</Button>
+                <Button type="primary" htmlType="submit" disabled={form.isSubmitting} style={{ marginLeft: 'auto' }}>Search</Button>
             </Form>
         );
     }
 };
 
-export default withFormik<any, FormValues>({
-    handleSubmit: ((values: FormValues) => { alert(JSON.stringify(values)) }),
-    mapPropsToValues: () => ({ ...initialValues }),
+export default withFormik<SeedBrowserFilterFormProps, SeedBrowserFilterFormValues>({
+    handleSubmit: ((values: SeedBrowserFilterFormValues) => { alert(JSON.stringify(values)) }),
+    mapPropsToValues: (props: SeedBrowserFilterFormProps) => ({ ...props.initialValues }),
     validationSchema: SeedBrowserFilterFormValidationSchema
 })(SeedBrowserFilterForm);

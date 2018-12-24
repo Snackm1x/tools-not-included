@@ -243,7 +243,7 @@ button {
 
 .ant-cascader-picker-clear {
 	background: transparent;
-	color: rgba(255, 255, 255, 0.8);
+	color: rgba(255, 255, 255, 1);
 }
 
 .ant-cascader-picker-arrow {
@@ -324,7 +324,13 @@ form {
 	justify-content: center;
 }
 
+.ant-cascader-picker-label {
+	padding-right: 30px;
+}
+
 .browser-filter-form {
+	display: flex;
+	flex-flow: column;
 	.ant-row.ant-form-item {
 		padding-bottom: 0px;
 	}
@@ -396,9 +402,9 @@ form {
 		}
 	}
 
-	.ant-cascader-menu {
-		height: inherit;
-	}
+	// .ant-cascader-menu {
+	// 	height: inherit;
+	// }
 }
 
 .chip-geyser {

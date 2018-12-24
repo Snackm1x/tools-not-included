@@ -1,30 +1,17 @@
 import * as React from 'react';
 import { Icon, Input, Select, InputNumber, Cascader, Form, Col, Button } from 'antd';
-import { FormValues, RuleValues } from './SeedBrowserFilterForm';
+import { SeedBrowserFilterFormValues } from './SeedBrowserFilterForm';
 import classNames from 'classnames'
+import { SeedBrowserFilterRuleType, SeedBrowserFilterRule, SeedBrowserFilterRuleComparator, GeyserType, SpaceDestinationType } from 'src/api/models';
+import { string } from 'prop-types';
+import { CascaderOptionType } from 'antd/lib/cascader';
 
 const FormItem = Form.Item;
 const InputGroup = Input.Group;
 const Option = Select.Option;
 
-const options = [{
-    code: 'zhejiang',
-    name: 'Zhejiang',
-    items: [{
-        code: 'hangzhou',
-        name: 'Hangzhou'
-    }],
-}, {
-    code: 'jiangsu',
-    name: 'Jiangsu',
-    items: [{
-        code: 'nanjing',
-        name: 'Nanjing'
-    }],
-}];
-
 interface Props {
-    values: FormValues,
+    values: SeedBrowserFilterFormValues,
     errors,
     touched,
     handleSubmit,
@@ -33,27 +20,53 @@ interface Props {
     name: string,
     ruleId: number,
     groupId: number,
-    showOrLabel: boolean,
-    onDelete: Function
+    onDelete: Function,
+    geyserTypes: { [key: string]: GeyserType },
+    spaceDestinationTypes: { [key: string]: SpaceDestinationType }
 }
 
 class BrowserFilterRuleInput extends React.Component<Props>  {
+    constructor(props: Props) {
+        super(props);
 
-    getCascaderValue(values: RuleValues): string[] {
-        if (!values || !values.conditionObjectType || !values.conditionObject) {
+        var geyserArray = Array.from(Object.keys(this.props.geyserTypes)).map((value: string) => this.props.geyserTypes[value]);
+        var spaceArray = Array.from(Object.keys(this.props.spaceDestinationTypes)).map((value: string) => this.props.spaceDestinationTypes[value]);
+
+        this.options =
+        [{
+            key: SeedBrowserFilterRuleType.Geyser,
+            displayName: SeedBrowserFilterRuleType.Geyser,
+            items: geyserArray
+        },
+        {
+            key: SeedBrowserFilterRuleType.Planet,
+            displayName: SeedBrowserFilterRuleType.Planet,
+            items: spaceArray
+        },
+        {
+            key: SeedBrowserFilterRuleType.Total_Output,
+            displayName: SeedBrowserFilterRuleType.Total_Output,
+            items: geyserArray
+        }]
+     }
+
+    options: CascaderOptionType[]; 
+
+    getCascaderValue(values: SeedBrowserFilterRule): string[] {
+        if (!values || !values.type || !values.object) {
             return [];
         }
 
-        return [values.conditionObjectType, values.conditionObject];
+        return [values.type, values.object];
     }
 
-    hasNoValues(values: RuleValues): boolean {
+    hasNoValues(values: SeedBrowserFilterRule): boolean {
         return this.getCascaderValue(values).length === 0;
     }
 
     render() {
         const { values, errors, touched, handleSubmit, setFieldValue, setFieldTouched, name, ruleId, groupId } = this.props;
-        var idx = values.rules.findIndex(value => value.ruleId == ruleId && value.ruleGroupId == groupId);
+        var idx = values.rules.findIndex(value => value.id == ruleId && value.groupId == groupId);
 
         return (
             <Col xs={24} lg={12} className="browser-filter-field-column">
@@ -68,49 +81,48 @@ class BrowserFilterRuleInput extends React.Component<Props>  {
 
                     <InputGroup compact className="browser-filter-rule-row">
                         <Cascader
-                            fieldNames={{ label: 'name', value: 'code', children: 'items' }}
+                            fieldNames={{ label: 'displayName', value: 'key', children: 'items' }}
                             placeholder={"Select object type"}
-                            displayRender={(values) => values[1]}
-                            options={options}
+                            displayRender={(values) => values && values[0] && values[0] == SeedBrowserFilterRuleType.Total_Output ? "Output: " + values[1] : values[1]}
+                            options={this.options}
                             value={this.getCascaderValue(values[name][idx])}
                             onChange={(value) => {
-                                setFieldValue(`${name}.${idx}.conditionObjectType`, value[0]);
-                                setFieldValue(`${name}.${idx}.conditionObject`, value[1]);
+                                setFieldValue(`${name}.${idx}.type`, value[0]);
+                                setFieldValue(`${name}.${idx}.object`, value[1]);
                             }}
                             expandTrigger="hover"
                             className={classNames("transparent-background-color", "browser-filter-rule-row-cascader")}
                             popupClassName="dark-cascader"
                             onPopupVisibleChange={(popupVisible: boolean) => {
                                 if (!popupVisible) {
-                                    setFieldTouched(`${name}.${idx}.conditionObjectType`);
-                                    setFieldTouched(`${name}.${idx}.conditionObject`);
+                                    setFieldTouched(`${name}.${idx}.type`);
+                                    setFieldTouched(`${name}.${idx}.object`);
                                 }
                             }}
                         />
 
                         <Select
-                            onChange={(value) => setFieldValue(`${name}.${idx}.conditionComparator`, value)}
-                            onBlur={() => setFieldTouched(`${name}.${idx}.conditionComparator`)}
-                            value={values[name][idx].conditionComparator}
+                            onChange={(value) => setFieldValue(`${name}.${idx}.comparator`, value)}
+                            onBlur={() => setFieldTouched(`${name}.${idx}.comparator`)}
+                            value={values[name][idx].comparator}
                             className={classNames("transparent-background-color", "browser-filter-rule-row-select")}>
 
-                            <Option value="at_least" className="transparent-background-color">at least</Option>
-                            <Option value="at_most" className="transparent-background-color">at most</Option>
+                            {Object.keys(SeedBrowserFilterRuleComparator).map((value: string) => {
+                                return (<Option value={value} key={value} className="transparent-background-color">{SeedBrowserFilterRuleComparator[value]}</Option>);
+                            })}
                         </Select>
 
                         <InputNumber
                             min={0}
                             className={classNames("transparent-background-color", "browser-filter-rule-row-number")}
-                            value={values[name][idx].conditionValue}
-                            onChange={(value) => setFieldValue(`${name}.${idx}.conditionValue`, value)}
-                            onBlur={() => setFieldTouched(`${name}.${idx}.conditionValue`)}
+                            value={values[name][idx].value}
+                            onChange={(value) => setFieldValue(`${name}.${idx}.value`, value)}
+                            onBlur={() => setFieldTouched(`${name}.${idx}.value`)}
                             onSubmit={handleSubmit}
-
-                            // those should only be active when total output rule type is active
-                            formatter={value => `${value} kg/s`}
+                            formatter={value => values[name][idx].type == SeedBrowserFilterRuleType.Total_Output ? `${value} kg/s` : `${value}`}
                             parser={value => parseFloat(value!.replace('kg/s', ''))}
-                            step={0.1}
-                            precision={2}
+                            step={values[name][idx].type == SeedBrowserFilterRuleType.Total_Output ? 0.1 : 1}
+                            precision={values[name][idx].type == SeedBrowserFilterRuleType.Total_Output ? 2 : 0}
                         />
                     </InputGroup>
 

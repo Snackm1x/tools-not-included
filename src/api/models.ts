@@ -103,8 +103,8 @@ export interface SeedBrowserFilter {
 export interface SeedBrowserFilterRule {
     id: number;
     groupId: number;
-    type: SeedBrowserFilterRuleType;
-    object: string;
+    type: SeedBrowserFilterRuleType | undefined;
+    object: string | undefined;
     comparator: SeedBrowserFilterRuleComparator;
     value: number;
 }

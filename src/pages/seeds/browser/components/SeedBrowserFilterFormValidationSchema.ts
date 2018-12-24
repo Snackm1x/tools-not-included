@@ -11,16 +11,16 @@ export default Yup.object().shape({
     rules: Yup.array()
         .of(
             Yup.object().shape({
-                conditionObjectType: Yup.string(),
-                conditionObject: Yup.string()
+                type: Yup.string(),
+                object: Yup.string()
                     .required("Please select an object or remove the incomplete rule"),
-                conditionValue: Yup.number()
+                value: Yup.number()
                     .min(0, "Please provide a non-negative value"),
-                conditionComparator: Yup.string()
+                comparator: Yup.string()
                     .required(),
-                ruleGroupId: Yup.number()
+                groupId: Yup.number()
                     .required(),
-                ruleId: Yup.number()
+                id: Yup.number()
                     .required()
             })
         )
