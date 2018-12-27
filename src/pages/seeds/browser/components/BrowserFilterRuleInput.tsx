@@ -108,7 +108,7 @@ class BrowserFilterRuleInput extends React.Component<Props>  {
                             className={classNames("transparent-background-color", "browser-filter-rule-row-select")}>
 
                             {Object.keys(SeedBrowserFilterRuleComparator).map((value: string) => {
-                                return (<Option value={value} key={value} className="transparent-background-color">{SeedBrowserFilterRuleComparator[value]}</Option>);
+                                return (<Option value={SeedBrowserFilterRuleComparator[value]} key={value} className="transparent-background-color">{SeedBrowserFilterRuleComparator[value]}</Option>);
                             })}
                         </Select>
 

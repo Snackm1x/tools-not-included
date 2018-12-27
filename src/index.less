@@ -72,9 +72,11 @@ button {
 	overflow: auto;
 	display: flex;
 	justify-content: center;
-	//padding: @spacingUnit 0px;
 }
 .seed-card {
+	&.shadow-card&:hover {
+		background-color: rgba(255, 255, 255, 0.15);
+	}
 	.ant-card-body {
 		padding: 8px 24px 0px 24px;
 	}
@@ -269,25 +271,24 @@ form .has-feedback .ant-input {
 form {
 	.ant-input-group.browser-filter-rule-row {
 		width: @totalWidth;
-		@media only screen and (max-width:600px) {
+		@media only screen and (max-width: @totalWidth) {
 			max-width: 90%;
 		}
 		.ant-cascader-picker.browser-filter-rule-row-cascader {
 			width: @cascaderWidth;
-			@media only screen and (max-width:600px) {
+			@media only screen and (max-width: @totalWidth) {
 				max-width: 40%;
 			}
-			
 		}
 		.ant-select.browser-filter-rule-row-select {
 			width: @selectWidth;
-			@media only screen and (max-width:600px) {
+			@media only screen and (max-width: @totalWidth) {
 				max-width: 30%;
 			}
 		}
 		.ant-input-number.browser-filter-rule-row-number {
 			width: @numberWidth;
-			@media only screen and (max-width:600px) {
+			@media only screen and (max-width: @totalWidth) {
 				max-width: 30%;
 			}
 		}
@@ -328,6 +329,10 @@ form {
 	padding-right: 30px;
 }
 
+.ant-pagination-item {
+	background: transparent;
+}
+
 .browser-filter-form {
 	display: flex;
 	flex-flow: column;
@@ -340,13 +345,23 @@ form {
 	width: @totalWidth;
 	max-width: 100%;
 }
+
 .browser-filter-seed-number {
-	width: @totalWidth;
+	width: calc(@totalWidth / 2);
 	max-width: 100%;
 }
+
 .browser-filter-add-alternative-button {
 	width: @totalWidth;
 	max-width: 100%;
+}
+
+.browser-filter-search-button {
+	margin-left: auto;
+	margin-right: calc((100% - @totalWidth) / 2);
+	@media only screen and (max-width: @totalWidth) {
+		margin-right: 0;
+	}
 }
 
 .transparent-background-color {
@@ -371,9 +386,15 @@ form {
 		}
 	}
 	&.ant-select-dropdown-menu-item-active {
-		background: @primary-color;
+		background: @btn-primary-bg;
 		&:hover {
-			background: lighten(@primary-color, 10%);
+			background: lighten(@btn-primary-bg, 10%);
+		}
+	}
+	.ant-select-dropdown-menu-item {
+		background: #2f3136;
+		&:hover {
+			background: lighten(#2f3136, 5%);
 		}
 	}
 }
@@ -383,7 +404,7 @@ form {
 }
 
 .dark-cascader {
-	background: #2f3136; //lighten( 20%); #484C56
+	background: #2f3136;
 	&.ant-cascader-menus {
 		box-shadow: 0px 2px 0px -1px rgba(0, 0, 0, 0.2), 0px 4px 0px 0px rgba(0, 0, 0, 0.14),
 			0px 1px 0px 0px rgba(0, 0, 0, 0.12);
@@ -396,15 +417,11 @@ form {
 	}
 
 	.ant-cascader-menu-item-active {
-		background: @primary-color;
+		background: @btn-primary-bg;
 		&:hover {
-			background: lighten(@primary-color, 10%);
+			background: lighten(@btn-primary-bg, 10%);
 		}
 	}
-
-	// .ant-cascader-menu {
-	// 	height: inherit;
-	// }
 }
 
 .chip-geyser {
@@ -433,8 +450,8 @@ form {
 
 .chip-geyser-count-container {
 	border-radius: 20px;
-	width: 24px;
-	height: 24px;
+	width: 20px;
+	height: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -449,4 +466,3 @@ form {
 		background: rgb(183, 28, 28);
 	}
 }
-

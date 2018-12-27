@@ -28,14 +28,19 @@ import { GeyserType, SpaceDestinationType, GameUpgrade } from 'src/api/models';
 
 function* handleGetFilteredSeeds(action: ActionType<typeof Actions.getFilteredSeeds>) {
   try {
-    const res = yield call(seedBrowserService.getFilteredSeeds, action.payload);
-    if (res == 404) {
+    const [seedList, geyserTypes, spaceDestinationTypes, gameUpgrades] = yield all([
+      call(seedBrowserService.getFilteredSeeds, action.payload),
+      put(Actions.getGeyserTypes()),
+      put(Actions.getSpaceDestinationTypes()),
+      put(Actions.getGameUpgrades())
+    ]);
+    if (seedList == 404) {
       yield put(push('/404'));
     }
-    if (res.message) {
-      yield put(Actions.getSeedListError(res.error));
+    if (seedList.message) {
+      yield put(Actions.getSeedListError(seedList.error));
     } else {
-      yield put(Actions.getSeedListSuccess(res));
+      yield put(Actions.getSeedListSuccess(seedList));
     }
   } catch (err) {
     if (err instanceof Error) {

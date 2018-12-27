@@ -48,6 +48,7 @@ export interface Seed {
     geysers: Geyser[];
     geyserQuantities: { [key: string] : number; };
     spaceDestinations: SpaceDestination[];
+    spaceDestinationQuantities: { [key: string] : number; };
     modVersion: number;
 }
 

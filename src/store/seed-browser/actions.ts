@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { SeedListFilter, Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType } from 'src/api/models';
+import { SeedListFilter, Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType, SeedBrowserFilter } from 'src/api/models';
 import { SeedDetailsRequestModel } from 'src/api/request-models';
 
 export const enum SeedBrowserActionTypes {
@@ -22,7 +22,7 @@ export const enum SeedBrowserActionTypes {
     GET_SPACE_DESTINATION_TYPES_SUCCESS = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES_SUCCESS'
 };
 
-export const getFilteredSeeds = (filter: SeedListFilter) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS, filter);
+export const getFilteredSeeds = (filter: SeedBrowserFilter) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS, filter);
 export const getSeedListSuccess = (data: SeedList) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS_SUCCESS, data);
 export const getSeedListError = (message: string) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS_ERROR, message);
 

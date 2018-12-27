@@ -7,7 +7,7 @@ import { Seed, GameUpgrade, GeyserType, SpaceDestinationType } from 'src/api/mod
 
 export type SeedBrowserState = Readonly<{
     list: {
-        seedList?: Seed[],
+        seeds?: Seed[],
         totalEntries?: number,
         loading: boolean,
         errors?: string
@@ -25,7 +25,7 @@ export type SeedBrowserState = Readonly<{
 
 const initialState: SeedBrowserState = {
     list: {
-        seedList: [],
+        seeds: [],
         totalEntries: undefined,
         loading: false,
         errors: undefined
@@ -47,7 +47,7 @@ const reducer: Reducer<SeedBrowserState, SeedBrowserAction> = (state = initialSt
             return { ...state, list: {...state.list, loading: true} };
         }
         case SeedBrowserActionTypes.GET_FILTERED_SEEDS_SUCCESS: {
-            return { ...state, list: {...state.list, loading: false, totalEntries: action.payload.totalEntries, seedList: action.payload.seeds} };
+            return { ...state, list: {...state.list, loading: false, totalEntries: action.payload.totalEntries, seeds: action.payload.seeds} };
         }
         case SeedBrowserActionTypes.GET_FILTERED_SEEDS_ERROR: {
             return { ...state, list: {...state.list, loading: false, errors: action.payload} };

@@ -17,7 +17,7 @@ class SeedCard extends React.Component<AllProps> {
 	public render() {
 		const { t, seed, geyserTypes, gameUpgrades } = this.props;
 
-		if (!seed || geyserTypes == {} || gameUpgrades == {}) return <div /> //todo
+		if (geyserTypes == {} || gameUpgrades == {}) return <div /> //todo
 
 		const creationDate = new Date(seed.creationDate);
 

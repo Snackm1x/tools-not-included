@@ -14,7 +14,7 @@ class Footer extends React.Component<AllProps> {
         return (
             <Layout.Footer>
                 <div className="max-content-width">
-                    <Menu theme="dark" mode="horizontal" selectable={false}>
+                    <Menu theme="dark" mode="horizontal" selectable={false} style={{maxWidth: '100%'}}>
                         <Menu.Item key="1"><Link to="/">About</Link></Menu.Item>
                         <Menu.Item key="2"><Link to="/">Contact</Link></Menu.Item>
                         <Menu.Item key="3"><Link to="/coffee"><Icon type="coffee" /> Buy me a coffee</Link></Menu.Item>
