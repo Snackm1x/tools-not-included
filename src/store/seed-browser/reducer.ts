@@ -83,6 +83,10 @@ const reducer: Reducer<SeedBrowserState, SeedBrowserAction> = (state = initialSt
         case SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES_SUCCESS: {
             return { ...state, loading: false, spaceDestinationTypes: action.payload };
         }
+
+        case SeedBrowserActionTypes.REPORT_INVALID_SEED: {
+            return { ...state };
+        }
        
         default: {
             return state;

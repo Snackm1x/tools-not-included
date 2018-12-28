@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { SeedListFilter, Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType, SeedBrowserFilter } from 'src/api/models';
+import { Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType, SeedBrowserFilter, AddInvalidSeedReportRequest } from 'src/api/models';
 import { SeedDetailsRequestModel } from 'src/api/request-models';
 
 export const enum SeedBrowserActionTypes {
@@ -19,7 +19,9 @@ export const enum SeedBrowserActionTypes {
     GET_GEYSER_TYPES_SUCCESS = '@@seedbrowser/GET_GEYSER_TYPES_SUCCESS',
 
     GET_SPACE_DESTINATION_TYPES = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES',
-    GET_SPACE_DESTINATION_TYPES_SUCCESS = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES_SUCCESS'
+    GET_SPACE_DESTINATION_TYPES_SUCCESS = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES_SUCCESS',
+
+    REPORT_INVALID_SEED = '@@seedbrowser/REPORT_INVALID_SEED'
 };
 
 export const getFilteredSeeds = (filter: SeedBrowserFilter) => action(SeedBrowserActionTypes.GET_FILTERED_SEEDS, filter);
@@ -38,3 +40,5 @@ export const getGeyserTypesSuccess = (data: { [key: string]: GeyserType }) => ac
 
 export const getSpaceDestinationTypes = () => action(SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES);
 export const getSpaceDestinationTypesSuccess = (data: { [key: string]: SpaceDestinationType }) => action(SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES_SUCCESS, data);
+
+export const reportInvalidSeed = (request: AddInvalidSeedReportRequest) => action(SeedBrowserActionTypes.REPORT_INVALID_SEED, request);

@@ -78,7 +78,8 @@ button {
 		background-color: rgba(255, 255, 255, 0.15);
 	}
 	.ant-card-body {
-		padding: 8px 24px 0px 24px;
+		//padding: 8px 24px 0px 24px;
+		padding: 16px 16px 0px 16px;
 	}
 	.seed-card-row-left {
 		justify-content: center;
@@ -86,7 +87,7 @@ button {
 		flex-flow: column wrap;
 		align-items: center;
 		flex: 1;
-		min-width: 150px;
+		min-width: 170px;
 	}
 	.seed-card-row-right {
 		justify-content: center;
@@ -94,12 +95,18 @@ button {
 		flex-flow: row wrap;
 		align-items: center;
 		flex: 9;
+		margin-top: auto;
+		margin-bottom: auto;
 	}
 }
 
 .ant-btn:focus {
 	background-color: none !important;
 	border-color: none !important;
+}
+
+.ant-switch-checked {
+	background-color: @btn-primary-bg;
 }
 
 #narrow-content-container {
@@ -361,6 +368,33 @@ form {
 	margin-right: calc((100% - @totalWidth) / 2);
 	@media only screen and (max-width: @totalWidth) {
 		margin-right: 0;
+	}
+}
+
+.ant-modal-content {
+	background: #2f3136;
+	.ant-btn:not(.ant-btn-primary) {
+		background-color: rgba(255, 255, 255, 0.1);
+		border-color: rgba(255, 255, 255, 0.1);
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.2);
+			color: #fff;
+		}
+	}
+}
+
+.hover-text-danger:hover{
+	color: rgb(183, 28, 28);
+}
+
+.ant-popover-inner {
+	background: #2f3136;
+	.ant-btn.ant-btn-sm:not(.ant-btn-primary) {
+		background-color: rgba(255, 255, 255, 0.1);
+		border-color: rgba(255, 255, 255, 0.1);
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.2);
+		}
 	}
 }
 

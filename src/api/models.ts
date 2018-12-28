@@ -19,19 +19,32 @@ export interface GeyserType {
     displayName: string;
 }
 
-export interface SeedListFilter {
-    rowsPerPage: number;
+export interface SeedBrowserFilter {
+    seedNumber?: number | undefined;
+    includeArchived?: boolean | undefined;
+    rules?: SeedBrowserFilterRule[] | undefined;
     page: number;
-    seed?: number | undefined;
-    gameUpgrades?: string[] | undefined;
-    earliestVersionNumber?: number | undefined;
-    latestVersionNumber?: number | undefined;
-    geysers?: MinGeyser[] | undefined;
+    pageSize: number;
 }
 
-export interface MinGeyser {
-    type?: string | undefined;
-    min?: number | undefined;
+export interface SeedBrowserFilterRule {
+    id: number;
+    groupId: number;
+    type: SeedBrowserFilterRuleType;
+    object: string;
+    comparator: SeedBrowserFilterRuleComparator;
+    value: number;
+}
+
+export enum SeedBrowserFilterRuleType {
+    Total_Output = "Total Output", 
+    Geyser = "Geyser", 
+    Planet = "Planet", 
+}
+
+export enum SeedBrowserFilterRuleComparator {
+    At_least = "at least", 
+    At_most = "at most", 
 }
 
 export interface SeedList {
@@ -60,8 +73,8 @@ export interface Geyser {
     eruptionPeriod: number;
     activeEruptionPeriod: number;
     calculatedOutput: number;
-    posX: number;
-    posY: number;
+    posX?: number | undefined;
+    posY?: number | undefined;
 }
 
 export interface SpaceDestination {
@@ -88,35 +101,12 @@ export interface ModGeyser {
     posY: number;
 }
 
+export interface AddInvalidSeedReportRequest {
+    seedNumber?: number | undefined;
+    gameVersion?: number | undefined;
+}
+
 export interface SpaceDestinationType {
     key: string;
     displayName: string;
-}
-
-export interface SeedBrowserFilter {
-    seedNumber?: number | undefined;
-    includeArchived?: boolean | undefined;
-    rules?: SeedBrowserFilterRule[] | undefined;
-    page: number;
-    pageSize: number;
-}
-
-export interface SeedBrowserFilterRule {
-    id: number;
-    groupId: number;
-    type: SeedBrowserFilterRuleType | undefined;
-    object: string | undefined;
-    comparator: SeedBrowserFilterRuleComparator;
-    value: number;
-}
-
-export enum SeedBrowserFilterRuleType {
-    Total_Output = "Total Output", 
-    Geyser = "Geyser", 
-    Planet = "Planet", 
-}
-
-export enum SeedBrowserFilterRuleComparator {
-    At_least = "at least", 
-    At_most = "at most", 
 }

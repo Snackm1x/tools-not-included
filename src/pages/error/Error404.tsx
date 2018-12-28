@@ -7,7 +7,7 @@ import { Layout } from 'antd';
 class Error404 extends React.Component {
 	public render() {
 		return (
-			<div/>
+			<div>404</div>
 		);
 	}
 }

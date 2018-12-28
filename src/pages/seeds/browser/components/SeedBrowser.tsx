@@ -1,15 +1,29 @@
 import * as React from 'react';
-import { Card, Pagination } from 'antd';
-import { withNamespaces, WithNamespaces } from 'react-i18next';
-import SeedCard from './SeedCard';
-import { Seed, GeyserType, GameUpgrade, SpaceDestinationType, SeedBrowserFilterRuleComparator, SeedList, SeedListFilter, SeedBrowserFilter } from 'src/api/models';
 import SeedBrowserFilterForm, { SeedBrowserFilterFormValues } from './SeedBrowserFilterForm';
-import { ApplicationState } from 'src/store';
-import { Dispatch } from 'redux';
+import SeedCard from './SeedCard';
+import { ApplicationState } from '../../../../store';
+import { Card, Pagination, Switch, Icon } from 'antd';
 import { connect } from 'react-redux';
-import { getFilteredSeeds } from 'src/store/seed-browser/actions';
-import { loadFilterFormValuesFromLocalStorage, saveFilterFormValuesToLocalStorage, loadFilterPageSizeFromLocalStorage, saveFilterPageSizeToLocalStorage } from 'src/api/services/seed-browser/SeedService';
+import { Dispatch } from 'redux';
+import {
+	GameUpgrade,
+	GeyserType,
+	Seed,
+	SeedBrowserFilter,
+	SeedList,
+	SpaceDestinationType
+	} from '../../../../api/models';
+import { getFilteredSeeds } from '../../../../store/seed-browser/actions';
 import { Link } from 'react-router-dom';
+import {
+	loadFilterFormValuesFromLocalStorage,
+	loadFilterPageSizeFromLocalStorage,
+	saveFilterFormValuesToLocalStorage,
+	saveFilterPageSizeToLocalStorage,
+	saveDetailsShowNonPresentToLocalStorage,
+	loadDetailsShowNonPresentFromLocalStorage
+	} from '../../../../api/services/seed-browser/SeedService';
+import { withNamespaces, WithNamespaces } from 'react-i18next';
 
 interface PropsFromState {
 	seedList: SeedList,
@@ -28,7 +42,8 @@ type AllProps = WithNamespaces & PropsFromState & PropsFromDispatch;
 interface State {
 	formValues: SeedBrowserFilterFormValues,
 	page: number,
-	pageSize: number
+	pageSize: number,
+	showNonPresentTypes: boolean
 }
 
 class SeedBrowser extends React.Component<AllProps, State> {
@@ -39,7 +54,8 @@ class SeedBrowser extends React.Component<AllProps, State> {
 		this.state = {
 			formValues: loadFilterFormValuesFromLocalStorage(),
 			page: 1,
-			pageSize: loadFilterPageSizeFromLocalStorage()
+			pageSize: loadFilterPageSizeFromLocalStorage(),
+			showNonPresentTypes: loadDetailsShowNonPresentFromLocalStorage()
 		}
 	}
 
@@ -85,6 +101,11 @@ class SeedBrowser extends React.Component<AllProps, State> {
 
 		this.handlePageChange(newCurrentPage, pageSize);
 	}
+	
+    changeShowNonPresent = (show: boolean): void => {
+        saveDetailsShowNonPresentToLocalStorage(show);
+        this.setState({showNonPresentTypes: show});
+    }
 
 	componentDidMount() {
 		this.handleSearch(this.state.formValues);
@@ -103,7 +124,12 @@ class SeedBrowser extends React.Component<AllProps, State> {
 				</Card>
 
 				<div>
-					<div style={{ width: '100%', paddingRight: 8, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+					<div style={{ width: '100%', paddingRight: 8, paddingLeft: 16, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+						<div style={{ display: 'inline-flex', alignItems: 'flex-end' }}>
+							<h4 style={{ margin: '0px 5px 0px 0px' }}>Show geyser types not present on the map</h4>
+							<Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="close" />} checked={this.state.showNonPresentTypes} onChange={this.changeShowNonPresent} />
+						</div>
+
 						<Pagination size="small"
 							total={this.props.seedList.totalEntries}
 							showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total}`}
@@ -120,7 +146,7 @@ class SeedBrowser extends React.Component<AllProps, State> {
 							var url = "/seeds/" + seed.seed + "/" + seed.versionNumber
 							return (
 								<Link key={index} to={url} style={{ textDecoration: 'none', width: '100%' }}>
-									<SeedCard seed={seed} geyserTypes={this.props.geyserTypes} gameUpgrades={this.props.gameUpgrades} />
+									<SeedCard seed={seed} geyserTypes={this.props.geyserTypes} gameUpgrades={this.props.gameUpgrades} showNonPresent={this.state.showNonPresentTypes}/>
 								</Link>);
 						})
 					}

@@ -143,6 +143,23 @@ function* handleGetGameUpgrades(action: ActionType<typeof Actions.getGameUpgrade
   }
 }
 
+function* handleReportInvalidSeed(action: ActionType<typeof Actions.reportInvalidSeed>) {
+  try {
+    const res = yield call(seedBrowserService.reportInvalidSeed, action.payload);
+    if (res == 404) {
+      yield put(push('/404'));
+    }
+    if (res.message) {
+      yield put(Actions.getSeedError(res.message));
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      yield put(Actions.getSeedError(err.stack!))
+    } else {
+      yield put(Actions.getSeedError('An unknown error occured.'))
+    }
+  }
+}
 
 function* watchGetFilteredSeeds() {
   yield takeEvery(SeedBrowserActionTypes.GET_FILTERED_SEEDS, handleGetFilteredSeeds);
@@ -164,13 +181,18 @@ function* watchGetGameUpgrades() {
   yield takeEvery(SeedBrowserActionTypes.GET_GAME_UPGRADES, handleGetGameUpgrades);
 }
 
+function* watchReportInvalidSeed() {
+  yield takeEvery(SeedBrowserActionTypes.REPORT_INVALID_SEED, handleReportInvalidSeed);
+}
+
 function* seedBrowserSaga() {
   yield all([
     fork(watchGetFilteredSeeds),
     fork(watchGetSeed),
     fork(watchGetGeyserTypes),
     fork(watchGetSpaceDestinationTypes),
-    fork(watchGetGameUpgrades)
+    fork(watchGetGameUpgrades),
+    fork(watchReportInvalidSeed)
   ]);
 }
 

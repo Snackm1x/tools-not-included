@@ -81,12 +81,11 @@ class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps &
                 className="browser-filter-form">
 
                 <Row className="browser-filter-header-row"><h1>Seed Browser</h1></Row>
-                <Row className="browser-filter-header-row" style={{alignItems: 'center'}}>
-                    <h3 style={{marginRight: 10, marginBottom: 24}}>Search for a specific seed:</h3>
-                    <Field name="seedNumber" component={NumericInput} prop={{ inner: { max: 2147483647, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number") } }} />
+                <Row className="browser-filter-header-row" style={{ alignItems: 'center' }}>
+                    <Field name="seedNumber" component={NumericInput} prop={{ inner: { max: 2147483647, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number"), placeholder: "Enter seed number..." } }} />
                 </Row>
 
-                <Row className="browser-filter-header-row"><h3>Or make your own rules</h3></Row>
+                <Row className="browser-filter-header-row"><h3>...or make your own rules</h3></Row>
                 <FieldArray name="rules"
                     render={arrayHelpers => (
                         <div style={{ marginTop: 10 }}>

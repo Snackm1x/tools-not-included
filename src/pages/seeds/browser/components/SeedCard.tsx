@@ -11,11 +11,12 @@ export interface Props {
 	seed: Seed,
 	geyserTypes: { [key: string]: GeyserType }
 	gameUpgrades: { [key: string]: GameUpgrade }
+	showNonPresent: boolean
 }
 
 class SeedCard extends React.Component<AllProps> {
 	public render() {
-		const { t, seed, geyserTypes, gameUpgrades } = this.props;
+		const { t, seed, geyserTypes, gameUpgrades, showNonPresent } = this.props;
 
 		if (geyserTypes == {} || gameUpgrades == {}) return <div /> //todo
 
@@ -25,14 +26,20 @@ class SeedCard extends React.Component<AllProps> {
 			<Card className="shadow-card card-full-width seed-card" bordered={false}>
 				<Row type='flex'>
 					<Col className="seed-card-row-left">
-						<h3>Seed: {seed.seed}</h3>
-						<h3>{gameUpgrades[seed.gameUpgrade].displayName}</h3>
-						<h3>{gameUpgrades[seed.gameUpgrade].symbol} - {seed.versionNumber}</h3>
+						<h3 style={{fontSize: "1.3em"}}>Seed: {seed.seed}</h3>
+						<h3 style={{fontSize: "1.3em", textAlign: "center"}}>{gameUpgrades[seed.gameUpgrade].displayName}</h3>
+						<h3 style={{fontSize: "1.3em"}}>{gameUpgrades[seed.gameUpgrade].symbol}-{seed.versionNumber}</h3>
 					</Col>
-					<Col className="seed-card-row-right" >
+					<Col className="seed-card-row-right">
 						{Object.keys(geyserTypes).map((geyserType: string, index: number) => {
+							var count = seed.geyserQuantities[geyserType];
+
+							if (!showNonPresent && count === 0) {
+								return;
+							}
+
 							var imageFile = `geysers/mini/${geyserType.toLowerCase()}.png`
-							return (<GeyserChip key={index} count={seed.geyserQuantities[geyserType]} label={geyserTypes[geyserType].displayName} imgName={imageFile} />)
+							return (<GeyserChip key={index} count={count} label={geyserTypes[geyserType].displayName} imgName={imageFile} />)
 						})}
 					</Col>
 				</Row>

@@ -1,20 +1,21 @@
-import API from "../../../api/api";
-import { SeedListFilter, SeedList, Seed, GeyserType, SpaceDestinationType, GameUpgrade, SeedBrowserFilter } from "src/api/models";
-import { SeedDetailsRequestModel } from "src/api/request-models";
-import { string } from "prop-types";
-import { SeedBrowserFilterFormValues } from "src/pages/seeds/browser/components/SeedBrowserFilterForm";
+import API from '../../../api/api';
+import {
+    AddInvalidSeedReportRequest,
+    GameUpgrade,
+    GeyserType,
+    Seed,
+    SeedBrowserFilter,
+    SeedList,
+    SpaceDestinationType
+    } from '../../../api/models';
+import { SeedBrowserFilterFormValues } from '../../../pages/seeds/browser/components/SeedBrowserFilterForm';
+import { SeedDetailsRequestModel } from '../../../api/request-models';
 
 export function getFilteredSeeds(filter: SeedBrowserFilter) {
     return API.post<SeedList>("/seeds/filtered", filter, { headers: { 'Accept': 'application/json' } })
         .then(res => res.data)
         .catch(error => handleError(error));
 }
-
-// export function getAllSeeds() {
-//     return API.post<SeedList>("/seeds/all", { headers: { 'Accept': 'application/json' } })
-//         .then(res => res.data)
-//         .catch(error => handleError(error));
-// }
 
 export function getSeed(request: SeedDetailsRequestModel) {
     var url = "/seeds/" + request.seedNumber;
@@ -45,6 +46,16 @@ export function getGameUpgrades() {
         .catch(error => handleError(error));
 }
 
+export function reportInvalidSeed(request: AddInvalidSeedReportRequest) {
+    var url = "/seeds/reportInvalid";
+    return API.post(url, request, { headers: { 'Accept': 'application/json' }})
+        .then(res => res.data)
+        .catch(error => handleError(error));
+}
+
+/**
+ *  Local storage
+ */
 export function saveFilterFormValuesToLocalStorage(values: SeedBrowserFilterFormValues) {
     var key = "seedbrowser-filter";
 
@@ -72,6 +83,31 @@ export function loadFilterFormValuesFromLocalStorage(): SeedBrowserFilterFormVal
 
       return {rules: []};
 }
+
+export function saveDetailsShowNonPresentToLocalStorage(show: boolean) {
+    var key = "seedbrowser-shownonpresent";
+
+    try {
+        const json = JSON.stringify(show);
+        localStorage.setItem(key, json);
+      } catch (err) {
+        // ignore - browser has no permissions to write to LS
+      }
+}
+
+export function loadDetailsShowNonPresentFromLocalStorage(): boolean {
+    var key = "seedbrowser-shownonpresent";
+    var show: string | null = null;
+
+    try {
+        show = localStorage.getItem(key);
+      } catch (err) {
+        // ignore - browser has no permissions to read to LS
+      }
+
+     return show === "true";
+}
+
 
 export function saveFilterPageSizeToLocalStorage(pageSize: number) {
     var key = "seedbrowser-filter-pagesize";
