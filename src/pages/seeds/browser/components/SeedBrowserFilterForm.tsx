@@ -79,13 +79,7 @@ class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps &
                 layout="vertical"
                 onSubmit={form.handleSubmit}
                 className="browser-filter-form">
-
-                <Row className="browser-filter-header-row"><h1>Seed Browser</h1></Row>
-                <Row className="browser-filter-header-row" style={{ alignItems: 'center' }}>
-                    <Field name="seedNumber" component={NumericInput} prop={{ inner: { max: 2147483647, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number"), placeholder: "Enter seed number..." } }} />
-                </Row>
-
-                <Row className="browser-filter-header-row"><h3>...or make your own rules</h3></Row>
+                <Row className="browser-filter-header-row"><h2 style={{ marginBottom: 24 }}>Make your own rules!</h2></Row>
                 <FieldArray name="rules"
                     render={arrayHelpers => (
                         <div style={{ marginTop: 10 }}>
@@ -139,10 +133,18 @@ class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps &
                                     </FormItem>
                                 </Col>
                                 <Col xs={24} lg={12} className="browser-filter-field-column">
-                                    <Button type="primary" className="browser-filter-search-button" htmlType="submit">Search</Button>
+                                    <Field name="seedNumber"
+                                        component={NumericInput}
+                                        prop={{ inner: { max: 2147483647, min: 0, className: classNames("transparent-background-color", "browser-filter-seed-number"), placeholder: "Seed number (optional)" } }} />
                                 </Col>
                             </Row>
+                            <Row className="browser-filter-rule-row-container">
+                            <Col xs={24} className="browser-filter-field-column">
+                                    <Button type="primary" className="browser-filter-search-button" htmlType="submit">Search</Button>
+                                    </Col>
+                            </Row>
                         </div>
+
                     )} />
 
             </Form>
@@ -153,5 +155,5 @@ class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps &
 export default withFormik<SeedBrowserFilterFormProps, SeedBrowserFilterFormValues>({
     mapPropsToValues: (props: SeedBrowserFilterFormProps) => ({ ...props.initialValues }),
     validationSchema: SeedBrowserFilterFormValidationSchema,
-    handleSubmit: (values: SeedBrowserFilterFormValues, { props }) => { props.handleSubmit(values); } 
+    handleSubmit: (values: SeedBrowserFilterFormValues, { props }) => { props.handleSubmit(values); }
 })(SeedBrowserFilterForm);

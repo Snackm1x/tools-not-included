@@ -115,13 +115,13 @@ class SeedBrowser extends React.Component<AllProps, State> {
 		const { t, geyserTypes, spaceDestinationTypes } = this.props;
 		return (
 			<div>
-				<Card className="shadow-card card-full-width" bordered={false}>
+				<div className="card-full-width" style={{marginTop: 24, marginBottom: 24}}>
 					<SeedBrowserFilterForm
 						initialValues={this.state.formValues}
 						geyserTypes={geyserTypes}
 						spaceDestinationTypes={spaceDestinationTypes}
 						handleSubmit={this.handleSearch} />
-				</Card>
+				</div>
 
 				<div>
 					<div style={{ width: '100%', paddingRight: 8, paddingLeft: 16, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -152,7 +152,7 @@ class SeedBrowser extends React.Component<AllProps, State> {
 					}
 
 					{!this.props.seedList || !this.props.seedList.seeds || this.props.seedList.seeds.length > 0 &&
-						<div style={{ width: '100%', paddingRight: 8, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+						<div style={{ width: '100%', paddingRight: 8, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 24 }}>
 							<Pagination size="small"
 								total={this.props.seedList.totalEntries}
 								showTotal={(total, range) => `${range[0]} - ${range[1]} of ${total}`}

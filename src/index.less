@@ -112,8 +112,6 @@ button {
 #narrow-content-container {
 	max-width: @contentMaxWidth;
 	width: 100%;
-	display: flex;
-	justify-content: center;
 }
 
 #narrow-content-container:after {
@@ -326,6 +324,12 @@ form {
 	.browser-filter-field-column {
 		display: flex;
 		justify-content: center;
+		h3 {
+			width: @totalWidth;
+			max-width: 100%;
+			text-align: right;
+			margin-top: 3px;
+		}
 	}
 }
 
@@ -356,7 +360,8 @@ form {
 }
 
 .browser-filter-seed-number {
-	width: calc(@totalWidth / 2);
+	//width: calc(@totalWidth / 2);
+	width: @totalWidth;
 	max-width: 100%;
 }
 
@@ -367,10 +372,7 @@ form {
 
 .browser-filter-search-button {
 	margin-left: auto;
-	margin-right: calc((100% - @totalWidth) / 2);
-	@media only screen and (max-width: @totalWidth) {
-		margin-right: 0;
-	}
+	margin-right: 16px;
 }
 
 .ant-modal-content {
