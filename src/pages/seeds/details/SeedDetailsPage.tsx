@@ -10,6 +10,7 @@ import SeedSummary from './components/SeedSummary';
 import { SeedDetailsRequestModel } from 'src/api/request-models';
 import { Dispatch } from 'redux';
 import { getSeed, reportInvalidSeed } from 'src/store/seed-browser/actions';
+import GeyserList from './components/GeyserList';
 
 interface PropsFromState {
     loading: boolean,
@@ -49,6 +50,7 @@ class SeedDetailsPage extends React.Component<AllProps> {
 		return (
 			<div>
 			    <SeedSummary seed={seed} geyserTypes={geyserTypes} gameUpgrades={gameUpgrades} spaceDestinationTypes={spaceDestinationTypes} onReportInvalid={this.reportSeedInvalid}/>
+                <GeyserList geysers={seed.geysers} geyserTypes={geyserTypes}/>
 			</div>
 		);
 	}

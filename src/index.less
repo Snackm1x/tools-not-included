@@ -3,7 +3,7 @@
 @primaryNavBarHeight: 64px;
 @secondaryNavBarHeight: 32px;
 @footerHeight: @secondaryNavBarHeight;
-@contentMaxWidth: 1100px;
+@contentMaxWidth: 1150px;
 
 @spacingUnit: 8px;
 @scrollWidth: 0.6rem;
@@ -112,6 +112,8 @@ button {
 #narrow-content-container {
 	max-width: @contentMaxWidth;
 	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 #narrow-content-container:after {
@@ -380,6 +382,19 @@ form {
 			background-color: rgba(255, 255, 255, 0.2);
 			color: #fff;
 		}
+	}
+}
+
+.geyser-card{
+	.ant-card-body {
+		display: flex;
+		padding: 16px;
+	}
+	p, h3 {
+		margin: 0px;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 }
 

@@ -1,30 +1,16 @@
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects'
-import { SeedBrowserActionTypes } from './actions'
-import * as Actions from './actions'
-import * as seedBrowserService from '../../api/services/seed-browser/SeedService'
+import * as Actions from './actions';
+import * as seedBrowserService from '../../api/services/seed-browser/SeedService';
 import { ActionType } from 'typesafe-actions';
+import {
+  all,
+  call,
+  fork,
+  put,
+  takeEvery
+  } from 'redux-saga/effects';
+import { GameUpgrade, GeyserType, SpaceDestinationType } from '../../api/models';
 import { push } from 'connected-react-router';
-import { GeyserType, SpaceDestinationType, GameUpgrade } from 'src/api/models';
-
-// function* handleGetAllSeeds(action: ActionType<typeof Actions.getAllSeeds>) {
-//   try {
-//     const res = yield call(seedBrowserService.getAllSeeds);
-//     if (res == 404) {
-//       yield put(push('/404'));
-//     }
-//     if (res.message) {
-//       yield put(Actions.getSeedListError(res.error));
-//     } else {
-//       yield put(Actions.getSeedListSuccess(res));
-//     }
-//   } catch (err) {
-//     if (err instanceof Error) {
-//       yield put(Actions.getSeedListError(err.stack!))
-//     } else {
-//       yield put(Actions.getSeedListError('An unknown error occured.'))
-//     }
-//   }
-// }
+import { SeedBrowserActionTypes } from './actions';
 
 function* handleGetFilteredSeeds(action: ActionType<typeof Actions.getFilteredSeeds>) {
   try {
