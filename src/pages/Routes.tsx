@@ -4,11 +4,13 @@ import SeedBrowserPage from './seeds/browser/SeedBrowserPage';
 import CoffeePage from './coffee/CoffeePage';
 import Error404 from './error/Error404';
 import SeedDetailsPage from './seeds/details/SeedDetailsPage';
+import SeedModInfo from './seeds/mod-info/SeedModInfo';
 
 const Routes = () => (
     <Switch>
         <Route exact path="/" component={SeedBrowserPage} />
         <Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
+        <Route exact path="/seeds/modinfo" component={SeedModInfo} />
         <Route exact path="/seeds" component={SeedBrowserPage} />
         <Route exact path="/coffee" component={CoffeePage} />
         <Route component={Error404}/>

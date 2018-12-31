@@ -1,18 +1,8 @@
 import * as React from 'react';
-import { ApplicationState, ConnectedReduxProps } from '../../store';
 import { Button, Card, Col, Row } from 'antd';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { Trans, withNamespaces, WithNamespaces } from 'react-i18next';
+import { withNamespaces, WithNamespaces } from 'react-i18next';
 
-
-
-interface PropsFromState { }
-
-interface PropsFromDispatch { }
-
-type AllProps = PropsFromState & PropsFromDispatch & ConnectedReduxProps & RouteComponentProps & WithNamespaces;
+type AllProps = WithNamespaces;
 
 class CoffeePage extends React.Component<AllProps> {
 	public render() {
@@ -21,15 +11,15 @@ class CoffeePage extends React.Component<AllProps> {
 			<div>
 				<Card className="shadow-card card-full-width" bordered={false} >
 				<Row type='flex' gutter={16}>
-					<Col xs={24} md={12} style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
+					<Col xs={24} md={12} offset={2} style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center'}}>
 						<h1>{t('coffee.header')}</h1>
-						<p>{t('coffee.text-1')}</p>
-						<p>{t('coffee.text-2')}</p>
+						<p style={{textAlign: 'center'}}>{t('coffee.text-1')}</p>
+						<p style={{textAlign: 'center'}}>{t('coffee.text-2')}</p>
 						<br /><br/>
 						<Button type="primary" style={{alignSelf: 'flex-end'}}>{t('coffee.button')}</Button>
 					</Col>
-					<Col xs={24} md={12} style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-						<img id="coffee" src='/images/coffee.png' height={314} width={302} />
+					<Col xs={24} md={10} style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+						<img id="coffee" src='/images/coffee.png' style={{maxHeight: 240, objectFit: 'contain'}}/>
 					</Col>
 					</Row>
 				</Card>
@@ -38,8 +28,4 @@ class CoffeePage extends React.Component<AllProps> {
 	}
 }
 
-const mapStateToProps = ({ }: ApplicationState) => ({});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withNamespaces()(CoffeePage)));
+export default withNamespaces()(CoffeePage);
