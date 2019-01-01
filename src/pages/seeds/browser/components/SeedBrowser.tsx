@@ -115,7 +115,7 @@ class SeedBrowser extends React.Component<AllProps, State> {
 		const { t, geyserTypes, spaceDestinationTypes } = this.props;
 		return (
 			<div>
-				<div className="card-full-width" style={{marginTop: 24, marginBottom: 24}}>
+				<div className="card-full-width" style={{margin: 24}}>
 					<SeedBrowserFilterForm
 						initialValues={this.state.formValues}
 						geyserTypes={geyserTypes}
@@ -124,7 +124,7 @@ class SeedBrowser extends React.Component<AllProps, State> {
 				</div>
 
 				<div>
-					<div style={{ width: '100%', paddingRight: 8, paddingLeft: 16, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+					<div style={{ width: '100%', paddingRight: 8, paddingLeft: 16, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
 						<div style={{ display: 'inline-flex', alignItems: 'flex-end' }}>
 							<h4 style={{ margin: '0px 5px 0px 0px' }}>Show geyser types not present on the map</h4>
 							<Switch checkedChildren={<Icon type="check" />} unCheckedChildren={<Icon type="close" />} checked={this.state.showNonPresentTypes} onChange={this.changeShowNonPresent} />

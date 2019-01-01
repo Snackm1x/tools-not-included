@@ -12,7 +12,7 @@ import './index.less';
 
 WebFont.load({
   google: {
-    families: ['Roboto Condensed:300,400,500,700','Roboto:300,400,500,700', 'Source Sans Pro', 'Economica:300,400,500,700'],
+    families: ['Roboto Condensed:300,400,500,700', 'Economica:300,400,500,700', 'Quicksand:700'],
   },
 });
 
