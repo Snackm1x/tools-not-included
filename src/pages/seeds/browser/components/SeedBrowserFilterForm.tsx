@@ -10,7 +10,8 @@ import {
     Divider,
     Form,
     Icon,
-    Row
+    Row,
+    Alert
 } from 'antd';
 import {
     GeyserType,
@@ -101,19 +102,20 @@ class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps &
                                                             arrayHelpers.remove(arrayIdx);
                                                         }} />)
                                             })}
-                                            <Col xs={24} lg={12} className="browser-filter-field-column">
-                                                <FormItem>
-                                                    <Button type="dashed"
-                                                        className={classNames("transparent-background-color", "browser-filter-add-alternative-button")}
-                                                        disabled={form.values.rules && form.values.rules.length >= maxRules}
-                                                        onClick={() => {
-                                                            arrayHelpers.push({ ...InitialRuleValue, groupId: groupId, id: this.state.nextRuleId });
-                                                            this.setState({ nextRuleId: this.state.nextRuleId + 1 });
-                                                        }}>
-                                                        <Icon type="plus" /><p style={{ display: 'inline', marginRight: 5 }}>Add <b style={{ color: '#9BCBF6' }}> ( OR ) </b> rule</p>
-                                                    </Button>
-                                                </FormItem>
-                                            </Col>
+                                            {form.values.rules && form.values.rules.length < maxRules &&
+                                                <Col xs={24} lg={12} className="browser-filter-field-column">
+                                                    <FormItem>
+                                                        <Button type="dashed"
+                                                            className={classNames("transparent-background-color", "browser-filter-add-alternative-button")}
+                                                            disabled={form.values.rules && form.values.rules.length >= maxRules}
+                                                            onClick={() => {
+                                                                arrayHelpers.push({ ...InitialRuleValue, groupId: groupId, id: this.state.nextRuleId });
+                                                                this.setState({ nextRuleId: this.state.nextRuleId + 1 });
+                                                            }}>
+                                                            <Icon type="plus" /><p style={{ display: 'inline', marginRight: 5 }}>Add <b style={{ color: '#9BCBF6' }}> ( OR ) </b> rule</p>
+                                                        </Button>
+                                                    </FormItem>
+                                                </Col>}
                                             <Divider style={{ background: 'rgba(255, 255, 255, 0.25)', margin: '0.5em 0px', marginBottom: 25 }}></Divider>
                                         </Row>
                                     )
@@ -121,16 +123,26 @@ class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps &
 
                             <Row className="browser-filter-rule-row-container">
                                 <Col xs={24} lg={12} className="browser-filter-field-column">
-                                    <FormItem>
-                                        <Button type="dashed"
-                                            className={classNames("transparent-background-color", "browser-filter-add-rule-button")}
-                                            disabled={form.values.rules && form.values.rules.length >= maxRules}
-                                            onClick={() => {
-                                                arrayHelpers.push({ ...InitialRuleValue, groupId: this.state.nextGroupId, id: this.state.nextRuleId });
-                                                this.setState({ nextRuleId: this.state.nextRuleId + 1, nextGroupId: this.state.nextGroupId + 1 });
-                                            }}>
-                                            <Icon type="plus" /><p style={{ display: 'inline', marginRight: 5 }}>Add <b style={{ color: '#FAFF9A' }}>( AND )</b> rule</p></Button>
-                                    </FormItem>
+                                    {form.values.rules && form.values.rules.length < maxRules &&
+                                        <FormItem>
+                                            <Button type="dashed"
+                                                className={classNames("transparent-background-color", "browser-filter-add-rule-button")}
+                                                disabled={form.values.rules && form.values.rules.length >= maxRules}
+                                                onClick={() => {
+                                                    arrayHelpers.push({ ...InitialRuleValue, groupId: this.state.nextGroupId, id: this.state.nextRuleId });
+                                                    this.setState({ nextRuleId: this.state.nextRuleId + 1, nextGroupId: this.state.nextGroupId + 1 });
+                                                }}>
+                                                <Icon type="plus" /><p style={{ display: 'inline', marginRight: 5 }}>Add <b style={{ color: '#FAFF9A' }}>( AND )</b> rule</p></Button>
+                                        </FormItem>}
+
+                                    {form.values.rules && form.values.rules.length >= maxRules &&
+                                        <FormItem>
+                                            <Alert
+                                                className="browser-filter-max-rules-alert"
+                                                type="info"
+                                                showIcon
+                                                message={`So picky! Max ${maxRules} rules please.`} />
+                                        </FormItem>}
                                 </Col>
                                 <Col xs={24} lg={12} className="browser-filter-field-column">
                                     <Field name="seedNumber"
@@ -139,14 +151,13 @@ class SeedBrowserFilterForm extends React.Component<SeedBrowserFilterFormProps &
                                 </Col>
                             </Row>
                             <Row className="browser-filter-rule-row-container">
-                            <Col xs={24} className="browser-filter-field-column">
+                                <Col xs={24} className="browser-filter-field-column">
                                     <Button type="primary" className="browser-filter-search-button" htmlType="submit">Search</Button>
-                                    </Col>
+                                </Col>
                             </Row>
                         </div>
 
                     )} />
-
             </Form>
         );
     }
