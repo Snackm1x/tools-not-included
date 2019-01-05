@@ -8,7 +8,7 @@ import {
 	SeedBrowserFilter,
 	SeedList,
 	SpaceDestinationType
-	} from '../../../api/models';
+} from '../../../api/models';
 import { SeedBrowserFilterFormValues } from '../../../pages/seeds/browser/components/SeedBrowserFilterForm';
 import { SeedDetailsRequestModel } from '../../../api/request-models';
 
@@ -52,24 +52,19 @@ export function reportInvalidSeed(request: AddInvalidSeedReportRequest) {
  *  Local storage
  */
 export function saveFilterFormValuesToLocalStorage(values: SeedBrowserFilterFormValues) {
-	var key = 'seedbrowser-filter';
-
-	try {
+	if (storageAvailable('localStorage')) {
+		var key = 'seedbrowser-filter';
 		const json = JSON.stringify(values);
 		localStorage.setItem(key, json);
-	} catch (err) {
-		// ignore - browser has no permissions to write to LS
 	}
 }
 
 export function loadFilterFormValuesFromLocalStorage(): SeedBrowserFilterFormValues {
-	var key = 'seedbrowser-filter';
 	var filter: string | null = null;
 
-	try {
+	if (storageAvailable('localStorage')) {
+		var key = 'seedbrowser-filter';
 		filter = localStorage.getItem(key);
-	} catch (err) {
-		// ignore - browser has no permissions to read to LS
 	}
 
 	if (filter != null) {
@@ -80,75 +75,64 @@ export function loadFilterFormValuesFromLocalStorage(): SeedBrowserFilterFormVal
 }
 
 export function saveDetailsShowNonPresentToLocalStorage(show: boolean) {
-	var key = 'seedbrowser-shownonpresent';
-
-	try {
+	if (storageAvailable('localStorage')) {
+		var key = 'seedbrowser-shownonpresent';
 		const json = JSON.stringify(show);
 		localStorage.setItem(key, json);
-	} catch (err) {
-		// ignore - browser has no permissions to write to LS
 	}
 }
 
 export function loadDetailsShowNonPresentFromLocalStorage(): boolean {
-	var key = 'seedbrowser-shownonpresent';
-	var show: string | null = null;
-
-	try {
+	if (storageAvailable('localStorage')) {
+		var key = 'seedbrowser-shownonpresent';
+		var show: string | null = null;
 		show = localStorage.getItem(key);
-	} catch (err) {
-		// ignore - browser has no permissions to read to LS
+		return show === 'true';
 	}
 
-	return show === 'true';
+	return false;
 }
 
 export function saveFilterPageSizeToLocalStorage(pageSize: number) {
-	var key = 'seedbrowser-filter-pagesize';
-
-	try {
+	if (storageAvailable('localStorage')) {
+		var key = 'seedbrowser-filter-pagesize';
 		const json = JSON.stringify(pageSize);
 		localStorage.setItem(key, json);
-	} catch (err) {
-		// ignore - browser has no permissions to write to LS
 	}
 }
 
 export function loadFilterPageSizeFromLocalStorage(): number {
-	var key = 'seedbrowser-filter-pagesize';
-	var pageSize: string | null = null;
+	if (storageAvailable('localStorage')) {
+		var key = 'seedbrowser-filter-pagesize';
+		var pageSize: string | null = null;
 
-	try {
 		pageSize = localStorage.getItem(key);
-	} catch (err) {
-		// ignore - browser has no permissions to read to LS
-	}
 
-	return pageSize ? parseInt(pageSize) : 20;
+		return pageSize ? parseInt(pageSize) : 20;
+	} else {
+		return 20;
+	}
 }
 
 export function saveFilterPageToSessionStorage(pageSize: number) {
-	var key = 'seedbrowser-filter-page';
-
-	try {
+	if (storageAvailable('sessionStorage')) {
+		var key = 'seedbrowser-filter-page';
 		const json = JSON.stringify(pageSize);
 		sessionStorage.setItem(key, json);
-	} catch (err) {
-		// ignore - browser has no permissions to write to LS
 	}
 }
 
 export function loadFilterPageFromSessionStorage(): number {
-	var key = 'seedbrowser-filter-page';
-	var page: string | null = null;
+	if (storageAvailable('sessionStorage')) {
+		var key = 'seedbrowser-filter-page';
+		var page: string | null = null;
 
-	try {
 		page = sessionStorage.getItem(key);
-	} catch (err) {
-		// ignore - browser has no permissions to read to LS
-	}
 
-	return page ? parseInt(page) : 1;
+		return page ? parseInt(page) : 1;
+	} else {
+		return 1;
+	}
 }
 
 function handleError(error: any) {
@@ -161,4 +145,30 @@ function handleError(error: any) {
 	}
 
 	throw errorDetails;
+}
+
+//https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+function storageAvailable(type: string) {
+	try {
+		var storage = window[type],
+			x = '__storage_test__';
+		storage.setItem(x, x);
+		storage.removeItem(x);
+		return true;
+	} catch (e) {
+		return (
+			e instanceof DOMException &&
+			// everything except Firefox
+			(e.code === 22 ||
+				// Firefox
+				e.code === 1014 ||
+				// test name field too, because code might not be present
+				// everything except Firefox
+				e.name === 'QuotaExceededError' ||
+				// Firefox
+				e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+			// acknowledge QuotaExceededError only if there's something already stored
+			storage.length !== 0
+		);
+	}
 }
