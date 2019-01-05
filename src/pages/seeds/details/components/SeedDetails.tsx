@@ -8,7 +8,8 @@ import { Dispatch } from 'redux';
 import { getSeed, reportInvalidSeed } from 'src/store/seed-browser/actions';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { SeedDetailsRequestModel } from 'src/api/request-models';
-import { Spin } from 'antd';
+import { Spin, Row } from 'antd';
+import StarMap from './StarMap';
 
 interface PropsFromState {
 	seed: Seed;
@@ -69,9 +70,9 @@ class SeedDetails extends React.Component<AllProps, State> {
 
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
-				<>{/* the spinner is being really bitchy without this fragment*/}
+				<React.Fragment> {/* the spinner is being really bitchy without this fragment*/}
 					{!this.state.loading && (
-						<>
+						<div style={{ display: 'flex', flexDirection: 'column' }}>
 							<SeedSummary
 								seed={seed}
 								geyserTypes={geyserTypes}
@@ -79,10 +80,14 @@ class SeedDetails extends React.Component<AllProps, State> {
 								spaceDestinationTypes={spaceDestinationTypes}
 								onReportInvalid={this.reportSeedInvalid}
 							/>
+
 							<GeyserList geysers={seed.geysers} geyserTypes={geyserTypes} />
-						</>
+							{seed.spaceDestinations.length > 0 && (
+								<StarMap spaceDestinations={seed.spaceDestinations}  spaceDestinationTypes={spaceDestinationTypes} />
+							)}
+						</div>
 					)}
-				</>
+				</React.Fragment>
 			</Spin>
 		);
 	}
