@@ -6,6 +6,7 @@ import {
 	loadDetailsShowNonPresentFromLocalStorage,
 	saveDetailsShowNonPresentToLocalStorage
 } from '../../../../api/services/seed-browser/SeedService';
+import NoPlanetIcon from '../../shared-components/NoPlanetIcon';
 
 export interface Props {
 	seed: Seed;
@@ -56,8 +57,9 @@ class SeedSummary extends React.Component<Props, State> {
 						alignContent: 'center',
 						width: '100%'
 					}}>
-					<Row type="flex" style={{ justifyContent: 'flex-end', marginTop: -8 }}>
-						<a>
+					<Row type="flex" style={{ justifyContent: 'flex-start', marginTop: -8 }}>
+						{seed.spaceDestinations.length == 0 && <NoPlanetIcon style={{ height: 22, marginTop: -1 }} />}
+						<a style={{ marginLeft: 'auto' }}>
 							<h4 className="hover-text-danger" onClick={this.reportSeedAsInvalid}>
 								Report as invalid
 							</h4>
