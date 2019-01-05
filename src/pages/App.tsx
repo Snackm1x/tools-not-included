@@ -1,13 +1,13 @@
 import * as React from 'react';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 import Routes from './Routes';
+import SubNavbar from '../components/SubNavbar';
 import { ApplicationState } from '../store';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
-import { Store } from 'redux';
 import { Layout } from 'antd';
-import Navbar from '../components/Navbar';
-import SubNavbar from '../components/SubNavbar';
-import Footer from '../components/Footer';
+import { Store } from 'redux';
 const { Content } = Layout;
 
 interface RootProps {

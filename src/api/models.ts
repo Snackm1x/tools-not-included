@@ -86,12 +86,17 @@ export interface ModSeed {
     seed: number;
     versionNumber: number;
     geysers: ModGeyser[];
-    spaceDestinations: SpaceDestination[];
+    spaceDestinations: ModSpaceDestination[];
+    biomeSizes: { [key: string] : number; };
+    elementMasses: { [key: string] : number; };
+    startingBiomeElementMasses: { [key: string] : number; };
+    biomeIndices: { [key: string] : string; };
     modVersion: number;
+    apiKey: string;
 }
 
 export interface ModGeyser {
-    type: string;
+    geyserType: string;
     eruptionRate: number;
     activeDormancyPeriod: number;
     dormancyPeriod: number;
@@ -99,6 +104,11 @@ export interface ModGeyser {
     activeEruptionPeriod: number;
     posX: number;
     posY: number;
+}
+
+export interface ModSpaceDestination {
+    destinationType: string;
+    distance: number;
 }
 
 export interface AddInvalidSeedReportRequest {
@@ -109,4 +119,9 @@ export interface AddInvalidSeedReportRequest {
 export interface SpaceDestinationType {
     key: string;
     displayName: string;
+}
+
+export interface ErrorDetails {
+    statusCode?: number | undefined;
+    message?: string | undefined;
 }

@@ -11,21 +11,21 @@ import { Provider } from 'react-redux';
 import './index.less';
 
 WebFont.load({
-  google: {
-    families: ['Roboto Condensed:300,400,500,700', 'Economica:300,400,500,700', 'Quicksand:700'],
-  },
+	google: {
+		families: [ 'Roboto Condensed:300,400,500,700', 'Economica:300,400,500,700', 'Quicksand:700' ]
+	}
 });
 
 const history = createBrowserHistory();
 const store = configureStore(history);
 
 ReactDOM.render(
-  <HttpsRedirect>
-    <I18nextProvider i18n={i18n}>
-      <Provider store={store}>
-        <App history={history} store={store} />
-      </Provider>
-    </I18nextProvider>
-  </HttpsRedirect>,
-  document.getElementById('root')
+	<HttpsRedirect>
+		<I18nextProvider i18n={i18n}>
+			<Provider store={store}>
+				<App history={history} store={store} />
+			</Provider>
+		</I18nextProvider>
+	</HttpsRedirect>,
+	document.getElementById('root')
 );

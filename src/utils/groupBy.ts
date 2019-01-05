@@ -1,4 +1,4 @@
-export const groupBy = (items, key) =>
+export const groupBy = (items: any[], key: any) =>
     items.reduce((result, item) => ({
         ...result,
         [item[key]]: [

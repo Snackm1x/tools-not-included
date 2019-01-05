@@ -27,6 +27,38 @@ button {
 	text-transform: uppercase;
 }
 
+.ant-spin-container:after {
+    background: @layout-body-background;
+}
+
+.ant-spin-nested-loading.nontransparent {
+	>.ant-spin-blur:after {
+		opacity: 1;
+	}
+}
+
+.ant-spin-blur:after {
+    opacity: 0.5;
+}
+.ant-spin-nested-loading.fixed > div > .ant-spin {
+	> .ant-spin-dot {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+	}
+}
+
+.full-height {
+	height: 100%;
+	>.ant-spin-container {
+		height: 100%;
+	}
+}
+
+div.ant-layout-content {
+	overflow-y:scroll
+};
+
 ::-webkit-scrollbar {
 	width: @scrollWidth;
 }
@@ -428,16 +460,20 @@ form {
 	}
 }
 
+.ant-menu-dark .ant-menu-item > a {
+	color:  white;
+}
+
 .transparent-background-color {
 	background-color: transparent;
 	&.ant-btn {
 		&:hover {
 			background-color: rgba(0, 0, 0, 0.12);
-			color: #fff;
+			color: white;
 		}
 		&:focus {
 			background-color: rgba(0, 0, 0, 0.05);
-			color: #fff;
+			color: white;
 		}
 	}
 	.ant-select-selection {
