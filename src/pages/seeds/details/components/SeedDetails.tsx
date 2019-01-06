@@ -8,8 +8,9 @@ import { Dispatch } from 'redux';
 import { getSeed, reportInvalidSeed } from 'src/store/seed-browser/actions';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { SeedDetailsRequestModel } from 'src/api/request-models';
-import { Spin, Row } from 'antd';
+import { Spin, Row, Collapse } from 'antd';
 import StarMap from './StarMap';
+import CollapsePanel from 'antd/lib/collapse/CollapsePanel';
 
 interface PropsFromState {
 	seed: Seed;
@@ -70,7 +71,7 @@ class SeedDetails extends React.Component<AllProps, State> {
 
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
-				<React.Fragment> {/* the spinner is being really bitchy without this fragment*/}
+				<React.Fragment>
 					{!this.state.loading && (
 						<div style={{ display: 'flex', flexDirection: 'column' }}>
 							<SeedSummary
@@ -81,10 +82,28 @@ class SeedDetails extends React.Component<AllProps, State> {
 								onReportInvalid={this.reportSeedInvalid}
 							/>
 
-							<GeyserList geysers={seed.geysers} geyserTypes={geyserTypes} />
-							{seed.spaceDestinations.length > 0 && (
-								<StarMap spaceDestinations={seed.spaceDestinations}  spaceDestinationTypes={spaceDestinationTypes} />
-							)}
+							<Collapse
+								bordered={false}
+								defaultActiveKey={[ '1', '2' ]}
+								style={{ background: 'transparent', marginTop: 16 }}>
+								<CollapsePanel
+									header="Geyser details"
+									key="1"
+									style={{ background: 'transparent', paddingBottom: 16, border: 0 }}>
+									<GeyserList geysers={seed.geysers} geyserTypes={geyserTypes} />
+								</CollapsePanel>
+								{seed.spaceDestinations.length > 0 && (
+									<CollapsePanel
+										header="Starmap"
+										key="2"
+										style={{ background: 'transparent', paddingBottom: 16, border: 0 }}>
+										<StarMap
+											spaceDestinations={seed.spaceDestinations}
+											spaceDestinationTypes={spaceDestinationTypes}
+										/>
+									</CollapsePanel>
+								)}
+							</Collapse>
 						</div>
 					)}
 				</React.Fragment>
