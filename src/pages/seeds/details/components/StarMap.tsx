@@ -39,7 +39,7 @@ class StarMap extends React.Component<Props, State> {
 	public render() {
 		const backgroundSrc = `/images/space_00.png`;
 		var url = `url(${backgroundSrc})`;
-		var distances = Array.from(Array(this.state.furthestDestination).keys()).reverse();
+		var distances = Array.from(Array(this.state.furthestDestination! + 1).keys()).reverse();
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
 				<div style={{ backgroundImage: url, padding: 24, margin: 12, boxShadow: '0 0 10px 5px #0d0d18' }}>
