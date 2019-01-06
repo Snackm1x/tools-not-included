@@ -49,11 +49,20 @@ export enum SeedBrowserFilterRuleComparator {
 
 export interface SeedList {
     totalEntries?: number | undefined;
-    seeds?: Seed[] | undefined;
+    seeds?: SeedListItem[] | undefined;
+}
+
+export interface SeedListItem {
+    creationDate: Date;
+    seed: number;
+    gameUpgrade: string;
+    versionNumber: number;
+    geyserQuantities: { [key: string] : number; };
+    spaceDestinationQuantities: { [key: string] : number; };
+    modVersion: number;
 }
 
 export interface Seed {
-    id: string;
     creationDate: Date;
     seed: number;
     gameUpgrade: string;

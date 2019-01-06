@@ -81,7 +81,6 @@ class SeedDetails extends React.Component<AllProps, State> {
 								spaceDestinationTypes={spaceDestinationTypes}
 								onReportInvalid={this.reportSeedInvalid}
 							/>
-
 							<Collapse
 								bordered={false}
 								defaultActiveKey={[ '1', '2' ]}

@@ -1,12 +1,12 @@
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
-import { GameUpgrade, GeyserType, Seed, SpaceDestinationType } from 'src/api/models';
+import { GameUpgrade, GeyserType, Seed, SpaceDestinationType, SeedListItem } from 'src/api/models';
 import { Reducer } from 'redux';
 import { SeedBrowserActionTypes } from './actions';
 
 export type SeedBrowserState = Readonly<{
 	list: {
-		seeds?: Seed[];
+		seeds?: SeedListItem[];
 		totalEntries?: number;
 		reloading: boolean;
 	};

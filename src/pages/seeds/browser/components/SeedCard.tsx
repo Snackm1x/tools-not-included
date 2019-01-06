@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Card, Row, Col, Divider } from 'antd';
 import { withNamespaces, WithNamespaces } from 'react-i18next';
 import GeyserChip from 'src/pages/seeds/browser/components/GeyserChip';
-import { Seed, GeyserType, GameUpgrade } from 'src/api/models';
+import { GeyserType, GameUpgrade, SeedListItem } from 'src/api/models';
 import NoPlanetIcon from '../../shared-components/NoPlanetIcon';
 
 type AllProps = WithNamespaces & Props;
 
 export interface Props {
-	seed: Seed;
+	seed: SeedListItem;
 	geyserTypes: { [key: string]: GeyserType };
 	gameUpgrades: { [key: string]: GameUpgrade };
 	showNonPresent: boolean;
@@ -17,9 +17,6 @@ export interface Props {
 class SeedCard extends React.Component<AllProps> {
 	public render() {
 		const { seed, geyserTypes, gameUpgrades, showNonPresent } = this.props;
-
-		if (geyserTypes == {} || gameUpgrades == {}) return <div />; //todo
-
 		const creationDate = new Date(seed.creationDate);
 
 		return (
@@ -60,9 +57,11 @@ class SeedCard extends React.Component<AllProps> {
 						Added on {creationDate.toDateString()} {creationDate.toLocaleTimeString()}
 					</h4>
 
-					{seed.spaceDestinations.length == 0 && (
-						<NoPlanetIcon style={{ marginLeft: 'auto', height: 22, marginTop: -2 }} />
-					)}
+					{Object.keys(seed.spaceDestinationQuantities)
+						.map((key) => seed.spaceDestinationQuantities[key])
+						.reduce(function(a, b) {
+							return a + b;
+						}) == 0 && <NoPlanetIcon style={{ marginLeft: 'auto', height: 22, marginTop: -2 }} />}
 				</Row>
 			</Card>
 		);

@@ -10,7 +10,8 @@ import {
 	Seed,
 	SeedBrowserFilter,
 	SeedList,
-	SpaceDestinationType
+	SpaceDestinationType,
+	SeedListItem
 } from '../../../../api/models';
 import { getFilteredSeeds } from '../../../../store/seed-browser/actions';
 import { Icon, Pagination, Spin, Switch } from 'antd';
@@ -175,7 +176,7 @@ class SeedBrowser extends React.Component<AllProps, State> {
 					</div>
 					{this.props.seedList &&
 						this.props.seedList.seeds &&
-						this.props.seedList.seeds.map((seed: Seed, index: number) => {
+						this.props.seedList.seeds.map((seed: SeedListItem, index: number) => {
 							var url = '/seeds/' + seed.seed + '/' + seed.versionNumber;
 							return (
 								<Link key={index} to={url} style={{ textDecoration: 'none', width: '100%' }}>
