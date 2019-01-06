@@ -13,7 +13,6 @@ const Routes: React.SFC = () => (
 		<Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
 		<Route exact path="/seeds/modinfo" component={SeedModInfoPage} />
 		<Route exact path="/seeds" component={SeedBrowserPage} />
-		<Route exact path="/coffee" component={CoffeePage} />
 		<Route exact path="/500" component={Error500} />
 		<Route exact path="/404" component={Error404} />
 		<Route component={Error404} />

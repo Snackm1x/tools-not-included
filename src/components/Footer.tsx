@@ -9,11 +9,6 @@ const Footer: React.SFC = () => (
 				<Menu.Item key="about">
 					<Link to="/">About</Link>
 				</Menu.Item>
-				<Menu.Item key="coffee">
-					<Link to="/coffee">
-						<Icon type="coffee" /> Buy me a coffee
-					</Link>
-				</Menu.Item>
 				<Menu.Item key="github">
 					<Link to="/">
 						<Icon type="github" /> Github
