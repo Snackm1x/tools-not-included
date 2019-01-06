@@ -12,6 +12,14 @@ import {
 import { SeedBrowserFilterFormValues } from '../../../pages/seeds/browser/components/SeedBrowserFilterForm';
 import { SeedDetailsRequestModel } from '../../../api/request-models';
 
+const BrowserFilterKey = 'seedbrowser-filter';
+const BrowserShowNonPresetKey = 'seedbrowser-shownonpresent';
+const BrowserFilterPageSizeKey = 'seedbrowser-filter-pagesize';
+const BrowserFilterPageKey = 'seedbrowser-filter-page';
+const BrowserGameUpgradesCacheKey = 'seedbrowser-cache-game-upgrades';
+const BrowserGeyserTypesCacheKey = 'seedbrowser-cache-geyser-types';
+const BrowserSpaceDestinationTypesCacheKey = 'seedbrowser-cache-space-types';
+
 export function getFilteredSeeds(filter: SeedBrowserFilter) {
 	return API.post<SeedList>('/seeds/filtered', filter, { headers: { Accept: 'application/json' } })
 		.then((res) => res.data)
@@ -27,18 +35,42 @@ export function getSeed(request: SeedDetailsRequestModel) {
 }
 
 export function getGeyserTypes() {
+	var fromCache = loadCacheGeyserTypes();
+	if (fromCache !== null) return fromCache;
+
 	var url = '/geysers/types';
-	return API.get<GeyserType[]>(url).then((res) => res.data).catch((error) => handleError(error));
+	return API.get<GeyserType[]>(url)
+		.then((res) => {
+			saveCacheGeyserTypes(res.data);
+			return res.data;
+		})
+		.catch((error) => handleError(error));
 }
 
 export function getSpaceDestinationTypes() {
+	var fromCache = loadCacheSpaceTypes();
+	if (fromCache !== null) return fromCache;
+
 	var url = '/spacedestinations/types';
-	return API.get<SpaceDestinationType[]>(url).then((res) => res.data).catch((error) => handleError(error));
+	return API.get<SpaceDestinationType[]>(url)
+		.then((res) => {
+			saveCacheSpaceTypes(res.data);
+			return res.data;
+		})
+		.catch((error) => handleError(error));
 }
 
 export function getGameUpgrades() {
+	var fromCache = loadCacheGameUpgrades();
+	if (fromCache !== null) return fromCache;
+
 	var url = '/gameupgrades';
-	return API.get<GameUpgrade[]>(url).then((res) => res.data).catch((error) => handleError(error));
+	return API.get<GameUpgrade[]>(url)
+		.then((res) => {
+			saveCacheGameUpgrades(res.data);
+			return res.data;
+		})
+		.catch((error) => handleError(error));
 }
 
 export function reportInvalidSeed(request: AddInvalidSeedReportRequest) {
@@ -53,9 +85,8 @@ export function reportInvalidSeed(request: AddInvalidSeedReportRequest) {
  */
 export function saveFilterFormValuesToLocalStorage(values: SeedBrowserFilterFormValues) {
 	if (storageAvailable('localStorage')) {
-		var key = 'seedbrowser-filter';
 		const json = JSON.stringify(values);
-		localStorage.setItem(key, json);
+		localStorage.setItem(BrowserFilterKey, json);
 	}
 }
 
@@ -63,8 +94,7 @@ export function loadFilterFormValuesFromLocalStorage(): SeedBrowserFilterFormVal
 	var filter: string | null = null;
 
 	if (storageAvailable('localStorage')) {
-		var key = 'seedbrowser-filter';
-		filter = localStorage.getItem(key);
+		filter = localStorage.getItem(BrowserFilterKey);
 	}
 
 	if (filter != null) {
@@ -76,17 +106,15 @@ export function loadFilterFormValuesFromLocalStorage(): SeedBrowserFilterFormVal
 
 export function saveDetailsShowNonPresentToLocalStorage(show: boolean) {
 	if (storageAvailable('localStorage')) {
-		var key = 'seedbrowser-shownonpresent';
 		const json = JSON.stringify(show);
-		localStorage.setItem(key, json);
+		localStorage.setItem(BrowserShowNonPresetKey, json);
 	}
 }
 
 export function loadDetailsShowNonPresentFromLocalStorage(): boolean {
 	if (storageAvailable('localStorage')) {
-		var key = 'seedbrowser-shownonpresent';
 		var show: string | null = null;
-		show = localStorage.getItem(key);
+		show = localStorage.getItem(BrowserShowNonPresetKey);
 		return show === 'true';
 	}
 
@@ -95,19 +123,15 @@ export function loadDetailsShowNonPresentFromLocalStorage(): boolean {
 
 export function saveFilterPageSizeToLocalStorage(pageSize: number) {
 	if (storageAvailable('localStorage')) {
-		var key = 'seedbrowser-filter-pagesize';
 		const json = JSON.stringify(pageSize);
-		localStorage.setItem(key, json);
+		localStorage.setItem(BrowserFilterPageSizeKey, json);
 	}
 }
 
 export function loadFilterPageSizeFromLocalStorage(): number {
 	if (storageAvailable('localStorage')) {
-		var key = 'seedbrowser-filter-pagesize';
 		var pageSize: string | null = null;
-
-		pageSize = localStorage.getItem(key);
-
+		pageSize = localStorage.getItem(BrowserFilterPageSizeKey);
 		return pageSize ? parseInt(pageSize) : 20;
 	} else {
 		return 20;
@@ -116,23 +140,82 @@ export function loadFilterPageSizeFromLocalStorage(): number {
 
 export function saveFilterPageToSessionStorage(pageSize: number) {
 	if (storageAvailable('sessionStorage')) {
-		var key = 'seedbrowser-filter-page';
 		const json = JSON.stringify(pageSize);
-		sessionStorage.setItem(key, json);
+		sessionStorage.setItem(BrowserFilterPageKey, json);
 	}
 }
 
 export function loadFilterPageFromSessionStorage(): number {
 	if (storageAvailable('sessionStorage')) {
-		var key = 'seedbrowser-filter-page';
 		var page: string | null = null;
-
-		page = sessionStorage.getItem(key);
-
+		page = sessionStorage.getItem(BrowserFilterPageSizeKey);
 		return page ? parseInt(page) : 1;
 	} else {
 		return 1;
 	}
+}
+
+export function saveCacheGeyserTypes(types: GeyserType[]) {
+	if (storageAvailable('sessionStorage')) {
+		const json = JSON.stringify(types);
+		sessionStorage.setItem(BrowserGeyserTypesCacheKey, json);
+	}
+}
+
+export function loadCacheGeyserTypes(): GeyserType[] | null {
+	var geyserTypes: string | null = null;
+
+	if (storageAvailable('sessionStorage')) {
+		geyserTypes = sessionStorage.getItem(BrowserGeyserTypesCacheKey);
+	}
+
+	if (geyserTypes != null) {
+		return JSON.parse(geyserTypes);
+	}
+
+	return null;
+}
+
+export function saveCacheSpaceTypes(types: SpaceDestinationType[]) {
+	if (storageAvailable('sessionStorage')) {
+		const json = JSON.stringify(types);
+		sessionStorage.setItem(BrowserSpaceDestinationTypesCacheKey, json);
+	}
+}
+
+export function loadCacheSpaceTypes(): SpaceDestinationType[] | null {
+	var spaceTypes: string | null = null;
+
+	if (storageAvailable('sessionStorage')) {
+		spaceTypes = sessionStorage.getItem(BrowserSpaceDestinationTypesCacheKey);
+	}
+
+	if (spaceTypes != null) {
+		return JSON.parse(spaceTypes);
+	}
+
+	return null;
+}
+
+export function saveCacheGameUpgrades(upgrades: GameUpgrade[]) {
+	if (storageAvailable('sessionStorage')) {
+		const json = JSON.stringify(upgrades);
+		sessionStorage.setItem(BrowserGameUpgradesCacheKey, json);
+	}
+}
+
+export function loadCacheGameUpgrades(): GameUpgrade[] | null {
+	var upgrades: string | null = null;
+
+	if (storageAvailable('sessionStorage')) {
+		upgrades = sessionStorage.getItem(BrowserGameUpgradesCacheKey);
+	}
+
+	if (upgrades != null) {
+		return JSON.parse(upgrades);
+	}
+
+	return null;
 }
 
 function handleError(error: any) {
