@@ -4,8 +4,8 @@ import { SpaceDestination, SpaceDestinationType } from 'src/api/models';
 import { groupBy } from 'src/utils/groupBy';
 
 type Props = {
-    spaceDestinations: SpaceDestination[];
-    spaceDestinationTypes: { [key: string]: SpaceDestinationType };
+	spaceDestinations: SpaceDestination[];
+	spaceDestinationTypes: { [key: string]: SpaceDestinationType };
 };
 
 interface State {
@@ -46,7 +46,9 @@ class StarMap extends React.Component<Props, State> {
 					{distances.map((distance: number) => {
 						return (
 							<React.Fragment key={distance}>
-								<Divider type="horizontal" className="starmap-divider">{distance + 2}0000 km</Divider>
+								<Divider type="horizontal" className="starmap-divider">
+									{distance + 2}0 000 km
+								</Divider>
 								<div
 									style={{
 										display: 'flex',
@@ -57,31 +59,42 @@ class StarMap extends React.Component<Props, State> {
 									{this.destinationsByDistance[distance] &&
 										this.destinationsByDistance[
 											distance
-										].map((dest: SpaceDestination, index: number) => {
-											var imageFile = `/images/planets/${dest.type.toLowerCase()}.png`;
-											var placeLeft = Math.random() > 0.4;
-											var placeRight = Math.random() > 0.6;
-											return (
-												<React.Fragment key={index}>
-													{placeLeft && (
-														<div style={{ width: 100, flexShrink: 1, flexBasis: '0px' }} />
-													)}
-													<Tooltip title={this.props.spaceDestinationTypes[dest.type].displayName}>
-														<img
-															src={imageFile}
-															style={{
-																objectFit: 'contain',
-																maxHeight: 100,
-																maxWidth: 100
-															}}
-														/>
-													</Tooltip>
-													{placeRight && (
-														<div style={{ width: 100, flexShrink: 1, flexBasis: '0px' }} />
-													)}
-												</React.Fragment>
-											);
-										})}
+										].map(
+											(
+												dest: SpaceDestination,
+												index: number,
+												allInDistance: SpaceDestination[]
+											) => {
+												var imageFile = `/images/planets/${dest.type.toLowerCase()}.png`;
+												var placeLeft = Math.random() > 0.5;
+												var placeLeft2 =
+													Math.random() > (allInDistance.length === 1 ? 0.3 : 0.8);
+												var placeRight = Math.random() > 0.9;
+												var placeRight2 =
+													Math.random() > (allInDistance.length === 1 ? 0.8 : 0.2);
+												return (
+													<React.Fragment key={index}>
+														{placeLeft && <div style={{ flexShrink: 1 }} />}
+														{placeLeft2 && <div style={{ flexShrink: 1 }} />}
+														<Tooltip
+															title={
+																this.props.spaceDestinationTypes[dest.type].displayName
+															}>
+															<img
+																src={imageFile}
+																style={{
+																	objectFit: 'contain',
+																	maxHeight: 100,
+																	maxWidth: 100
+																}}
+															/>
+														</Tooltip>
+														{placeRight && <div style={{ flexShrink: 1 }} />}
+														{placeRight2 && <div style={{ flexShrink: 1 }} />}
+													</React.Fragment>
+												);
+											}
+										)}
 								</div>
 							</React.Fragment>
 						);
