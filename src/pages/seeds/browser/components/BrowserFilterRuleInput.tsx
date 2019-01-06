@@ -157,7 +157,12 @@ class BrowserFilterRuleInput extends React.PureComponent<Props> {
 								values[name][idx].type == SeedBrowserFilterRuleType.Total_Output
 									? `${value} kg/s`
 									: `${value}`}
-							parser={(value) => parseFloat(value!.replace('kg/s', ''))}
+							parser={(value) => {
+								var val = value!.replace('kg/s', '');
+								var parsed = parseFloat(val);
+
+								return (isNaN(parsed) ? 0 : parsed)
+							}}
 							step={values[name][idx].type == SeedBrowserFilterRuleType.Total_Output ? 0.1 : 1}
 							precision={values[name][idx].type == SeedBrowserFilterRuleType.Total_Output ? 2 : 0}
 						/>
