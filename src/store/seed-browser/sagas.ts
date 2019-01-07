@@ -7,7 +7,7 @@ import { push } from 'connected-react-router';
 import { SeedBrowserActionTypes } from './actions';
 
 function* handleError(err: any) {
-	yield put(push(`/${err.statusCode}`));
+	yield put(push(`/${err.statusCode ? err.statusCode : 500}`));
 	yield put(Actions.requestError(err.message));
 }
 

@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { Card, Row, Col, Divider } from 'antd';
-import { withNamespaces, WithNamespaces } from 'react-i18next';
 import GeyserChip from 'src/pages/seeds/browser/components/GeyserChip';
 import { GeyserType, GameUpgrade, SeedListItem } from 'src/api/models';
 import NoPlanetIcon from '../../shared-components/NoPlanetIcon';
-
-type AllProps = WithNamespaces & Props;
 
 export interface Props {
 	seed: SeedListItem;
@@ -14,7 +11,7 @@ export interface Props {
 	showNonPresent: boolean;
 }
 
-class SeedCard extends React.Component<AllProps> {
+class SeedCard extends React.Component<Props> {
 	public render() {
 		const { seed, geyserTypes, gameUpgrades, showNonPresent } = this.props;
 		const creationDate = new Date(seed.creationDate);
@@ -68,4 +65,4 @@ class SeedCard extends React.Component<AllProps> {
 	}
 }
 
-export default withNamespaces()(SeedCard);
+export default SeedCard;

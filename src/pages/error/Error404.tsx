@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { Button, Col, Row, Spin } from 'antd';
 import { Link } from 'react-router-dom';
-import { withNamespaces, WithNamespaces } from 'react-i18next';
+
+interface Props {}
 
 interface State {
 	loading: boolean;
 }
 
-class Error404 extends React.Component<WithNamespaces, State> {
-	constructor(props: WithNamespaces) {
+class Error404 extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = {
@@ -64,4 +65,4 @@ class Error404 extends React.Component<WithNamespaces, State> {
 	}
 }
 
-export default withNamespaces()(Error404);
+export default Error404;

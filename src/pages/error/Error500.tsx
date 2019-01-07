@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { Button, Col, Row, Spin } from 'antd';
 import { Link } from 'react-router-dom';
-import { withNamespaces, WithNamespaces } from 'react-i18next';
+
+interface Props {}
 
 interface State {
 	loading: boolean;
 }
 
-class Error500 extends React.Component<WithNamespaces, State> {
-	constructor(props: WithNamespaces) {
+class Error500 extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = {
@@ -19,7 +20,7 @@ class Error500 extends React.Component<WithNamespaces, State> {
 	componentDidMount() {
 		this.setState({ loading: false });
 	}
-	
+
 	public render() {
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed full-height" size="large">
@@ -60,4 +61,4 @@ class Error500 extends React.Component<WithNamespaces, State> {
 	}
 }
 
-export default withNamespaces()(Error500);
+export default Error500;

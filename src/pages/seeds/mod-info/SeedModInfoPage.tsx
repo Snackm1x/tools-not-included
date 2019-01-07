@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Row, Spin } from 'antd';
-import { withNamespaces, WithNamespaces } from 'react-i18next';
+
+interface Props {}
 
 interface State {
 	loading: boolean;
 }
 
-class SeedModInfoPage extends React.Component<WithNamespaces, State> {
-	constructor(props: WithNamespaces) {
+class SeedModInfoPage extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		this.state = {
@@ -20,7 +21,6 @@ class SeedModInfoPage extends React.Component<WithNamespaces, State> {
 	}
 
 	public render() {
-		const { t } = this.props;
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
 				<div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -156,4 +156,4 @@ class SeedModInfoPage extends React.Component<WithNamespaces, State> {
 	}
 }
 
-export default withNamespaces()(SeedModInfoPage);
+export default SeedModInfoPage;

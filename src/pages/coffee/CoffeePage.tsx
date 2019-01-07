@@ -1,9 +1,8 @@
 import * as React from 'react';
 import KofiButton from 'src/components/KofiButton';
 import { Col, Row, Spin } from 'antd';
-import { withNamespaces, WithNamespaces } from 'react-i18next';
 
-type AllProps = WithNamespaces;
+interface AllProps {};
 
 interface State {
 	loading: boolean;
@@ -23,7 +22,6 @@ class CoffeePage extends React.Component<AllProps, State> {
 	}
 
 	public render() {
-		const { t } = this.props;
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed full-height" size="large">
 				<div style={{ display: 'flex', minHeight: '70%', alignItems: 'center' }}>
@@ -41,9 +39,14 @@ class CoffeePage extends React.Component<AllProps, State> {
 									paddingLeft: 24,
 									paddingRight: 24
 								}}>
-								<h1>{t('coffee.header')}</h1>
-								<p style={{ textAlign: 'center' }}>{t('coffee.text-1')}</p>
-								<p style={{ textAlign: 'center' }}>{t('coffee.text-2')}</p>
+								<h1>Buy me a coffee</h1>
+								<p style={{ textAlign: 'center' }}>
+									The website is and always will be free for everyone to use, but if you'd like to say
+									thanks and/or contribute to the server fees there is now a way to do so!<br />
+									The total monthly cost of running the site is around $15, tens of hours spent on
+									development, pizzas and caffeine ;). I'm happy to pay for it, but I'll be grateful
+									for any and all donations!
+								</p>
 								<br />
 								<br />
 								<KofiButton />
@@ -66,4 +69,4 @@ class CoffeePage extends React.Component<AllProps, State> {
 	}
 }
 
-export default withNamespaces()(CoffeePage);
+export default CoffeePage;
