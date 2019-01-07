@@ -7,11 +7,16 @@ import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import './index.less';
 
+var ReactGA = require('react-ga');
+
 WebFont.load({
 	google: {
 		families: [ 'Roboto Condensed:400,700', 'Economica:400,700', 'Quicksand:700' ]
 	}
 });
+
+ReactGA.initialize('UA-127751254-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 const history = createBrowserHistory();
 const store = configureStore(history);
