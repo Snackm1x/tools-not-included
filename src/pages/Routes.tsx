@@ -8,7 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 import ChangelogPage from '@pages/changelog/ChangelogPage';
 import AboutPage from '@pages/about/AboutPage';
 
-const Routes: React.SFC = () => (
+const Routes: React.FC = () => (
 	<Switch>
 		<Route exact path="/" component={SeedBrowserPage} />
 		<Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />

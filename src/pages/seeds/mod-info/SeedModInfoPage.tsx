@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Row, Spin } from 'antd';
+import { Row, Spin, Alert } from 'antd';
 
 interface Props {}
 
@@ -25,6 +25,14 @@ class SeedModInfoPage extends React.Component<Props, State> {
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
 				<div style={{ display: 'flex', justifyContent: 'center' }}>
 					<div style={{ textAlign: 'justify', width: '60%', marginTop: 24 }}>
+						<Row>
+							<Alert
+								type="info"
+								message="Current mod versions"
+								description="1.0a, 1.0m (7.01.2019)"
+								style={{ marginBottom: 24 }}
+							/>
+						</Row>
 						<Row type="flex" style={{ justifyContent: 'center' }}>
 							<h1>Seed Sharing Mod</h1>
 						</Row>
@@ -114,12 +122,14 @@ class SeedModInfoPage extends React.Component<Props, State> {
 						<Row>
 							<p>
 								The manual version of the mod does not interfere with normal gameplay and the mod file
-								can be present while playing.<br />
+								can be present while playing. There is no need to enable debug mode.<br />
+								<br />
+								Due to the type of collected data, the world needs to be fresh (within 60 seconds of its
+								creation) and any tiels cannot be dug out. If you wish to upload your current seed,
+								please generate a fresh world using that seed and upload it from a new save.<br />
 								<br />
 								The Pause menu has a new button - <i>Upload</i>. Clicking the button will cause
-								unspawned things in the world to spawn (just like revealing the map in debug mode) so if
-								you want to upload a world you're actively using it's recommended to save first and
-								reload to your save after upload.<br />
+								unspawned things in the world to spawn (just like revealing the map in debug mode).<br />
 								<br />
 								Upon pressing <i>Upload</i> the game will contact the Tools Not Included server to
 								verify whether the mod version is current and in case of wrong mod version the user will

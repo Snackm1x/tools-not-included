@@ -7,7 +7,7 @@ interface Props {
 	geyserTypes: { [key: string]: GeyserType };
 }
 
-const GeyserList: React.SFC<Props> = (props: Props) => {
+const GeyserList: React.FC<Props> = (props: Props) => {
 	const { geysers, geyserTypes } = props;
 	return (
 		<div>

@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 const { Header } = Layout;
 
-const Navbar: React.SFC = () => (
+const Navbar: React.FC = () => (
 	<Header id="primary-header">
 		<div className="max-content-width">
 			<img id="logo" src="/images/oxygen_helmet.png" />

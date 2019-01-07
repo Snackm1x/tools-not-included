@@ -7,7 +7,7 @@ interface Props {
 	imgName: string;
 }
 
-const EntityCountChip: React.SFC<Props> = (props: Props) => {
+const EntityCountChip: React.FC<Props> = (props: Props) => {
 	const imgSrc = `/images/${props.imgName}`;
 	const colorClass = props.count > 0 ? 'green' : 'red';
 

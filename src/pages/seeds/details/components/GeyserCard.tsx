@@ -9,7 +9,7 @@ interface Props {
 
 const OilReservoir: string = 'OIL_RESERVOIR';
 
-const GeyserCard: React.SFC<Props> = (props: Props) => {
+const GeyserCard: React.FC<Props> = (props: Props) => {
 	const { geyser, geyserTypes } = props;
 	var imageFile = `/images/geysers/${geyser.type.toLowerCase()}.png`;
 	var url = `url(${imageFile})`;

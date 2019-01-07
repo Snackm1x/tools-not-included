@@ -21,7 +21,7 @@ const KoFiIcon = () => (
 	</svg>
 );
 
-const KofiButton: React.SFC = () => (
+const KofiButton: React.FC = () => (
 	<Button
 		type="primary"
 		target="_blank"

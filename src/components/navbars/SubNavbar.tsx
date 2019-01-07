@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 const { Header } = Layout;
 
-const Navbar: React.SFC = () => {
+const Navbar: React.FC = () => {
 	return (
 		<Header id="secondary-header" className="subsection-active">
 			<div className="max-content-width">

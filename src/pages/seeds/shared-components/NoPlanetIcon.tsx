@@ -20,7 +20,7 @@ const NoPlanetIconSvg = (style: IconProps) => (
 	</svg>
 );
 
-const NoPlanetIcon: React.SFC<IconProps> = (style: IconProps) => {
+const NoPlanetIcon: React.FC<IconProps> = (style: IconProps) => {
 	return (
 		<Tooltip title="No planet info. You can add it by re-uploading this seed.">
 			<Icon component={() => NoPlanetIconSvg(style)} {...style} />

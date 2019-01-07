@@ -7,7 +7,7 @@ interface Props {
 	form: { touched; errors };
 }
 
-const TextInput: React.SFC<Props> = (props: Props) => {
+const TextInput: React.FC<Props> = (props: Props) => {
 	const { field, prop } = props;
 	const { errors, touched } = props.form;
 
