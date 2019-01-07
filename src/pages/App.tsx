@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
+import Footer from '../components/navbars/Footer';
+import Navbar from '../components/navbars/Navbar';
 import Routes from './Routes';
-import SubNavbar from '../components/SubNavbar';
+import SubNavbar from '../components/navbars/SubNavbar';
 import { ApplicationState } from '../store';
 import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';

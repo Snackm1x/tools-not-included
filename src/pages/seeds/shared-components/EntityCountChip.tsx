@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './entity-count-chip.less'
 
 interface Props {
 	label: string;
@@ -6,21 +7,21 @@ interface Props {
 	imgName: string;
 }
 
-const GeyserChip: React.SFC<Props> = (props: Props) => {
+const EntityCountChip: React.SFC<Props> = (props: Props) => {
 	const imgSrc = `/images/${props.imgName}`;
 	const colorClass = props.count > 0 ? 'green' : 'red';
 
 	return (
-		<div className="chip-geyser">
-			<div className="chip-geyser-img-container">
-				<img className="chip-geyser-img" src={imgSrc} />
+		<div className="entity-chip">
+			<div className="entity-chip-img-container">
+				<img className="entity-chip-img" src={imgSrc} />
 			</div>
 			<h3 style={{ margin: '0px' }}>{props.label}</h3>
-			<div className={'chip-geyser-count-container ' + colorClass}>
+			<div className={'entity-chip-count-container ' + colorClass}>
 				<h3 style={{ margin: '0px' }}>{props.count}</h3>
 			</div>
 		</div>
 	);
 };
 
-export default GeyserChip;
+export default EntityCountChip;

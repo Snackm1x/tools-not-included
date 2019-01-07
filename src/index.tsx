@@ -9,7 +9,7 @@ import './index.less';
 
 WebFont.load({
 	google: {
-		families: [ 'Roboto Condensed:300,400,500,700', 'Economica:300,400,500,700', 'Quicksand:700' ]
+		families: [ 'Roboto Condensed:400,700', 'Economica:400,700', 'Quicksand:700' ]
 	}
 });
 

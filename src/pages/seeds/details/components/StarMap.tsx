@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Spin, Divider, Tooltip } from 'antd';
-import { SpaceDestination, SpaceDestinationType } from 'src/api/models';
-import { groupBy } from 'src/utils/groupBy';
+import { SpaceDestination, SpaceDestinationType } from '@api/models';
+import { groupBy } from '@utils/groupBy';
 
 type Props = {
 	spaceDestinations: SpaceDestination[];

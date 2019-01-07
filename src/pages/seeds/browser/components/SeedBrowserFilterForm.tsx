@@ -168,7 +168,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 												type="dashed"
 												className={classNames(
 													'transparent-background-color',
-													'browser-filter-add-rule-button'
+													'browser-filter-form-other-column'
 												)}
 												disabled={form.values.rules && form.values.rules.length >= maxRules}
 												onClick={() => this.addNewAndRule(arrayHelpers)}>
@@ -202,7 +202,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 												min: 0,
 												className: classNames(
 													'transparent-background-color',
-													'browser-filter-seed-number'
+													'browser-filter-form-other-column'
 												),
 												placeholder: 'Seed number (optional)'
 											}

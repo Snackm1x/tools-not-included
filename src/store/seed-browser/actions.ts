@@ -1,6 +1,6 @@
 import { action } from 'typesafe-actions'
-import { Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType, SeedBrowserFilter, AddInvalidSeedReportRequest } from 'src/api/models';
-import { SeedDetailsRequestModel } from 'src/api/request-models';
+import { Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType, SeedBrowserFilter, AddInvalidSeedReportRequest } from '@api/models';
+import { SeedDetailsRequestModel } from '@api/request-models';
 
 export const enum SeedBrowserActionTypes {
     GET_FILTERED_SEEDS = '@@seedbrowser/GET_FILTERED_SEEDS',

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Card, Row, Col, Divider } from 'antd';
-import GeyserChip from 'src/pages/seeds/browser/components/GeyserChip';
-import { GeyserType, GameUpgrade, SeedListItem } from 'src/api/models';
+import EntityCountChip from '../../../../pages/seeds/shared-components/EntityCountChip';
+import { GeyserType, GameUpgrade, SeedListItem } from '../../../../api/models';
 import NoPlanetIcon from '../../shared-components/NoPlanetIcon';
 
 export interface Props {
@@ -38,7 +38,7 @@ class SeedCard extends React.Component<Props> {
 
 							var imageFile = `geysers/mini/${geyserType.toLowerCase()}.png`;
 							return (
-								<GeyserChip
+								<EntityCountChip
 									key={index}
 									count={count}
 									label={geyserTypes[geyserType].displayName}

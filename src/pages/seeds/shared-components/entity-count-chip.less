@@ -1,0 +1,42 @@
+.entity-chip {
+    margin: 4px;
+    padding: 4px;
+	min-width: 210px;
+	max-width: 210px;
+	height: 32px;
+	background: rgba(255, 255, 255, 0.15);
+	display: flex;
+	border-radius: 16px;
+	align-items: center;
+	justify-content: left;	
+}
+
+.entity-chip-img-container {
+	overflow: hidden;
+	margin: -10px 4px -10px -5px;
+	border-radius: 20px;
+}
+.entity-chip-img {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+}
+
+.entity-chip-count-container {
+	border-radius: 20px;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	p {
+		margin-bottom: inherit;
+	}
+	&.green {
+		background: rgb(46, 125, 50);
+	}
+	&.red {
+		background: rgb(183, 28, 28);
+	}
+}

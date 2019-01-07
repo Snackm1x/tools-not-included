@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const { Header } = Layout;
 
 const Navbar: React.SFC = () => (
-	<Header className="primary-header">
+	<Header id="primary-header">
 		<div className="max-content-width">
 			<img id="logo" src="/images/oxygen_helmet.png" />
 			<Menu theme="dark" mode="horizontal" selectable={false}>

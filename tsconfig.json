@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
     "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",
@@ -21,6 +21,12 @@
     "suppressImplicitAnyIndexErrors": true,
     "resolveJsonModule": true,
     "noUnusedLocals": false,
+    "paths": {
+      "@api/*": [ "api/*" ],
+      "@utils/*": [ "utils/*" ],
+      "@store/*": [ "store/*" ],
+      "@pages/*": [ "pages/*" ],
+    }
   },
   "exclude": [
     "node_modules",

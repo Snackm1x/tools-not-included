@@ -1,5 +1,5 @@
 import * as React from 'react';
-import KofiButton from 'src/components/KofiButton';
+import KofiButton from './../../components/KofiButton';
 import { Col, Row, Spin } from 'antd';
 
 interface AllProps {};

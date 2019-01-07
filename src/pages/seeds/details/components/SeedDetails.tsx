@@ -1,14 +1,14 @@
 import * as React from 'react';
 import GeyserList from '../components/GeyserList';
 import SeedSummary from '../components/SeedSummary';
-import { AddInvalidSeedReportRequest, GameUpgrade, GeyserType, Seed, SpaceDestinationType } from 'src/api/models';
-import { ApplicationState } from '../../../../store';
+import { AddInvalidSeedReportRequest, GameUpgrade, GeyserType, Seed, SpaceDestinationType } from '@api/models';
+import { ApplicationState } from '@store/index';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { getSeed, reportInvalidSeed } from 'src/store/seed-browser/actions';
+import { getSeed, reportInvalidSeed } from '@store/seed-browser/actions';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { SeedDetailsRequestModel } from 'src/api/request-models';
-import { Spin, Row, Collapse } from 'antd';
+import { SeedDetailsRequestModel } from '@api/request-models';
+import { Spin, Collapse } from 'antd';
 import StarMap from './StarMap';
 import CollapsePanel from 'antd/lib/collapse/CollapsePanel';
 

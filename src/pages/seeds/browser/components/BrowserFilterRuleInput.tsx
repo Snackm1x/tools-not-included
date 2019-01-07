@@ -8,7 +8,7 @@ import {
 	SeedBrowserFilterRuleComparator,
 	SeedBrowserFilterRuleType,
 	SpaceDestinationType
-} from 'src/api/models';
+} from '../../../../api/models';
 import { SeedBrowserFilterFormValues } from './SeedBrowserFilterForm';
 
 const FormItem = Form.Item;

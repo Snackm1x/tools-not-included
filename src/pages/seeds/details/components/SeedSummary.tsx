@@ -1,5 +1,5 @@
 import * as React from 'react';
-import GeyserChip from '../../browser/components/GeyserChip';
+import EntityCountChip from '../../shared-components/EntityCountChip';
 import { Card, Icon, Modal, Row, Switch } from 'antd';
 import { GameUpgrade, GeyserType, Seed, SpaceDestinationType } from '../../../../api/models';
 import {
@@ -81,7 +81,7 @@ class SeedSummary extends React.Component<Props, State> {
 
 							var imageFile = `geysers/mini/${geyserType.toLowerCase()}.png`;
 							return (
-								<GeyserChip
+								<EntityCountChip
 									key={index}
 									count={count}
 									label={geyserTypes[geyserType].displayName}
@@ -98,7 +98,7 @@ class SeedSummary extends React.Component<Props, State> {
 
 							var imageFile = `planets/mini/${spaceDestinationType.toLowerCase()}.png`;
 							return (
-								<GeyserChip
+								<EntityCountChip
 									key={index}
 									count={count}
 									label={spaceDestinationTypes[spaceDestinationType].displayName}

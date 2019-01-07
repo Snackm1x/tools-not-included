@@ -1,6 +1,6 @@
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
-import { GameUpgrade, GeyserType, Seed, SpaceDestinationType, SeedListItem } from 'src/api/models';
+import { GameUpgrade, GeyserType, Seed, SpaceDestinationType, SeedListItem } from '@api/models';
 import { Reducer } from 'redux';
 import { SeedBrowserActionTypes } from './actions';
 
