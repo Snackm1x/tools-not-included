@@ -15,8 +15,6 @@ WebFont.load({
 	}
 });
 
-ReactGA.initialize('UA-127751254-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
 
 const history = createBrowserHistory();
 const store = configureStore(history);

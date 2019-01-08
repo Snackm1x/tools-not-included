@@ -10,15 +10,7 @@ import AboutPage from '@pages/about/AboutPage';
 
 const Routes: React.FC = () => (
 	<Switch>
-		<Route exact path="/" component={SeedBrowserPage} />
-		<Route exact path="/seeds/:seed/:version" component={SeedDetailsPage} />
-		<Route exact path="/seeds/modinfo" component={SeedModInfoPage} />
-		<Route exact path="/seeds" component={SeedBrowserPage} />
-		<Route exact path="/changelog" component={ChangelogPage} />
-		<Route exact path="/about" component={AboutPage} />
-		<Route exact path="/500" component={Error500} />
-		<Route exact path="/404" component={Error404} />
-		<Route component={Error404} />
+		<Route component={AboutPage} />
 	</Switch>
 );
 
