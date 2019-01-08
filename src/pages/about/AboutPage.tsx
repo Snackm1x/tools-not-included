@@ -26,16 +26,11 @@ class AboutPage extends React.Component<Props, State> {
 	public render() {
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
-				<div id="about">
-					<h1>The site has moved</h1>
-					<br/><br/>
-					<p>
-						The site has permanently moved to <a href="https://ToolsNotIncluded.net">https://ToolsNotIncluded.net</a>
-					</p>
-					<br/><br/>
-					<Link to="https://ToolsNotIncluded.net">
-						<Button type="primary">Go to Tools Not Included</Button>
-					</Link>
+				<div id="about" >
+					<h1>The Seed Browser has permanently moved</h1>
+					<br/><br/>					
+					<h1><a href="https://ToolsNotIncluded.net">https://ToolsNotIncluded.net</a></h1>
+					<br/><br/>			
 				</div>
 			</Spin>
 		);
