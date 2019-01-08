@@ -24,7 +24,7 @@ class SeedModInfoPage extends React.Component<Props, State> {
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
 				<div style={{ display: 'flex', justifyContent: 'center' }}>
-					<div style={{ textAlign: 'justify', width: '60%', marginTop: 24 }}>
+					<div style={{ textAlign: 'justify', maxWidth: 700, margin: 24 }}>
 						<Row>
 							<Alert
 								type="info"
