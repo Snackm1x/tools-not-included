@@ -133,7 +133,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 														type="dashed"
 														className={classNames(
 															'transparent-background-color',
-															'browser-filter-add-alternative-button'
+															'browser-filter-form-other-column'
 														)}
 														disabled={
 															form.values.rules && form.values.rules.length >= maxRules
