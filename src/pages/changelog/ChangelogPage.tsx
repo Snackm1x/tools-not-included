@@ -28,6 +28,9 @@ class ChangelogPage extends React.Component<Props, State> {
 				<div id="changelog">
                     <Markdown source="
 # Changelog
+### 8 January 2019
+* Hotfix for mods addressing issue that was preventing connection.
+
 ### 7 January 2019
 Out of beta! Yay! Due to world element composition being collected, worlds uploaded need to be fresh - within 60 seconds of creation and with no cells dug. If your seed turns out to be great mid-game, you can still create a fresh world with that seed and upload it!
 * The entire front-end rewritten

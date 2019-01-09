@@ -1,6 +1,6 @@
 import * as React from 'react';
-import KofiButton from './../../components/KofiButton';
 import { Col, Row, Spin } from 'antd';
+import PatreonButton from '../../components/PatreonButton';
 
 interface AllProps {};
 
@@ -49,7 +49,7 @@ class CoffeePage extends React.Component<AllProps, State> {
 								</p>
 								<br />
 								<br />
-								<KofiButton />
+								<PatreonButton />
 							</Col>
 							<Col
 								xs={24}

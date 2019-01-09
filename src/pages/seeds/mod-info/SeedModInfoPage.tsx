@@ -29,7 +29,7 @@ class SeedModInfoPage extends React.Component<Props, State> {
 							<Alert
 								type="info"
 								message="Current mod versions"
-								description="1.0a, 1.0m (7.01.2019)"
+								description="1.0a, 1.0m (8.01.2019)"
 								style={{ marginBottom: 24 }}
 							/>
 						</Row>

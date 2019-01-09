@@ -41,7 +41,7 @@ const GeyserCard: React.FC<Props> = (props: Props) => {
 					<h3>Eruption rate: <b>{geyser.eruptionRate.toFixed(2)}g/s</b></h3>
 					<h3 style={{ visibility: statsVisibility }}>Erupts for <b>{geyser.activeEruptionPeriod}s</b> every <b>{geyser.eruptionPeriod}s</b></h3>
 					<h3 style={{ visibility: statsVisibility }}>Active for <b>{geyser.activeDormancyPeriod.toFixed(1)} cycles</b> every <b>{geyser.dormancyPeriod.toFixed(1)} cycles</b></h3>
-					<h3>Calculated actual output: <b>{geyser.calculatedOutput.toFixed(2) + 'g/s'}</b></h3>
+					<h3>Calculated average output: <b>{geyser.calculatedOutput.toFixed(2) + 'g/s'}</b></h3>
 				</div>
 			</Card>
 		</Col>

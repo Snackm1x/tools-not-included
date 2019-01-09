@@ -7,6 +7,7 @@ import SeedModInfoPage from '@pages/seeds/mod-info/SeedModInfoPage';
 import { Route, Switch } from 'react-router-dom';
 import ChangelogPage from '@pages/changelog/ChangelogPage';
 import AboutPage from '@pages/about/AboutPage';
+import CoffeePage from './coffee/CoffeePage';
 
 const Routes: React.FC = () => (
 	<Switch>
@@ -16,6 +17,7 @@ const Routes: React.FC = () => (
 		<Route exact path="/seeds" component={SeedBrowserPage} />
 		<Route exact path="/changelog" component={ChangelogPage} />
 		<Route exact path="/about" component={AboutPage} />
+		<Route exact path="/coffee" component={CoffeePage} />
 		<Route exact path="/500" component={Error500} />
 		<Route exact path="/404" component={Error404} />
 		<Route component={Error404} />
