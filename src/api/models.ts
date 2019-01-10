@@ -45,6 +45,7 @@ export enum SeedBrowserFilterRuleType {
 export enum SeedBrowserFilterRuleComparator {
     At_least = "at least", 
     At_most = "at most", 
+    Exactly = "exactly"
 }
 
 export interface SeedList {

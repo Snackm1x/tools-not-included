@@ -117,6 +117,16 @@ class BrowserFilterRuleInput extends React.PureComponent<Props> {
 							onChange={(value) => {
 								setFieldValue(`${name}.${idx}.type`, value[0]);
 								setFieldValue(`${name}.${idx}.object`, value[1]);
+
+								console.log(values[name][idx].comparator);
+								console.log(SeedBrowserFilterRuleComparator.Exactly);
+								console.log(values[name][idx].type);
+								console.log(SeedBrowserFilterRuleType.Total_Output);
+
+								if (values[name][idx].comparator === SeedBrowserFilterRuleComparator.Exactly && value[0] == SeedBrowserFilterRuleType.Total_Output) {
+									
+									setFieldValue(`${name}.${idx}.comparator`, SeedBrowserFilterRuleComparator.At_least)
+								}
 							}}
 							expandTrigger="hover"
 							className={classNames('transparent-background-color', 'browser-filter-rule-row-cascader')}
@@ -135,6 +145,11 @@ class BrowserFilterRuleInput extends React.PureComponent<Props> {
 							value={values[name][idx].comparator}
 							className={classNames('transparent-background-color', 'browser-filter-rule-row-select')}>
 							{Object.keys(SeedBrowserFilterRuleComparator).map((value: string) => {
+								if (SeedBrowserFilterRuleComparator[value] == SeedBrowserFilterRuleComparator.Exactly && values[name][idx].type == SeedBrowserFilterRuleType.Total_Output) {
+									//can't search for exact total output - ain't nobody gonna know the value anyway
+									return;
+								}
+
 								return (
 									<Option
 										value={SeedBrowserFilterRuleComparator[value]}
