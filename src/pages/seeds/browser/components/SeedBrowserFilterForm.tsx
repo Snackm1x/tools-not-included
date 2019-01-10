@@ -85,7 +85,6 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 	};
 
 	resetRules = (form: FormikProps<SeedBrowserFilterFormValues>) => {
-		console.log(form.values.rules.length)
 		form.setFieldValue('rules', []);
 	}
 

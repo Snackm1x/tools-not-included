@@ -118,11 +118,6 @@ class BrowserFilterRuleInput extends React.PureComponent<Props> {
 								setFieldValue(`${name}.${idx}.type`, value[0]);
 								setFieldValue(`${name}.${idx}.object`, value[1]);
 
-								console.log(values[name][idx].comparator);
-								console.log(SeedBrowserFilterRuleComparator.Exactly);
-								console.log(values[name][idx].type);
-								console.log(SeedBrowserFilterRuleType.Total_Output);
-
 								if (values[name][idx].comparator === SeedBrowserFilterRuleComparator.Exactly && value[0] == SeedBrowserFilterRuleType.Total_Output) {
 									
 									setFieldValue(`${name}.${idx}.comparator`, SeedBrowserFilterRuleComparator.At_least)
