@@ -84,6 +84,11 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 		});
 	};
 
+	resetRules = (form: FormikProps<SeedBrowserFilterFormValues>) => {
+		console.log(form.values.rules.length)
+		form.setFieldValue('rules', []);
+	}
+
 	render() {
 		if (
 			Object.keys(this.props.geyserTypes).length == 0 ||
@@ -212,6 +217,9 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 							</Row>
 							<Row className="browser-filter-rule-row-container">
 								<Col xs={24} className="browser-filter-field-column">
+									<Button type="ghost" className="browser-filter-reset-button" onClick={() => this.resetRules(form)}>
+										Reset rules
+									</Button>
 									<Button type="primary" className="browser-filter-search-button" htmlType="submit">
 										Search
 									</Button>
