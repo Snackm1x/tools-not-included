@@ -1,6 +1,8 @@
+
+[![](https://img.shields.io/discord/522855083151720466.svg?label=Discord&style=flat-square)](https://discord.gg/jcZ4M4e)  
+
 <a name="tools-not-included"></a>
 # Tools Not Included
-
 Tools Not Included (https://toolsnotincluded.net) is a website with tools for the game [Oxygen Not Included](https://klei.com/games/oxygen-not-included) by Klei.
 Currently it features a [Seed Browser](#tools-not-included-seed-browser) but will be expanded with more tools in the future.
 
@@ -14,13 +16,27 @@ The seeds can be uploaded to the database using the [dedicated mods](https://too
 * Manual mod: 1.0 m (8th Jan 2019)
 * Automatic mod: 1.0 a (8th Jan 2019)
 
+<a name="support"></a>
+# Support
+If you like the website and would like to say thanks and/or contribute to the server costs please consider supporting me on Patreon\
+\
+[![image](/.README/patreon_button.png)](https://www.patreon.com/bePatron?u=16290546)
+\
+\
 <a name="changelog"></a>
 # Changelog
 <a name="changelog-january-2019"></a>
+### 12 January 2019
+* Added an 'exactly' rule comparator for planet and geyser counts rules
+* Brought back the possibility to reset all rules at once
+* Ability to import/export rules using a generated code
+* Minor styling changes
+
+<a name="changelog-january-2019-1"></a>
 ### 8 January 2019
 * Hotfix for mods addressing issue that was preventing connection.
 
-<a name="changelog-january-2019-1"></a>
+<a name="changelog-january-2019-2"></a>
 ### 7 January 2019
 Out of beta! Yay! Due to world element composition being collected, worlds uploaded need to be fresh - within 60 seconds of creation and with no cells dug. If your seed turns out to be great mid-game, you can still create a fresh world with that seed and upload it!
 * The entire front-end rewritten
@@ -56,4 +72,4 @@ Initial demo release
 \
 \
 \
-<span style="color: gray; font-size: 0.7em;">Last readme update: Saturday, 12th January 2019, 3:12 am</span>
+<span style="color: gray; font-size: 0.7em;">Last readme update: Saturday, 12th January 2019, 3:06 pm</span>
