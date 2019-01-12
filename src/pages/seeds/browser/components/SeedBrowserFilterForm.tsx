@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import FormItem from 'antd/lib/form/FormItem';
 import NumericInput from '../../../../components/forms/NumericInput';
 import SeedBrowserFilterFormValidationSchema, { maxRules } from '../validation/SeedBrowserFilterFormValidationSchema';
-import { Alert, Button, Col, Divider, Form, Icon, Row } from 'antd';
+import { Alert, Button, Col, Divider, Form, Icon, Input, Modal, Row } from 'antd';
+import { Base64 } from 'js-base64';
 import { Field, FieldArray, FieldArrayRenderProps, FormikProps, withFormik } from 'formik';
 import {
 	GeyserType,
@@ -86,7 +87,43 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 
 	resetRules = (form: FormikProps<SeedBrowserFilterFormValues>) => {
 		form.setFieldValue('rules', []);
-	}
+	};
+
+	displayCopyShareCode = (ruleSet: SeedBrowserFilterFormValues) => {
+		var encoded = Base64.encode(JSON.stringify(ruleSet));
+		Modal.success({
+			title: 'Your import code',
+			content: (
+				<div>
+					<p>You can use this code to save and import your current rules later.</p>
+					<Input style={{ marginTop: 16, marginBottom: 16, color: '#000' }} value={encoded} />
+				</div>
+			)
+		});
+	};
+
+	importRulesFromCode = (form: FormikProps<SeedBrowserFilterFormValues>) => {
+		let code;
+		Modal.success({
+			title: 'Your import code',
+			content: (
+				<div>
+					<p>You can use your import code to import your saved rules.</p>
+					<Input
+						style={{ marginTop: 16, marginBottom: 16, color: '#000' }}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+							code = e.target.value;
+						}}
+					/>
+				</div>
+			),
+			onOk() {
+				var decoded = Base64.decode(code);
+				var parsed = JSON.parse(decoded);
+				form.setValues(parsed);
+			}
+		});
+	};
 
 	render() {
 		if (
@@ -144,7 +181,9 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 														}
 														onClick={() =>
 															this.addNewOrRule(arrayHelpers, parseInt(groupId))}>
-														<p style={{ display: 'inline', marginRight: 5 }}><b style={{ color: '#9BCBF6' }}> ( OR ) </b></p>
+														<p style={{ display: 'inline', marginRight: 5 }}>
+															<b style={{ color: '#9BCBF6' }}> ( OR ) </b>
+														</p>
 													</Button>
 												</FormItem>
 											</Col>
@@ -173,7 +212,9 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 												)}
 												disabled={form.values.rules && form.values.rules.length >= maxRules}
 												onClick={() => this.addNewAndRule(arrayHelpers)}>
-												<p style={{ display: 'inline', marginRight: 5 }}><b style={{ color: '#FAFF9A' }}>( AND )</b></p>
+												<p style={{ display: 'inline', marginRight: 5 }}>
+													<b style={{ color: '#FAFF9A' }}>( AND )</b>
+												</p>
 											</Button>
 										</FormItem>
 									)}
@@ -210,7 +251,22 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 							</Row>
 							<Row className="browser-filter-rule-row-container">
 								<Col xs={24} className="browser-filter-field-column">
-									<Button type="ghost" className="browser-filter-reset-button" onClick={() => this.resetRules(form)}>
+									<Button
+										type="ghost"
+										className="browser-filter-export-button"
+										onClick={() => this.displayCopyShareCode(form.values)}>
+										Copy rules
+									</Button>
+									<Button
+										type="ghost"
+										className="browser-filter-import-button"
+										onClick={() => this.importRulesFromCode(form)}>
+										Import rules
+									</Button>
+									<Button
+										type="ghost"
+										className="browser-filter-reset-button"
+										onClick={() => this.resetRules(form)}>
 										Reset rules
 									</Button>
 									<Button type="primary" className="browser-filter-search-button" htmlType="submit">
