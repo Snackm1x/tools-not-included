@@ -104,7 +104,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 
 	importRulesFromCode = (form: FormikProps<SeedBrowserFilterFormValues>) => {
 		let code;
-		Modal.success({
+		Modal.confirm({
 			title: 'Your import code',
 			content: (
 				<div>
@@ -118,9 +118,10 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 				</div>
 			),
 			onOk() {
-				var decoded = Base64.decode(code);
-				var parsed = JSON.parse(decoded);
-				form.setValues(parsed);
+				try {
+					form.setValues(JSON.parse(Base64.decode(code)));
+				}
+				catch {/* do nothing if the code is incorrect or left empty */}
 			}
 		});
 	};
