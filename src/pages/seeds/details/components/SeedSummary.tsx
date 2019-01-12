@@ -60,18 +60,18 @@ class SeedSummary extends React.Component<Props, State> {
 					<Row type="flex" style={{ justifyContent: 'flex-start', marginTop: -8 }}>
 						{seed.spaceDestinations.length == 0 && <NoPlanetIcon style={{ height: 22, marginTop: -1 }} />}
 						<a style={{ marginLeft: 'auto' }}>
-							<h4 className="hover-text-danger" onClick={this.reportSeedAsInvalid}>
+							<p className="hover-text-danger" onClick={this.reportSeedAsInvalid} style={{fontSize: "0.9em", margin: 0}}>
 								Report as invalid
-							</h4>
+							</p>
 						</a>
 					</Row>
 					<Row type="flex" style={{ justifyContent: 'center' }}>
-						<h1 style={{ marginBottom: 0 }}>Seed {seed.seed}</h1>
+						<h2 style={{ marginBottom: 0 }}>Seed {seed.seed}</h2>
 					</Row>
 					<Row type="flex" style={{ justifyContent: 'center' }}>
-						<h3 style={{ marginBottom: 0 }}>
+						<p style={{ marginBottom: 0 }}>
 							{gameUpgrades[seed.gameUpgrade].displayName} - {gameUpgrades[seed.gameUpgrade].symbol}-{seed.versionNumber}
-						</h3>
+						</p>
 					</Row>
 					<Row type="flex" style={{ justifyContent: 'center', marginTop: 24, marginBottom: 24 }}>
 						{Object.keys(geyserTypes).map((geyserType: string, index: number) => {
@@ -107,14 +107,14 @@ class SeedSummary extends React.Component<Props, State> {
 							);
 						})}
 					</Row>
-					<Row type="flex" style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
-						<h4 style={{ color: 'rgba(255, 255, 255, 0.7)', margin: 0 }}>
+					<Row type="flex" style={{ justifyContent: 'space-between', alignItems: 'center', marginBottom: -8 }}>
+						<p style={{ color: 'rgba(255, 255, 255, 0.7)', margin: 0, fontSize: '0.9em' }}>
 							Added on {creationDate.toDateString()} {creationDate.toLocaleTimeString()}
-						</h4>
-						<div style={{ display: 'inline-flex', alignItems: 'flex-end' }}>
-							<h4 style={{ margin: '0px 5px 0px 0px' }}>
+						</p>
+						<div style={{ display: 'inline-flex', alignItems: 'center' }}>
+							<p style={{ margin: '0px 5px 0px 0px', fontSize: "0.9em"}}>
 								Show geyser and planet types not present on the map
-							</h4>
+							</p>
 							<Switch
 								checkedChildren={<Icon type="check" />}
 								unCheckedChildren={<Icon type="close" />}

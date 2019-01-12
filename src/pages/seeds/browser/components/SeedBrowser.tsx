@@ -152,8 +152,8 @@ class SeedBrowser extends React.Component<AllProps, State> {
 							flexWrap: 'wrap',
 							justifyContent: 'space-between'
 						}}>
-						<div style={{ display: 'inline-flex', alignItems: 'flex-end' }}>
-							<h4 style={{ margin: '0px 5px 0px 0px' }}>Show geyser types not present on the map</h4>
+						<div style={{ display: 'inline-flex', alignItems: 'center', margin: "5px 5px 0 0" }}>
+							<p style={{ margin: '0px 15px 0px 0px' }}>Show geyser types not present on the map</p>
 							<Switch
 								checkedChildren={<Icon type="check" />}
 								unCheckedChildren={<Icon type="close" />}
@@ -172,6 +172,7 @@ class SeedBrowser extends React.Component<AllProps, State> {
 							showSizeChanger
 							pageSizeOptions={[ '10', '20', '30', '40', '50' ]}
 							className="transparent-background-color"
+							style={{marginTop: 5}}
 						/>
 					</div>
 					{this.props.seedList &&
@@ -200,7 +201,7 @@ class SeedBrowser extends React.Component<AllProps, State> {
 									display: 'flex',
 									flexDirection: 'row',
 									justifyContent: 'flex-end',
-									marginBottom: 24
+									paddingBottom: 24
 								}}>
 								<Pagination
 									size="small"

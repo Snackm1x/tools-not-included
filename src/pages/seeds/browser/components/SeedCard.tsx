@@ -20,13 +20,11 @@ class SeedCard extends React.Component<Props> {
 			<Card className="shadow-card card-full-width seed-card" bordered={false}>
 				<Row type="flex">
 					<Col className="seed-card-row-left">
-						<h3 style={{ fontSize: '1.3em' }}>Seed: {seed.seed}</h3>
-						<h3 style={{ fontSize: '1.3em', textAlign: 'center' }}>
-							{gameUpgrades[seed.gameUpgrade].displayName}
-						</h3>
-						<h3 style={{ fontSize: '1.3em' }}>
+						<p>Seed: {seed.seed}</p>
+						<p style={{ textAlign: 'center' }}>{gameUpgrades[seed.gameUpgrade].displayName}</p>
+						<p>
 							{gameUpgrades[seed.gameUpgrade].symbol}-{seed.versionNumber}
-						</h3>
+						</p>
 					</Col>
 					<Col className="seed-card-row-right">
 						{Object.keys(geyserTypes).map((geyserType: string, index: number) => {
@@ -50,9 +48,9 @@ class SeedCard extends React.Component<Props> {
 				</Row>
 				<Row type="flex">
 					<Divider style={{ background: 'rgba(255, 255, 255, 0.25)', margin: '0.5em 0px' }} />
-					<h4 style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+					<p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9em', marginBottom: '0.5em' }}>
 						Added on {creationDate.toDateString()} {creationDate.toLocaleTimeString()}
-					</h4>
+					</p>
 
 					{Object.keys(seed.spaceDestinationQuantities)
 						.map((key) => seed.spaceDestinationQuantities[key])

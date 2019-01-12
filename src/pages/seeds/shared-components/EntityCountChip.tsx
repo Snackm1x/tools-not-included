@@ -16,7 +16,7 @@ const EntityCountChip: React.FC<Props> = (props: Props) => {
 			<div className="entity-chip-img-container">
 				<img className="entity-chip-img" src={imgSrc} />
 			</div>
-			<h3 style={{ margin: '0px' }}>{props.label}</h3>
+			<p style={{ margin: '0px' }}>{props.label}</p>
 			<div className={'entity-chip-count-container ' + colorClass}>
 				<h3 style={{ margin: '0px' }}>{props.count}</h3>
 			</div>

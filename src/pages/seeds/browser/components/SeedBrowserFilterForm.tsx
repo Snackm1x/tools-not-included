@@ -144,10 +144,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 														}
 														onClick={() =>
 															this.addNewOrRule(arrayHelpers, parseInt(groupId))}>
-														<Icon type="plus" />
-														<p style={{ display: 'inline', marginRight: 5 }}>
-															Add <b style={{ color: '#9BCBF6' }}> ( OR ) </b> rule
-														</p>
+														<p style={{ display: 'inline', marginRight: 5 }}><b style={{ color: '#9BCBF6' }}> ( OR ) </b></p>
 													</Button>
 												</FormItem>
 											</Col>
@@ -176,10 +173,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 												)}
 												disabled={form.values.rules && form.values.rules.length >= maxRules}
 												onClick={() => this.addNewAndRule(arrayHelpers)}>
-												<Icon type="plus" />
-												<p style={{ display: 'inline', marginRight: 5 }}>
-													Add <b style={{ color: '#FAFF9A' }}>( AND )</b> rule
-												</p>
+												<p style={{ display: 'inline', marginRight: 5 }}><b style={{ color: '#FAFF9A' }}>( AND )</b></p>
 											</Button>
 										</FormItem>
 									)}
