@@ -1,4 +1,10 @@
 # Changelog
+### 12 January 2019
+* Added an 'exactly' rule comparator for planet and geyser counts rules
+* Brought back the possibility to reset all rules at once
+* Ability to import/export rules using a generated code
+* Minor styling changes
+
 ### 8 January 2019
 * Hotfix for mods addressing issue that was preventing connection.
 
