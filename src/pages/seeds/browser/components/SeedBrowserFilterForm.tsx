@@ -251,7 +251,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 								</Col>
 							</Row>
 							<Row className="browser-filter-rule-row-container">
-								<Col xs={24} className="browser-filter-field-column">
+								<Col xs={24} sm={12} className="browser-filter-field-column">
 									<Button
 										type="ghost"
 										className="browser-filter-export-button"
@@ -264,6 +264,8 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 										onClick={() => this.importRulesFromCode(form)}>
 										Import rules
 									</Button>
+								</Col>
+								<Col xs={24} sm={12} className="browser-filter-field-column">
 									<Button
 										type="ghost"
 										className="browser-filter-reset-button"
