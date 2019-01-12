@@ -42,7 +42,7 @@ class ChangelogPage extends React.Component<Props, State> {
 						description="Sorry! An error has occured, but the changelog is also available on Github."
 						type="error"
 						showIcon
-						style={{ visibility: this.state.changelogError ? 'visible' : 'collapse' }}
+						style={{ display: this.state.changelogError ? 'inherit' : 'none' }}
 					/>
 					<Markdown source={this.state.changelogText} />
 				</div>
