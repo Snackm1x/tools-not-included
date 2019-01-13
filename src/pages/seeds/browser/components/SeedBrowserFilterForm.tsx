@@ -87,6 +87,7 @@ class SeedBrowserFilterForm extends React.Component<AllProps, SeedBrowserFilterS
 
 	resetRules = (form: FormikProps<SeedBrowserFilterFormValues>) => {
 		form.setFieldValue('rules', []);
+		form.setFieldValue('seedNumber', undefined);
 	};
 
 	displayCopyShareCode = (ruleSet: SeedBrowserFilterFormValues) => {
