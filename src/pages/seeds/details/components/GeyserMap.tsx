@@ -31,10 +31,10 @@ class GeyserMap extends React.Component<Props> {
 				<svg viewBox="0 0 256 384" width="100%" xmlns="http://www.w3.org/2000/svg" style={{ marginBottom: -6 }}>
 					<defs>
 						<pattern id="spaceImg" patternUnits="userSpaceOnUse" width="100" height="100">
-							<image href={spaceBg} x="0" y="0" width="100" height="100" />
+							<image href={spaceBg} xlinkHref={spaceBg} x="0" y="0" width="100" height="100"/>
 						</pattern>
 					</defs>
-					<image href={podImg} width="15" x={123} y={384 - 200} />
+					<image href={podImg} xlinkHref={podImg} width="15" x={123} y={384 - 200} />
 					{Object.keys(this.props.biomeMap).map((key: string) => (
 						<path
 							key={key}
@@ -48,6 +48,7 @@ class GeyserMap extends React.Component<Props> {
 						return (
 							<image
 								href={imageFile}
+								xlinkHref={imageFile}
 								height="10"
 								width="10"
 								x={geyser.posX! - 5}
