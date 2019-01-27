@@ -3,6 +3,7 @@ import { Card, Row, Col, Divider } from 'antd';
 import EntityCountChip from '../../../../pages/seeds/shared-components/EntityCountChip';
 import { GeyserType, GameUpgrade, SeedListItem } from '../../../../api/models';
 import NoPlanetIcon from '../../shared-components/NoPlanetIcon';
+import NoElementsIcon from '@pages/seeds/shared-components/NoElementsIcon';
 
 export interface Props {
 	seed: SeedListItem;
@@ -51,12 +52,13 @@ class SeedCard extends React.Component<Props> {
 					<p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.9em', marginBottom: '0.5em' }}>
 						Added on {creationDate.toDateString()} {creationDate.toLocaleTimeString()}
 					</p>
-
+					<div style={{marginLeft: 'auto'}}/>
+					{seed.modVersion < 1 && <NoElementsIcon style={{ height: 22, marginTop: -2 }} />}
 					{Object.keys(seed.spaceDestinationQuantities)
 						.map((key) => seed.spaceDestinationQuantities[key])
 						.reduce(function(a, b) {
 							return a + b;
-						}) == 0 && <NoPlanetIcon style={{ marginLeft: 'auto', height: 22, marginTop: -2 }} />}
+						}) == 0 && <NoPlanetIcon style={{ height: 22, marginTop: -2 }} />}
 				</Row>
 			</Card>
 		);

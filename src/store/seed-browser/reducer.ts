@@ -1,6 +1,6 @@
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
-import { GameUpgrade, GeyserType, Seed, SpaceDestinationType, SeedListItem } from '@api/models';
+import { GameUpgrade, GeyserType, Seed, SpaceDestinationType, SeedListItem, ElementBasicInfo } from '@api/models';
 import { Reducer } from 'redux';
 import { SeedBrowserActionTypes } from './actions';
 
@@ -16,6 +16,7 @@ export type SeedBrowserState = Readonly<{
 	gameUpgrades: { [key: string]: GameUpgrade };
 	geyserTypes: { [key: string]: GeyserType };
 	spaceDestinationTypes: { [key: string]: SpaceDestinationType };
+	elementBasicInfo: { [key: string]: ElementBasicInfo };
 }>;
 
 const initialState: SeedBrowserState = {
@@ -29,7 +30,8 @@ const initialState: SeedBrowserState = {
 	},
 	gameUpgrades: {},
 	geyserTypes: {},
-	spaceDestinationTypes: {}
+	spaceDestinationTypes: {},
+	elementBasicInfo: {}
 };
 
 const reducer: Reducer<SeedBrowserState, SeedBrowserAction> = (state = initialState, action) => {
@@ -75,6 +77,13 @@ const reducer: Reducer<SeedBrowserState, SeedBrowserAction> = (state = initialSt
 		}
 		case SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES_SUCCESS: {
 			return { ...state, spaceDestinationTypes: action.payload };
+		}
+
+		case SeedBrowserActionTypes.GET_ELEMENT_BASIC_INFO: {
+			return state;
+		}
+		case SeedBrowserActionTypes.GET_ELEMENT_BASIC_INFO_SUCCESS: {
+			return { ...state, elementBasicInfo: action.payload };
 		}
 
 		case SeedBrowserActionTypes.REPORT_INVALID_SEED: {

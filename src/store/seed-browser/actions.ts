@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType, SeedBrowserFilter, AddInvalidSeedReportRequest } from '@api/models';
+import { Seed, SeedList, GameUpgrade, GeyserType, SpaceDestinationType, SeedBrowserFilter, AddInvalidSeedReportRequest, ElementBasicInfo as ElementNameStateColor } from '@api/models';
 import { SeedDetailsRequestModel } from '@api/request-models';
 
 export const enum SeedBrowserActionTypes {
@@ -17,6 +17,9 @@ export const enum SeedBrowserActionTypes {
 
     GET_SPACE_DESTINATION_TYPES = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES',
     GET_SPACE_DESTINATION_TYPES_SUCCESS = '@@seedbrowser/GET_SPACE_DESTINATION_TYPES_SUCCESS',
+
+    GET_ELEMENT_BASIC_INFO = '@@seedbrowser/GET_ELEMENT_BASIC_INFO',
+    GET_ELEMENT_BASIC_INFO_SUCCESS = '@@seedbrowser/GET_ELEMENT_BASIC_INFO_SUCCESS',
 
     REPORT_INVALID_SEED = '@@seedbrowser/REPORT_INVALID_SEED',
 
@@ -37,6 +40,9 @@ export const getGeyserTypesSuccess = (data: { [key: string]: GeyserType }) => ac
 
 export const getSpaceDestinationTypes = () => action(SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES);
 export const getSpaceDestinationTypesSuccess = (data: { [key: string]: SpaceDestinationType }) => action(SeedBrowserActionTypes.GET_SPACE_DESTINATION_TYPES_SUCCESS, data);
+
+export const getElementBasicInfo = () => action(SeedBrowserActionTypes.GET_ELEMENT_BASIC_INFO);
+export const getElementBasicInfoSuccess = (data: { [key: string]: ElementNameStateColor }) => action(SeedBrowserActionTypes.GET_ELEMENT_BASIC_INFO_SUCCESS, data);
 
 export const reportInvalidSeed = (request: AddInvalidSeedReportRequest) => action(SeedBrowserActionTypes.REPORT_INVALID_SEED, request);
 

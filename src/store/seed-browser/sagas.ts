@@ -31,11 +31,12 @@ function* handleGetSeed(action: ActionType<typeof Actions.getSeed>) {
 			call(seedBrowserService.getSeed, action.payload),
 			put(Actions.getGeyserTypes()),
 			put(Actions.getSpaceDestinationTypes()),
-			put(Actions.getGameUpgrades())
+			put(Actions.getGameUpgrades()),
+			put(Actions.getElementBasicInfo())
 		]);
 		yield put(Actions.getSeedSuccess(seed));
 	} catch (err) {
-		handleError(err);
+		yield handleError(err);
 	}
 }
 
@@ -48,7 +49,7 @@ function* handleGetGeyserTypes(action: ActionType<typeof Actions.getGeyserTypes>
 		});
 		yield put(Actions.getGeyserTypesSuccess(types));
 	} catch (err) {
-		handleError(err);
+		yield handleError(err);
 	}
 }
 
@@ -61,7 +62,7 @@ function* handleGetSpaceDestinationTypes(action: ActionType<typeof Actions.getSp
 		});
 		yield put(Actions.getSpaceDestinationTypesSuccess(types));
 	} catch (err) {
-		handleError(err);
+		yield handleError(err);
 	}
 }
 
@@ -74,7 +75,16 @@ function* handleGetGameUpgrades(action: ActionType<typeof Actions.getGameUpgrade
 		});
 		yield put(Actions.getGameUpgradesSuccess(types));
 	} catch (err) {
-		handleError(err);
+		yield handleError(err);
+	}
+}
+
+function* handleGetElementNamesStatesColors(action: ActionType<typeof Actions.getElementBasicInfo>) {
+	try {
+		const res = yield call(seedBrowserService.getElementBasicInfo);
+		yield put(Actions.getElementBasicInfoSuccess(res));
+	} catch (err) {
+		yield handleError(err);
 	}
 }
 
@@ -82,7 +92,7 @@ function* handleReportInvalidSeed(action: ActionType<typeof Actions.reportInvali
 	try {
 		const res = yield call(seedBrowserService.reportInvalidSeed, action.payload);
 	} catch (err) {
-		handleError(err);
+		yield handleError(err);
 	}
 }
 
@@ -106,6 +116,10 @@ function* watchGetGameUpgrades() {
 	yield takeLatest(SeedBrowserActionTypes.GET_GAME_UPGRADES, handleGetGameUpgrades);
 }
 
+function* watchGetElementNamesStatesColors() {
+	yield takeLatest(SeedBrowserActionTypes.GET_ELEMENT_BASIC_INFO, handleGetElementNamesStatesColors);
+}
+
 function* watchReportInvalidSeed() {
 	yield takeEvery(SeedBrowserActionTypes.REPORT_INVALID_SEED, handleReportInvalidSeed);
 }
@@ -117,7 +131,8 @@ function* seedBrowserSaga() {
 		fork(watchGetGeyserTypes),
 		fork(watchGetSpaceDestinationTypes),
 		fork(watchGetGameUpgrades),
-		fork(watchReportInvalidSeed)
+		fork(watchReportInvalidSeed),
+		fork(watchGetElementNamesStatesColors)
 	]);
 }
 

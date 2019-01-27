@@ -7,6 +7,7 @@ import {
 	saveDetailsShowNonPresentToLocalStorage
 } from '../../../../api/services/seed-browser/SeedService';
 import NoPlanetIcon from '../../shared-components/NoPlanetIcon';
+import NoElementsIcon from '@pages/seeds/shared-components/NoElementsIcon';
 
 export interface Props {
 	seed: Seed;
@@ -58,6 +59,7 @@ class SeedSummary extends React.Component<Props, State> {
 						width: '100%'
 					}}>
 					<Row type="flex" style={{ justifyContent: 'flex-start', marginTop: -8 }}>
+						{Object.keys(seed.biomeSizes).length === 0 && <NoElementsIcon style={{ height: 22, marginTop: -1 }} />}
 						{seed.spaceDestinations.length == 0 && <NoPlanetIcon style={{ height: 22, marginTop: -1 }} />}
 						<a style={{ marginLeft: 'auto' }}>
 							<p className="hover-text-danger" onClick={this.reportSeedAsInvalid} style={{fontSize: "0.9em", margin: 0}}>

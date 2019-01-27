@@ -7,7 +7,8 @@ import {
 	Seed,
 	SeedBrowserFilter,
 	SeedList,
-	SpaceDestinationType
+	SpaceDestinationType,
+	ElementBasicInfo
 } from '../../../api/models';
 import { SeedBrowserFilterFormValues } from '../../../pages/seeds/browser/components/SeedBrowserFilterForm';
 import { SeedDetailsRequestModel } from '../../../api/request-models';
@@ -19,6 +20,7 @@ const BrowserFilterPageKey = 'seedbrowser-filter-page';
 const BrowserGameUpgradesCacheKey = 'seedbrowser-cache-game-upgrades';
 const BrowserGeyserTypesCacheKey = 'seedbrowser-cache-geyser-types';
 const BrowserSpaceDestinationTypesCacheKey = 'seedbrowser-cache-space-types';
+const BrowserElementBasicInfoCacheKey = 'seedbrowser-element-basic-info';
 
 export function getFilteredSeeds(filter: SeedBrowserFilter) {
 	return API.post<SeedList>('/seeds/filtered', filter, { headers: { Accept: 'application/json' } })
@@ -73,6 +75,20 @@ export function getGameUpgrades() {
 		.catch((error) => handleError(error));
 }
 
+export function getElementBasicInfo() {
+	var fromCache = loadElementBasicInfoFromSessionStorage();
+	if (fromCache != null) return fromCache;
+	
+	var url = '/elements/namesStatesColors';
+	return API.get<{[key: string]: ElementBasicInfo}>(url)
+		.then((res) => {
+			console.log("then")
+			saveElementBasicInfoToSessionStorage(res.data);
+			return res.data;
+		})
+		.catch((error) => handleError(error));
+}
+
 export function reportInvalidSeed(request: AddInvalidSeedReportRequest) {
 	var url = '/seeds/reportInvalid';
 	return API.post(url, request, { headers: { Accept: 'application/json' } })
@@ -83,6 +99,27 @@ export function reportInvalidSeed(request: AddInvalidSeedReportRequest) {
 /**
  *  Local storage
  */
+export function saveElementBasicInfoToSessionStorage(values: {[key: string]: ElementBasicInfo}) {
+	if (storageAvailable('sessionStorage')) {
+		const json = JSON.stringify(values);
+		sessionStorage.setItem(BrowserElementBasicInfoCacheKey, json);
+	}
+}
+
+export function loadElementBasicInfoFromSessionStorage(): {[key: string]: ElementBasicInfo} | null{
+	var elements: string | null = null;
+
+	if (storageAvailable('sessionStorage')) {
+		elements = sessionStorage.getItem(BrowserElementBasicInfoCacheKey);
+	}
+
+	if (elements != null) {
+		return JSON.parse(elements);
+	}
+
+	return null;
+}
+
 export function saveFilterFormValuesToLocalStorage(values: SeedBrowserFilterFormValues) {
 	if (storageAvailable('localStorage')) {
 		const json = JSON.stringify(values);
@@ -220,11 +257,12 @@ export function loadCacheGameUpgrades(): GameUpgrade[] | null {
 
 function handleError(error: any) {
 	var errorDetails: ErrorDetails = {};
-	if (error.response.data) {
-		(errorDetails.statusCode = error.response.data.statusCode),
-			(errorDetails.message = error.response.data.message);
+	if (error.response.data.statusCode && error.response.data.message) {
+		errorDetails.statusCode = error.response.data.statusCode;
+		errorDetails.message = error.response.data.message;
 	} else {
-		(errorDetails.statusCode = error.response.status), (errorDetails.message = error.response.statusText);
+		errorDetails.statusCode = error.response.status;
+		errorDetails.message = error.response.statusText;
 	}
 
 	throw errorDetails;

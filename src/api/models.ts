@@ -8,6 +8,13 @@
 
 
 
+export interface ElementBasicInfo {
+    displayName: string;
+    state: string;
+    substanceColor: string;
+    materialCategory: string;
+}
+
 export interface GameUpgrade {
     key: string;
     displayName: string;
@@ -45,7 +52,7 @@ export enum SeedBrowserFilterRuleType {
 export enum SeedBrowserFilterRuleComparator {
     At_least = "at least", 
     At_most = "at most", 
-    Exactly = "exactly"
+    Exactly = "exactly", 
 }
 
 export interface SeedList {
@@ -72,6 +79,10 @@ export interface Seed {
     geyserQuantities: { [key: string] : number; };
     spaceDestinations: SpaceDestination[];
     spaceDestinationQuantities: { [key: string] : number; };
+    biomeSizes: { [key: string] : number; };
+    startingBiomeElementMasses: { [key: string] : number; };
+    elementMasses: { [key: string] : number; };
+    biomeMap: { [key: string] : string; };
     modVersion: number;
 }
 
@@ -102,6 +113,7 @@ export interface ModSeed {
     startingBiomeElementMasses: { [key: string] : number; };
     biomeIndices: { [key: string] : string; };
     modVersion: number;
+    fromAutomaticMod: boolean;
     apiKey: string;
 }
 

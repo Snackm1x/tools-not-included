@@ -1,7 +1,14 @@
 import * as React from 'react';
 import GeyserList from '../components/GeyserList';
 import SeedSummary from '../components/SeedSummary';
-import { AddInvalidSeedReportRequest, GameUpgrade, GeyserType, Seed, SpaceDestinationType } from '@api/models';
+import {
+	AddInvalidSeedReportRequest,
+	GameUpgrade,
+	GeyserType,
+	Seed,
+	SpaceDestinationType,
+	ElementBasicInfo
+} from '@api/models';
 import { ApplicationState } from '@store/index';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -11,12 +18,15 @@ import { SeedDetailsRequestModel } from '@api/request-models';
 import { Spin, Collapse } from 'antd';
 import StarMap from './StarMap';
 import CollapsePanel from 'antd/lib/collapse/CollapsePanel';
+import WorldDetails from './WorldDetails';
+import GeyserMap from './GeyserMap';
 
 interface PropsFromState {
 	seed: Seed;
 	geyserTypes: { [key: string]: GeyserType };
 	gameUpgrades: { [key: string]: GameUpgrade };
 	spaceDestinationTypes: { [key: string]: SpaceDestinationType };
+	elementNamesStatesColors: { [key: string]: ElementBasicInfo };
 }
 
 interface UrlParams {
@@ -67,7 +77,7 @@ class SeedDetails extends React.Component<AllProps, State> {
 	};
 
 	public render() {
-		const { seed, geyserTypes, gameUpgrades, spaceDestinationTypes } = this.props;
+		const { seed, geyserTypes, gameUpgrades, spaceDestinationTypes, elementNamesStatesColors } = this.props;
 
 		return (
 			<Spin spinning={this.state.loading} wrapperClassName="nontransparent fixed" size="large">
@@ -83,18 +93,43 @@ class SeedDetails extends React.Component<AllProps, State> {
 							/>
 							<Collapse
 								bordered={false}
-								defaultActiveKey={[ '1', '2' ]}
+								defaultActiveKey={[]}
 								style={{ background: 'transparent', marginTop: 16 }}>
 								<CollapsePanel
 									header="Geyser details"
-									key="1"
+									key="geyser-stats"
 									style={{ background: 'transparent', paddingBottom: 16, border: 0 }}>
 									<GeyserList geysers={seed.geysers} geyserTypes={geyserTypes} />
 								</CollapsePanel>
+								{Object.keys(seed.biomeSizes).length > 0 && (
+									<CollapsePanel
+										header="World details"
+										key="world-details"
+										style={{ background: 'transparent', paddingBottom: 16, border: 0 }}>
+										<WorldDetails
+											biomeSizes={seed.biomeSizes}
+											startingBiomeElementMasses={seed.startingBiomeElementMasses}
+											elementMasses={seed.elementMasses}
+											elements={elementNamesStatesColors}
+										/>
+									</CollapsePanel>
+								)}
+								{Object.keys(seed.biomeMap).length > 0 && (
+									<CollapsePanel
+										header="World Map"
+										key="worldmap"
+										style={{ background: 'transparent', paddingBottom: 16, border: 0 }}>
+										<GeyserMap
+											geyserTypes={geyserTypes}
+											geysers={seed.geysers}
+											biomeMap={seed.biomeMap}
+										/>
+									</CollapsePanel>
+								)}
 								{seed.spaceDestinations.length > 0 && (
 									<CollapsePanel
 										header="Starmap"
-										key="2"
+										key="starmap"
 										style={{ background: 'transparent', paddingBottom: 16, border: 0 }}>
 										<StarMap
 											spaceDestinations={seed.spaceDestinations}
@@ -115,7 +150,8 @@ const mapStateToProps = ({ seedBrowser }: ApplicationState) => ({
 	seed: seedBrowser.details.seed,
 	geyserTypes: seedBrowser.geyserTypes,
 	gameUpgrades: seedBrowser.gameUpgrades,
-	spaceDestinationTypes: seedBrowser.spaceDestinationTypes
+	spaceDestinationTypes: seedBrowser.spaceDestinationTypes,
+	elementNamesStatesColors: seedBrowser.elementBasicInfo
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

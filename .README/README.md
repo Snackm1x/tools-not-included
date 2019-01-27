@@ -1,4 +1,3 @@
-
 [![](https://img.shields.io/discord/522855083151720466.svg?label=Discord&style=flat-square)](https://discord.gg/jcZ4M4e)  
 
 # Tools Not Included

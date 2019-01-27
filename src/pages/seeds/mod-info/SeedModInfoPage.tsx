@@ -151,9 +151,8 @@ class SeedModInfoPage extends React.Component<Props, State> {
 								<br />
 								<br />
 								Launch the game and click <i>New Game</i>. The mod will take over from here and
-								continuously generate and upload random seeds. By default the game stores savefiles of
-								all generated worlds, so it's recommended to delete the files every now and then when
-								they pile up.<br />
+								continuously generate and upload random seeds.
+								<br />
 								<br />
 								Windowed mode <b>highly recommended</b>. To quit the game click X (windowed mode) or
 								press Alt+F4 (full screen).
