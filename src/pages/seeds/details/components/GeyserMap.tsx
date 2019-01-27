@@ -27,8 +27,8 @@ class GeyserMap extends React.Component<Props> {
 		var spaceBg = `/images/space_00.png`;
 		var url = `url(${bg})`;
 		return (
-			<div style={{ backgroundImage: url }}>
-				<svg viewBox="0 0 256 384" width="100%" xmlns="http://www.w3.org/2000/svg">
+			<div style={{ backgroundImage: url, margin: 12, boxShadow: '0 0 10px 5px #0d0d18' }}>
+				<svg viewBox="0 0 256 384" width="100%" xmlns="http://www.w3.org/2000/svg" style={{ marginBottom: -6 }}>
 					<defs>
 						<pattern id="spaceImg" patternUnits="userSpaceOnUse" width="100" height="100">
 							<image href={spaceBg} x="0" y="0" width="100" height="100" />

@@ -79,7 +79,7 @@ export function getElementBasicInfo() {
 	var fromCache = loadElementBasicInfoFromSessionStorage();
 	if (fromCache != null) return fromCache;
 	
-	var url = '/elements/namesStatesColors';
+	var url = '/elements/basic';
 	return API.get<{[key: string]: ElementBasicInfo}>(url)
 		.then((res) => {
 			console.log("then")
