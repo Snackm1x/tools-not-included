@@ -1,4 +1,13 @@
 # Changelog
+### 27 January 2019
+* 'Reset all rules' now correctly resets also seed number  
+
+For seeds collected since 7th Jan:
+* Added a world and geyser visual map 
+* Added world element composition - total masses in starting biome and all biomes
+* Added biome size list
+
+
 ### 12 January 2019
 * Added an 'exactly' rule comparator for planet and geyser counts rules
 * Brought back the possibility to reset all rules at once
