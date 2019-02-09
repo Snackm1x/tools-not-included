@@ -1,4 +1,4 @@
-[![](https://img.shields.io/discord/522855083151720466.svg?label=Discord&style=flat-square)](https://discord.gg/jcZ4M4e)  
+[![](https://img.shields.io/discord/522855083151720466.svg?label=Discord&style=flat-square)](https://discord.gg/7wNFaVd)  
 
 # Tools Not Included
 Tools Not Included (https://toolsnotincluded.net) is a website with tools for the game [Oxygen Not Included](https://klei.com/games/oxygen-not-included) by Klei.

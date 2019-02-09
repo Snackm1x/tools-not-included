@@ -1,4 +1,4 @@
-[![](https://img.shields.io/discord/522855083151720466.svg?label=Discord&style=flat-square)](https://discord.gg/jcZ4M4e)  
+[![](https://img.shields.io/discord/522855083151720466.svg?label=Discord&style=flat-square)](https://discord.gg/7wNFaVd)  
 
 <a name="tools-not-included"></a>
 # Tools Not Included
@@ -81,4 +81,4 @@ Initial demo release
 \
 \
 \
-<span style="color: gray; font-size: 0.7em;">Last readme update: Sunday, 27th January 2019, 4:41 pm</span>
+<span style="color: gray; font-size: 0.7em;">Last readme update: Saturday, 9th February 2019, 12:29 pm</span>
